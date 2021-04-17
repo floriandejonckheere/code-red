@@ -32,6 +32,10 @@ group :development, :test do
   gem "debase"
   gem "ruby-debug-ide"
 
+  # Database annotations
+  # FIXME: revert to upstream gem when https://github.com/ctran/annotate_models/pull/843 is merged
+  gem "annotate", github: "Vasfed/annotate_models", branch: "rails6_warning"
+
   # RuboCop
   gem "rubocop"
   gem "rubocop-performance"

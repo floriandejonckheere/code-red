@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/Vasfed/annotate_models.git
+  revision: a2cca56e2a4d56014716157234cbdf7f1b182aac
+  branch: rails6_warning
+  specs:
+    annotate (3.1.1)
+      activerecord (>= 5.0, < 7.0)
+      rake (>= 10.4, < 14.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -324,6 +333,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  annotate!
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.4)
   brakeman
