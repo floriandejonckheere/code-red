@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           apk add postgresql
-          apk add build-base curl-dev git postgresql-dev
+          apk add build-base curl-dev git postgresql-dev cmake
           apk add tar
 
       - name: Cache Gems

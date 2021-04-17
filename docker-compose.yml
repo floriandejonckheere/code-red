@@ -1,0 +1,46 @@
+version: "3.8"
+
+x-app: &app
+  build: .
+  volumes:
+    - .:/app/:cached
+    - bundle:/usr/local/bundle/
+  depends_on:
+    - postgres
+    - redis
+  env_file: .development.env
+
+services:
+  postgres:
+    image: postgres:12
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis:/data/
+
+  app:
+    <<: *app
+    ports:
+      - "3000:3000"
+
+  debug:
+    <<: *app
+    command: rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 -- bin/rails s -b 0.0.0.0
+    ports:
+      - "3000:3000"
+      - "1234:1234"
+    environment:
+      RUBYLIB: ""
+
+volumes:
+  postgres:
+  redis:
+  bundle:
