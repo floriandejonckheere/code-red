@@ -73,5 +73,6 @@ group :development do
   gem "flay"
   gem "overcommit"
   gem "pronto"
+  gem "rails_best_practices"
   gem "reek"
 end

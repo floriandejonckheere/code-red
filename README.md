@@ -60,10 +60,6 @@ rspec
 
 ### Repository secrets
 
-Github secrets for continuous integration:
-
-- `APP_EMAIL`
-
 Github secrets for release:
 
 - `DOCKER_TOKEN` (needed for [Github Container Registry](https://docs.github.com/en/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images))
@@ -73,21 +69,6 @@ Github secrets for release:
 Github secrets for continuous deployment (process):
 
 - `DOCKER_TOKEN` (needed for [Github Container Registry](https://docs.github.com/en/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images))
-
-Github secrets for continuous deployment (application):
-
-- `SECRET_KEY_BASE`
-
-- `APP_EMAIL`
-- `APP_HOST`
-
-- `SMTP_HOST`
-- `SMTP_PORT`
-- `SMTP_DOMAIN`
-- `SMTP_USERNAME`
-- `SMTP_PASSWORD`
-- `SMTP_FROM`
-- `SMTP_TO` (for deployment notifications)
 
 ## Releasing
 
