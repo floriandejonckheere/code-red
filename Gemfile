@@ -29,8 +29,8 @@ gem "bootsnap", ">= 1.4.4", require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "byebug"
-  gem "debase"
-  gem "ruby-debug-ide"
+  # gem "debase"
+  # gem "ruby-debug-ide"
 
   # Database annotations
   # FIXME: revert to upstream gem when https://github.com/ctran/annotate_models/pull/843 is merged
