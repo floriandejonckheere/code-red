@@ -2,6 +2,7 @@
 # Providers
 #
 hcloud_token = ""
+gandi_key = ""
 
 ##
 # Services

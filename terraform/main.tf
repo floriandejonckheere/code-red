@@ -8,11 +8,16 @@ terraform {
 }
 
 ##
-# Provider
+# Providers
 #
 provider "hcloud" {
   token = var.hcloud_token
 }
+
+provider "gandi" {
+  key = var.gandi_key
+}
+
 
 ##
 # Locals
@@ -187,4 +192,26 @@ resource "hcloud_firewall" "default" {
     port = "53"
     destination_ips = ["0.0.0.0/0", "::/0"]
   }
+}
+
+##
+# DNS
+#
+##
+# Subdomain
+#
+resource "gandi_livedns_record" "default4" {
+  zone = "dejonckhee.re"
+  name = "codered.cloud"
+  type = "A"
+  values = [hcloud_floating_ip.default.ip_address]
+  ttl = 1800
+}
+
+resource "gandi_livedns_record" "default6" {
+  zone = "dejonckhee.re"
+  name = "codered.cloud"
+  type = "AAAA"
+  values = [hcloud_server.default.ipv6_address]
+  ttl = 1800
 }

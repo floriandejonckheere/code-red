@@ -5,6 +5,10 @@ variable "hcloud_token" {
   type = string
 }
 
+variable "gandi_key" {
+  type = string
+}
+
 ##
 # Services
 #
