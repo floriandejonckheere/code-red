@@ -1,0 +1,9 @@
+##
+# Providers
+#
+hcloud_token = ""
+
+##
+# Services
+#
+passwd = ""

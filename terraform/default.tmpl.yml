@@ -1,0 +1,93 @@
+#cloud-config
+
+fqdn: ${fqdn}
+hostname: ${hostname}
+manage_etc_hosts: true
+timezone: Europe/Berlin
+locale: C.UTF-8
+
+ntp:
+  enabled: true
+
+write_files:
+  - path: /etc/network/interfaces.d/60-floating-ip
+    content: |
+      auto eth0:1
+      iface eth0:1 inet static
+          address ${ip_address}
+          netmask 32
+
+users:
+  - name: cloud
+    gecos: Cloud User
+    groups: docker
+    # Generate a password using `mkpasswd --method=SHA-512 --rounds=4096`
+    passwd: ${passwd}
+    lock_passwd: false
+    shell: /bin/bash
+    sudo: ALL=(ALL) ALL
+    ssh_authorized_keys:
+      - ${chomp(ssh_public_key)}
+
+ssh_keys:
+  rsa_public: ${chomp(sshd_public_key)}
+  rsa_private: |
+    ${indent(4, sshd_private_key)}
+
+mounts:
+  - [ ${default_volume}, "/mnt/default/", "ext4", "defaults,discard", "0", "0" ]
+  - [ "/mnt/default/docker/volumes/", "/var/lib/docker/volumes/", "none", "defaults,bind", "0", "0" ]
+  - [ "/mnt/default/docker/swarm/", "/var/lib/docker/swarm/", "none", "defaults,bind", "0", "0" ]
+
+packages:
+  - fail2ban
+  - ufw
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg-agent
+  - software-properties-common
+  - jq
+  - git
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+runcmd:
+  - printf "[sshd]\nenabled = true\nbanaction = iptables-multiport" > /etc/fail2ban/jail.local
+  - systemctl enable --now fail2ban
+  - systemctl restart networking
+  - tune2fs -m 0 ${default_volume}
+  - chown cloud:cloud /mnt/default
+  - rmdir /mnt/default/lost+found
+  # Configure firewall
+  - ufw default deny incoming
+  - ufw default deny outgoing
+  # HTTP
+  - ufw allow http
+  - ufw allow https
+  # SSH
+  - ufw allow 22/tcp
+  # DNS
+  - ufw allow out dns
+  - ufw enable
+  # Configure SSH server
+  - sed -i -e '/^#PermitRootLogin.*$/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '/#^PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
+  - sed -i -e '/^X11Forwarding/s/^.*$/X11Forwarding no/' /etc/ssh/sshd_config
+  - sed -i -e '/^#MaxAuthTries/s/^.*$/MaxAuthTries 3/' /etc/ssh/sshd_config
+  - sed -i -e '/^#AllowTcpForwarding/s/^.*$/AllowTcpForwarding no/' /etc/ssh/sshd_config
+  - sed -i -e '/^#AllowAgentForwarding/s/^.*$/AllowAgentForwarding no/' /etc/ssh/sshd_config
+  - sed -i -e '/^#AuthorizedKeysFile/s/^.*$/AuthorizedKeysFile .ssh\/authorized_keys/' /etc/ssh/sshd_config
+  # Install Docker
+  - "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -"
+  - 'add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"'
+  - apt-get update -y
+  - apt-get install -y docker-ce docker-ce-cli containerd.io
+  - systemctl enable --now docker
+  # Install Docker Compose
+  - "curl -L 'https://github.com/docker/compose/releases/download/$(curl -sL https://api.github.com/repos/docker/compose/releases/latest | jq -r .name)/docker-compose-Linux-x86_64' -o /usr/local/bin/docker-compose"
+  - chmod +x /usr/local/bin/docker-compose
+
+final_message: "The system is finally up, after $UPTIME seconds"
