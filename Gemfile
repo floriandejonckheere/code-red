@@ -26,6 +26,9 @@ gem "bcrypt", "~> 3.1.7"
 # Send HTML over the wire instead of JSON
 gem "hotwire-rails"
 
+# Utility-first CSS framework
+gem "tailwindcss-rails"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false
 
