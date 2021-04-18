@@ -11,6 +11,13 @@
 /tmp/
 /log/
 /logs/**/*.log
+/public/
+/storage/
+
+# CI and code analysis tools
+/.github/
+.overcommit.yml
+.rubocop.yml
 
 # Used by dotenv library to load environment variables.
 .env.local
@@ -67,5 +74,13 @@ html/
 
 ## Docker-specific files:
 Dockerfile
+Dockerfile.prod
 .dockerignore
+docker-compose.yml
 .git
+
+# RSpec
+/spec/
+
+# Terraform
+/terraform/

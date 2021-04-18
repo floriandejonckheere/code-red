@@ -73,8 +73,6 @@ jobs:
       - app
 
     steps:
-      - uses: actions/checkout@v2
-
       - name: Set version
         run: |
           echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
@@ -97,6 +95,7 @@ jobs:
       - name: Build and push app to GitHub Packages
         uses: docker/build-push-action@v2.0.1
         with:
+          file: Dockerfile.prod
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}-app:${{ env.VERSION }}
 

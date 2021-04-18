@@ -13,6 +13,7 @@
 /tmp/
 /log/
 /logs/**/*.log
+/public/
 
 # Used by dotenv library to load environment variables.
 .env.local
