@@ -178,6 +178,20 @@ resource "hcloud_firewall" "default" {
     source_ips = ["0.0.0.0/0", "::/0"]
   }
 
+  rule {
+    direction = "out"
+    protocol = "tcp"
+    port = "80"
+    destination_ips = ["0.0.0.0/0", "::/0"]
+  }
+
+  rule {
+    direction = "out"
+    protocol = "tcp"
+    port = "443"
+    destination_ips = ["0.0.0.0/0", "::/0"]
+  }
+
   # DNS
   rule {
     direction = "out"

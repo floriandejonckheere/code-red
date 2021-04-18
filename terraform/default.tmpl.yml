@@ -41,7 +41,6 @@ mounts:
 
 packages:
   - fail2ban
-  - ufw
   - apt-transport-https
   - ca-certificates
   - curl
@@ -61,17 +60,6 @@ runcmd:
   - tune2fs -m 0 ${default_volume}
   - chown cloud:cloud /mnt/default
   - rmdir /mnt/default/lost+found
-  # Configure firewall
-  - ufw default deny incoming
-  - ufw default deny outgoing
-  # HTTP
-  - ufw allow http
-  - ufw allow https
-  # SSH
-  - ufw allow 22/tcp
-  # DNS
-  - ufw allow out dns
-  - ufw enable
   # Configure SSH server
   - sed -i -e '/^#PermitRootLogin.*$/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
   - sed -i -e '/#^PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
@@ -87,7 +75,9 @@ runcmd:
   - apt-get install -y docker-ce docker-ce-cli containerd.io
   - systemctl enable --now docker
   # Install Docker Compose
-  - "curl -L 'https://github.com/docker/compose/releases/download/$(curl -sL https://api.github.com/repos/docker/compose/releases/latest | jq -r .name)/docker-compose-Linux-x86_64' -o /usr/local/bin/docker-compose"
+  - "curl -L https://github.com/docker/compose/releases/download/$(curl -sL https://api.github.com/repos/docker/compose/releases/latest | jq -r .name)/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose"
   - chmod +x /usr/local/bin/docker-compose
+  # Reboot system
+  - systemctl reboot
 
 final_message: "The system is finally up, after $UPTIME seconds"
