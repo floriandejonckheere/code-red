@@ -39,7 +39,7 @@ PreCommit:
     on_warn: fail # Treat all warnings as failures
 
   RubyLint:
-    enabled: true
+    enabled: false
 
   RubySyntax:
     enabled: true
