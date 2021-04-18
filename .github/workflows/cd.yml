@@ -1,0 +1,60 @@
+name: Continuous Deployment
+
+on:
+  push:
+    tags:
+      - 'production'
+  workflow_dispatch:
+
+jobs:
+  app:
+    name: Deploy application
+    runs-on: ubuntu-20.04
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Copy files
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ops/docker-compose.yml
+          target: $HOME
+          strip_components: 1
+
+      - name: Set environment
+        run: |
+          echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> $GITHUB_ENV
+          echo "GANDIV5_API_KEY=${{ secrets.GANDIV5_API_KEY }}" >> $GITHUB_ENV
+
+      - name: Deploy application
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_USER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          GANDIV5_API_KEY: ${{ secrets.GANDIV5_API_KEY }}
+          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script_stop: true
+          envs: GITHUB_USER,GITHUB_TOKEN,GANDIV5_API_KEY,SECRET_KEY_BASE
+          script: |
+            echo GANDIV5_API_KEY=${GANDIV5_API_KEY} > .env
+            echo SECRET_KEY_BASE=${SECRET_KEY_BASE} >> .env
+            echo "Pulling latest images"
+            docker login https://ghcr.io -u ${GITHUB_USER} -p ${GITHUB_TOKEN}
+            docker-compose pull --quiet
+            echo "Recreating containers"
+            docker-compose up --detach --remove-orphans

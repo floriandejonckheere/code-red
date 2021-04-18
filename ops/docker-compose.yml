@@ -1,0 +1,91 @@
+version: "3.8"
+
+x-app: &app
+  image: ghcr.io/floriandejonckheere/code-red-app:v0.1.0
+  environment:
+    RAILS_ENV: production
+    RAILS_LOG_TO_STDOUT: 1
+    RAILS_SERVE_STATIC_FILES: 1
+
+    SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+  logging:
+    driver: "json-file"
+    options:
+      max-file: "5"
+      max-size: "1g"
+      compress: "true"
+  restart: unless-stopped
+
+services:
+  postgres:
+    image: postgres:12
+    volumes:
+      - postgres:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    environment:
+      TZ: Europe/Berlin
+    volumes:
+      - "redis:/data/"
+    restart: unless-stopped
+
+  traefik:
+    image: traefik:v2.4
+    command: >-
+      --log.level=DEBUG
+      --api.dashboard=true
+      --providers.docker
+      --providers.docker.watch=true
+      --providers.docker.exposedbydefault=false
+      --entrypoints.websecure.address=:443
+      --entrypoints.web.address=:80
+      --entrypoints.web.http.redirections.entryPoint.to=websecure
+      --serverstransport.insecureskipverify=true
+      --certificatesresolvers.letsencrypt.acme.dnschallenge=true
+      --certificatesresolvers.letsencrypt.acme.dnschallenge.provider=gandiv5
+      --certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53
+      --certificatesresolvers.letsencrypt.acme.email=florian@floriandejonckheere.be
+      --certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json
+    environment:
+      GANDIV5_API_KEY: ${GANDIV5_API_KEY}
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "acme:/etc/traefik/acme/"
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+
+  app:
+    <<: *app
+    labels:
+      traefik.enable: "true"
+      traefik.http.middlewares.app-tls.redirectscheme.scheme: "https"
+
+      traefik.http.routers.app.rule: "Host(`codered.cloud.dejonckhee.re`)"
+      traefik.http.routers.app.entrypoints: "web"
+      traefik.http.routers.app.middlewares: "app-tls"
+
+      traefik.http.routers.app-tls.rule: "Host(`codered.cloud.dejonckhee.re`)"
+      traefik.http.routers.app-tls.entrypoints: "websecure"
+      traefik.http.routers.app-tls.tls: "true"
+      traefik.http.routers.app-tls.tls.certresolver: "letsencrypt"
+
+      traefik.http.services.app.loadbalancer.server.port: "80"
+
+  migration:
+    <<: *app
+    command: bin/rails db:prepare
+    restart: "no"
+
+volumes:
+  postgres:
+  redis:
+  acme:

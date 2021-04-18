@@ -69,6 +69,13 @@ Github secrets for release:
 Github secrets for continuous deployment (process):
 
 - `DOCKER_TOKEN` (needed for [Github Container Registry](https://docs.github.com/en/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images))
+- `GANDIV5_API_KEY` (needed for Let's Encrypt integration)
+- `SECRET_KEY_BASE`
+
+- `SSH_HOST` (deployment host)
+- `SSH_USER` (deployment user)
+- `SSH_KEY` (private key)
+- `SSH_HOST_KEY` (host public key)
 
 ## Releasing
 
