@@ -20,14 +20,17 @@ gem "redis", "~> 4.0"
 # Use Active Model has_secure_password
 gem "bcrypt", "~> 3.1.7"
 
+# Redis Graph library
+gem "redisgraph", "~> 2.0"
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
 # Send HTML over the wire instead of JSON
-gem "hotwire-rails"
+gem "hotwire-rails", "~> 0.1.3"
 
 # Utility-first CSS framework
-gem "tailwindcss-rails"
+gem "tailwindcss-rails", "~> 0.3.3"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false
