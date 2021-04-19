@@ -32,6 +32,9 @@ gem "hotwire-rails", "~> 0.1.3"
 # Utility-first CSS framework
 gem "tailwindcss-rails", "~> 0.3.3"
 
+# Hand-crafted SVG icons, by Tailwind
+gem "heroicon", "~> 0.3.0"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.4", require: false
 
