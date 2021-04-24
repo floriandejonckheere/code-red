@@ -22,7 +22,7 @@ services:
       POSTGRES_PASSWORD: postgres
 
   redis:
-    image: redis:alpine
+    image: redislabs/redismod
     volumes:
       - redis:/data/
 
