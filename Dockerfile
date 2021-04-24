@@ -4,7 +4,7 @@ MAINTAINER Florian Dejonckheere <florian@floriandejonckheere.be>
 LABEL org.opencontainers.image.source https://github.com/floriandejonckheere/code-red
 
 ENV RUNTIME_DEPS postgresql openssh
-ENV BUILD_DEPS build-base curl-dev git postgresql-dev cmake
+ENV BUILD_DEPS build-base curl-dev git postgresql-dev cmake nodejs yarn
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
