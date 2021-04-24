@@ -28,7 +28,7 @@ class Node
   def ==(other)
     other.instance_of?(self.class) &&
       !id.nil? &&
-      other.id = id
+      other.id == id
   end
 
   def inspect

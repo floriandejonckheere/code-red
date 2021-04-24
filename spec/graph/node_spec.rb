@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Node do
+RSpec.describe Node, type: :model do
   subject(:node) { build(:node) }
 
   it { is_expected.to validate_presence_of :graph }
@@ -11,5 +11,11 @@ RSpec.describe Node do
 
       expect(node.id).not_to be_nil
     end
+  end
+
+  describe "#==" do
+    it { is_expected.not_to eq OpenStruct.new(id: "foo") }
+    it { is_expected.not_to eq build(:node) }
+    it { is_expected.to eq build(:node, id: node.id) }
   end
 end
