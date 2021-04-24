@@ -18,4 +18,12 @@ RSpec.describe Node, type: :model do
     it { is_expected.not_to eq build(:node) }
     it { is_expected.to eq build(:node, id: node.id) }
   end
+
+  describe ".find" do
+    it "finds the node by id" do
+      node.save
+
+      expect(described_class.find(node.graph, node.id)).to eq node
+    end
+  end
 end
