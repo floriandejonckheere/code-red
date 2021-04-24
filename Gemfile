@@ -34,9 +34,6 @@ gem "hotwire-rails", "~> 0.1.3"
 # Reactive library for building modern UIs
 gem "stimulus_reflex"
 
-# Utility-first CSS framework
-gem "tailwindcss-rails", "~> 0.3.3"
-
 # Hand-crafted SVG icons, by Tailwind
 gem "heroicon", "~> 0.3.0"
 

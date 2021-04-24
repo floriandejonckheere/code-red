@@ -6,12 +6,7 @@
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag "inter-font" %>
-    <%= stylesheet_link_tag "tailwind" %>
-    <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= stimulus_include_tags %>
-    <%= javascript_include_tag "turbo", type: "module-shim" %>
+    <%= action_cable_meta_tag %>
 
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'application' %>
