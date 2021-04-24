@@ -385,6 +385,7 @@ DEPENDENCIES
   spring
   stimulus_reflex
   timecop
+  turbo-rails
   web-console (>= 4.1.0)
   webmock
   webpacker

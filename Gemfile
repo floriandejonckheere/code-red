@@ -34,6 +34,9 @@ gem "hotwire-rails", "~> 0.1.3"
 # Reactive library for building modern UIs
 gem "stimulus_reflex"
 
+# Send HTML over the wire instead of JSON
+gem "turbo-rails"
+
 # Hand-crafted SVG icons, by Tailwind
 gem "heroicon", "~> 0.3.0"
 
