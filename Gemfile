@@ -19,6 +19,8 @@ gem "sass-rails", ">= 6"
 gem "redis", "~> 4.0"
 # Use Active Model has_secure_password
 gem "bcrypt", "~> 3.1.7"
+# Use webpacker to manage assets
+gem "webpacker"
 
 # Redis Graph library
 gem "redisgraph", "~> 2.0"
