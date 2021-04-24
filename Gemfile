@@ -31,6 +31,9 @@ gem "redisgraph", "~> 2.0"
 # Send HTML over the wire instead of JSON
 gem "hotwire-rails", "~> 0.1.3"
 
+# Reactive library for building modern UIs
+gem "stimulus_reflex"
+
 # Utility-first CSS framework
 gem "tailwindcss-rails", "~> 0.3.3"
 
