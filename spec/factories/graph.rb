@@ -7,6 +7,8 @@ FactoryBot.define do
   end
 
   factory :node, class: "Node" do
+    id { SecureRandom.uuid }
+
     graph
   end
 
