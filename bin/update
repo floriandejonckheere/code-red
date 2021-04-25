@@ -18,7 +18,9 @@ FileUtils.chdir APP_ROOT do
   puts "== Installing local app dependencies =="
   system! "gem install bundler --conservative"
   system("bundle check") || system!("bundle install")
+  system! "yarn"
 
   puts "\n== Installing remote app dependencies =="
   system! "docker-compose run --rm -u root app bundle install"
+  system! "docker-compose run --rm -u root app yarn"
 end
