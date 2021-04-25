@@ -1,0 +1,14 @@
+<%= form_with model: task, id: "task_form", data: { controller: "task-form" } do |f| %>
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_field :description %>
+  </div>
+
+  <%= f.submit "Create", data: { action: "click->task-modal#submit" } %>
+  <button data-action="click->task-modal#close">Cancel</button>
+<% end %>

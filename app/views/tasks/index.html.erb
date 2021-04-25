@@ -1,0 +1,16 @@
+<%= turbo_frame_tag "task" %>
+
+<div class="container m-auto flex items-center justify-center" data-controller="task-modal" data-task-modal-prevent-default-action-opening="false">
+  <%= render partial: "tasks/modal_form" %>
+
+  <% @tasks.each do |task| %>
+    <%= task.title %> - <%= task.description %>
+    <button data-action="click->task#delete" data-id="<%= task.id %>">Delete</button>
+  <% end %>
+
+  <%= link_to new_task_path,
+              class: "p-0 w-16 h-16 txt bg-red-600 rounded-full hover:bg-red-700 shadow text-center focus:outline-none",
+              data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
+    <%= heroicon "plus", options: { class: "text-white" } %>
+  <% end %>
+</div>

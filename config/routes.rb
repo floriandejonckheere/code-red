@@ -4,11 +4,25 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   root "application#index"
+
+  resources :tasks
 end
 
 # == Route Map
 #
 #                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
+#                                     root GET    /                                                                                                 application#index
+#                                    tasks GET    /tasks(.:format)                                                                                  tasks#index
+#                                          POST   /tasks(.:format)                                                                                  tasks#create
+#                                 new_task GET    /tasks/new(.:format)                                                                              tasks#new
+#                                edit_task GET    /tasks/:id/edit(.:format)                                                                         tasks#edit
+#                                     task GET    /tasks/:id(.:format)                                                                              tasks#show
+#                                          PATCH  /tasks/:id(.:format)                                                                              tasks#update
+#                                          PUT    /tasks/:id(.:format)                                                                              tasks#update
+#                                          DELETE /tasks/:id(.:format)                                                                              tasks#destroy
+#         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
+#         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
+#        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
 #            rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
 #               rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
 #            rails_sendgrid_inbound_emails POST   /rails/action_mailbox/sendgrid/inbound_emails(.:format)                                           action_mailbox/ingresses/sendgrid/inbound_emails#create
