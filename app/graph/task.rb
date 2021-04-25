@@ -20,4 +20,15 @@ class Task < Node
   validates :type,
             presence: true,
             inclusion: { in: TYPES }
+
+  def type_icon
+    {
+      task: "briefcase",
+      epic: "lightning-bolt",
+      idea: "light-bulb",
+      bug: "fire",
+      feature: "beaker",
+      goal: "academic-cap",
+    }[type.to_sym]
+  end
 end

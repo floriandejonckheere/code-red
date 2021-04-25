@@ -1,0 +1,18 @@
+<div class="flex flex-col justify-between bg-white shadow-md rounded-sm p-4 m-8 w-80 border border-gray-200 hover:border-red-200">
+  <h1 class="text-gray-800 font-bold text-lg mb-2"><%= task.title %></h1>
+
+  <div class="text-gray-900 mb-2">
+    <%= task.description %>
+  </div>
+
+  <div class="flex justify-left pt-2">
+    <div class="flex items-center text-sm text-gray-600">
+      <%= heroicon task.type_icon, options: { class: "h-4 w-4 inline-block" } %>
+      <span class="pl-2"><%= task.type.capitalize %></span>
+    </div>
+
+    <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "p-2 ml-auto rounded-sm text-gray-600 transition hover:bg-red-100 hover:text-red-600" do %>
+      <%= heroicon "trash", options: { class: "h-4 w-4" } %>
+    <% end %>
+  </div>
+</div>
