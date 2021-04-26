@@ -6,8 +6,8 @@
   </div>
 
   <div class="flex justify-left pt-2">
-    <div class="flex items-center text-sm text-gray-600">
-      <%= heroicon task.type_icon, options: { class: "h-4 w-4 inline-block" } %>
+    <div class="flex items-center text-sm text-<%= color_for(task.type) %>-400">
+      <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block" } %>
       <span class="pl-2"><%= task.type.capitalize %></span>
     </div>
 
