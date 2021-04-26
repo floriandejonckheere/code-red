@@ -1,14 +1,8 @@
-<div data-task-modal-target="container" data-action="click->task-modal#closeBackground keyup@window->task-modal#closeWithKeyboard"
-     class="hidden animated fadeIn fixed inset-0 overflow-y-auto flex items-center justify-center"
-     style="z-index: 9999;">
-  <div class="max-w-lg max-h-screen w-full relative">
-    <div class="m-1 bg-white rounded shadow">
-      <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-        <h3 class="text-lg leading-6 font-medium text-gray-900">
-          task
-        </h3>
-      </div>
-      <%= tag.div nil, id: 'task_form' %>
+<div data-task-modal-target="container" data-background-id="modal-background-light" data-action="click->task-modal#closeBackground keyup@window->task-modal#closeWithKeyboard"
+     class="hidden fixed inset-0 flex items-center justify-center"
+     style="z-index: 9999;"
+>
+    <div class="flex flex-col justify-between bg-white rounded-sm p-20 w-2/3 h-2/3">
+      <div id="task_form"></div>
     </div>
-  </div>
 </div>

@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "task" do %>
+  <turbo-stream target="task_form" action="replace">
+    <template>
+      <%= render partial: "tasks/form", locals: { task: @task } %>
+    </template>
+  </turbo-stream>
+<% end %>

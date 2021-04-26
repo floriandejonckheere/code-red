@@ -1,7 +1,28 @@
-<%= form_with model: task, id: "task_form", data: { controller: "task-form" } do |f| %>
-  <div>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
+<%= form_with model: task, id: "task_form", data: { controller: "task-form" }, class: "w-full" do |f| %>
+  <%= f.text_field :title, class: "w-full mt-4 font-bold text-3xl text-gray-900 hover:bg-gray-100 focus:outline-none" %>
+
+  <div class="flex justify-left mt-4">
+    <div class="relative" data-controller="dropdown">
+      <div data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" data-dropdown-target="button" tabindex="0" class="inline-block select-none">
+        <div class="p-2 flex items-center rounded text-sm text-<%= color_for(task.type) %>-400 hover:bg-gray-100">
+          <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block" } %>
+          <span class="pl-2 pr-4"><%= task.type.capitalize %></span>
+          <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
+        </div>
+      </div>
+      <div data-dropdown-target="menu" class="absolute right-0 mt-2 hidden">
+        <div class="bg-white shadow rounded border">
+          <% Task::TYPES.each do |type| %>
+            <%= link_to "#", data: { action: "click->dropdown#toggle" } do %>
+              <div class="w-32 px-4 py-2 flex items-center rounded text-sm text-<%= color_for(type) %>-400 hover:bg-gray-100">
+                <%= heroicon icon_for(type), options: { class: "h-4 w-4 inline-block" } %>
+                <span class="pl-4"><%= type.capitalize %></span>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div>
@@ -11,4 +32,10 @@
 
   <%= f.submit "Create", data: { action: "click->task-modal#submit" } %>
   <button data-action="click->task-modal#close">Cancel</button>
+
+  <div>
+    <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "p-2 rounded-sm text-gray-600 transition text-red-400 hover:bg-red-100 hover:text-red-600" do %>
+      <%= heroicon "trash", options: { class: "h-4 w-4" } %> Delete
+    <% end %>
+  </div>
 <% end %>
