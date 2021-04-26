@@ -23,6 +23,18 @@
         </div>
       </div>
     </div>
+
+    <div class="ml-2 p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
+      <%= heroicon "calendar", options: { class: "h-4 w-4 inline-block" } %>
+      <span class="pl-2 pr-4">No deadline</span>
+      <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
+    </div>
+
+    <div class="ml-2 p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
+      <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
+      <span class="pl-2 pr-4">No assignee</span>
+      <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
+    </div>
   </div>
 
   <%= f.text_area :description, placeholder: "Description of your task...", class: "w-full h-28 mt-4 text-gray-900 resize-none transition hover:bg-gray-100 focus:outline-none" %>
