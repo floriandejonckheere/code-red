@@ -1,16 +1,16 @@
-<%= form_with model: task, id: "task_form", data: { controller: "task-form" }, class: "w-full" do |f| %>
-  <%= f.text_field :title, placeholder: "New task", class: "w-full mt-4 font-bold text-3xl text-gray-900 hover:bg-gray-100 focus:outline-none" %>
+<%= form_with model: task, id: "task_form", data: { controller: "task-form" }, class: "w-full flex flex-col justify-between" do |f| %>
+  <%= f.text_field :title, placeholder: "New task", class: "w-full font-bold text-3xl text-gray-900 transition hover:bg-gray-100 focus:outline-none" %>
 
   <div class="flex justify-left mt-4">
     <div class="relative" data-controller="dropdown">
       <div data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" data-dropdown-target="button" tabindex="0" class="inline-block select-none">
-        <div class="p-2 flex items-center rounded text-sm text-<%= color_for(task.type) %>-400 hover:bg-gray-100">
+        <div class="p-2 flex items-center rounded text-sm text-<%= color_for(task.type) %>-400 transition hover:bg-gray-100">
           <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block" } %>
           <span class="pl-2 pr-4"><%= task.type.capitalize %></span>
           <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
         </div>
       </div>
-      <div data-dropdown-target="menu" class="absolute right-0 mt-2 hidden">
+      <div data-dropdown-target="menu" class="absolute left-0 hidden">
         <div class="bg-white shadow rounded border">
           <% Task::TYPES.each do |type| %>
             <%= link_to "#", data: { action: "click->dropdown#toggle" } do %>
@@ -25,11 +25,12 @@
     </div>
   </div>
 
-  <%= f.text_area :description, placeholder: "Description of your task...", class: "w-full h-auto mt-4 text-gray-900 resize-none hover:bg-gray-100 focus:outline-none" %>
+  <%= f.text_area :description, placeholder: "Description of your task...", class: "w-full h-28 mt-4 text-gray-900 resize-none transition hover:bg-gray-100 focus:outline-none" %>
 
-  <%= f.submit "Create", data: { action: "click->task-modal#submit" } %>
-
-  <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "p-2 rounded-sm text-gray-600 transition text-red-400 hover:bg-red-100 hover:text-red-600" do %>
-    <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %> Delete
-  <% end %>
+  <%#= f.submit "Create", data: { action: "click->task-modal#submit" } %>
+  <div class="w-full flex justify-end">
+    <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "w-32 p-2 text-center rounded-sm transition text-gray-600 text-red-400 hover:bg-red-100 hover:text-red-600" do %>
+      <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %> Delete task
+    <% end %>
+  </div>
 <% end %>
