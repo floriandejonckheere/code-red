@@ -27,7 +27,17 @@ class TasksController < ApplicationController
     end
   end
 
-  def update; end
+  def update
+    respond_to do |format|
+      if @task.update(task_params)
+        format.html { redirect_to tasks_url }
+      else
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { task: @task })
+        end
+      end
+    end
+  end
 
   def destroy; end
 

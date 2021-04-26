@@ -1,6 +1,6 @@
 <%= form_with model: task, id: "task_form", data: { controller: "task-form" }, class: "w-full flex flex-col justify-between" do |f| %>
   <div class="relative" data-controller="dropdown">
-    <div data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" data-dropdown-target="button" tabindex="0" class="inline-block select-none">
+    <div data-action="click->dropdown#toggle click@window->dropdown#hide" data-dropdown-target="button" class="inline-block select-none">
       <div class="w-20 p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
         <span class="pr-4"><%= task.status.capitalize %></span>
         <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
@@ -9,11 +9,9 @@
     <div data-dropdown-target="menu" class="absolute left-0 hidden" style="z-index: 9997;">
       <div class="bg-white shadow rounded border">
         <% Task::STATUSES.each do |status| %>
-          <%= link_to "#", data: { action: "click->dropdown#toggle" } do %>
-            <div class="w-32 px-4 py-2 flex items-center rounded text-sm hover:bg-gray-100">
-              <span class="ml-4"><%= status.titleize %></span>
-            </div>
-          <% end %>
+          <div class="w-32 pl-8 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->dropdown#toggle">
+            <%= status.titleize %>
+          </div>
         <% end %>
       </div>
     </div>
@@ -59,7 +57,7 @@
 
   <%= f.text_area :description, placeholder: "Description of your task...", class: "w-full h-28 mt-4 text-gray-900 resize-none transition hover:bg-gray-100 focus:outline-none" %>
 
-  <%#= f.submit "Create", data: { action: "click->task-modal#submit" } %>
+  <%= f.submit "Update", data: { action: "click->task-modal#submit" } %>
 
   <div class="w-full mt-4 flex justify-end">
     <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "w-32 p-2 text-center rounded-sm transition text-gray-600 text-red-400 hover:bg-red-100 hover:text-red-600" do %>
