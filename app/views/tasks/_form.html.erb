@@ -1,5 +1,5 @@
 <%= form_with model: task, id: "task_form", data: { controller: "task-form" }, class: "w-full" do |f| %>
-  <%= f.text_field :title, class: "w-full mt-4 font-bold text-3xl text-gray-900 hover:bg-gray-100 focus:outline-none" %>
+  <%= f.text_field :title, placeholder: "New task", class: "w-full mt-4 font-bold text-3xl text-gray-900 hover:bg-gray-100 focus:outline-none" %>
 
   <div class="flex justify-left mt-4">
     <div class="relative" data-controller="dropdown">
@@ -25,14 +25,11 @@
     </div>
   </div>
 
-  <%= f.text_area :description, class: "w-full h-auto mt-4 text-gray-900 resize-none hover:bg-gray-100 focus:outline-none" %>
+  <%= f.text_area :description, placeholder: "Description of your task...", class: "w-full h-auto mt-4 text-gray-900 resize-none hover:bg-gray-100 focus:outline-none" %>
 
   <%= f.submit "Create", data: { action: "click->task-modal#submit" } %>
-  <button data-action="click->task-modal#close">Cancel</button>
 
-  <div>
-    <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "p-2 rounded-sm text-gray-600 transition text-red-400 hover:bg-red-100 hover:text-red-600" do %>
-      <%= heroicon "trash", options: { class: "h-4 w-4" } %> Delete
-    <% end %>
-  </div>
+  <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "p-2 rounded-sm text-gray-600 transition text-red-400 hover:bg-red-100 hover:text-red-600" do %>
+    <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %> Delete
+  <% end %>
 <% end %>
