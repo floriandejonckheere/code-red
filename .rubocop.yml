@@ -10,6 +10,7 @@ AllCops:
     - tmp/**/*
     - vendor/**/*
     - db/schema.rb
+    - node_modules/**/*
   TargetRubyVersion: 3.0
 
 Layout/LineLength:
@@ -46,6 +47,10 @@ Metrics/MethodLength:
 Rails:
   Enabled: true
 
+Rails/Output:
+  Exclude:
+    - db/seeds/**/*
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
@@ -53,9 +58,6 @@ Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: consistent_comma
 
 Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: consistent_comma
-
-Style/TrailingCommaInBlockArgs:
   EnforcedStyleForMultiline: consistent_comma
 
 Style/TrailingCommaInHashLiteral:
