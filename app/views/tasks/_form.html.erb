@@ -25,10 +25,7 @@
     </div>
   </div>
 
-  <div>
-    <%= f.label :description %>
-    <%= f.text_field :description %>
-  </div>
+  <%= f.text_area :description, class: "w-full h-auto mt-4 text-gray-900 resize-none hover:bg-gray-100 focus:outline-none" %>
 
   <%= f.submit "Create", data: { action: "click->task-modal#submit" } %>
   <button data-action="click->task-modal#close">Cancel</button>
