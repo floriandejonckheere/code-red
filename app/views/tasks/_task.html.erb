@@ -1,5 +1,5 @@
 <%= link_to edit_task_path(task.id), data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
-  <div class="flex flex-col justify-between bg-white shadow-md rounded-sm p-4 m-8 w-80 border border-gray-200 hover:border-red-200 cursor-pointer">
+  <div class="w-64 p-4 m-8 flex flex-col justify-between bg-white shadow-md rounded-sm border border-gray-200 hover:border-red-200 cursor-pointer">
     <h1 class="text-gray-800 font-bold text-lg mb-2"><%= task.title %></h1>
 
     <div class="text-gray-900 mb-2">
@@ -11,10 +11,6 @@
         <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block" } %>
         <span class="pl-2"><%= task.type.capitalize %></span>
       </div>
-
-      <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "p-2 ml-auto rounded-sm text-gray-600 transition hover:bg-red-100 hover:text-red-600" do %>
-        <%= heroicon "trash", options: { class: "h-4 w-4" } %>
-      <% end %>
     </div>
   </div>
 <% end %>

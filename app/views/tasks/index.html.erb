@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "task" %>
 
-<div class="container m-auto flex justify-center" data-controller="task-modal" data-task-modal-prevent-default-action-opening="false">
+<div class="container m-auto flex flex-wrap justify-start" data-controller="task-modal" data-task-modal-prevent-default-action-opening="false">
   <%= render partial: "tasks/modal_form" %>
 
   <% @tasks.each do |task| %>
