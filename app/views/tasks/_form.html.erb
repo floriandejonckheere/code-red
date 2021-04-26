@@ -4,7 +4,7 @@
   <div class="flex justify-left mt-4">
     <div class="relative" data-controller="dropdown">
       <div data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" data-dropdown-target="button" tabindex="0" class="inline-block select-none">
-        <div class="p-2 flex items-center rounded text-sm text-<%= color_for(task.type) %>-400 transition hover:bg-gray-100">
+        <div class="p-2 flex items-center rounded text-sm text-<%= color_for(task.type) %> transition hover:bg-gray-100">
           <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block" } %>
           <span class="pl-2 pr-4"><%= task.type.capitalize %></span>
           <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
@@ -14,7 +14,7 @@
         <div class="bg-white shadow rounded border">
           <% Task::TYPES.each do |type| %>
             <%= link_to "#", data: { action: "click->dropdown#toggle" } do %>
-              <div class="w-32 px-4 py-2 flex items-center rounded text-sm text-<%= color_for(type) %>-400 hover:bg-gray-100">
+              <div class="w-32 px-4 py-2 flex items-center rounded text-sm text-<%= color_for(type) %> hover:bg-gray-100">
                 <%= heroicon icon_for(type), options: { class: "h-4 w-4 inline-block" } %>
                 <span class="pl-4"><%= type.capitalize %></span>
               </div>

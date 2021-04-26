@@ -2,12 +2,12 @@
 
 module TaskHelper
   TYPES = {
-    task: { icon: "briefcase", color: "gray" },
-    epic: { icon: "lightning-bolt", color: "yellow" },
-    idea: { icon: "light-bulb", color: "purple" },
-    bug: { icon: "fire", color: "red" },
-    feature: { icon: "beaker", color: "blue" },
-    goal: { icon: "academic-cap", color: "green" },
+    task: { icon: "briefcase", color: "gray-600" },
+    epic: { icon: "lightning-bolt", color: "yellow-500" },
+    idea: { icon: "light-bulb", color: "purple-600" },
+    bug: { icon: "fire", color: "red-600" },
+    feature: { icon: "beaker", color: "blue-600" },
+    goal: { icon: "academic-cap", color: "green-500" },
   }.freeze
 
   def icon_for(type)
