@@ -25,7 +25,7 @@
 
   <%= f.text_field :title,
                    placeholder: "New task",
-                   class: "w-full font-bold text-3xl text-gray-900 transition hover:bg-gray-100 focus:outline-none",
+                   class: "w-full font-bold text-3xl text-gray-900 transition hover:bg-gray-100 focus:outline-none #{'bg-red-100' if task.errors[:title].any?}",
                    data: { action: "keyup->autosave#save" },
                    autocomplete: "off"
   %>
@@ -74,7 +74,7 @@
   %>
 
   <div class="w-full mt-4 flex justify-between">
-    <span class="text-gray-400 text-sm" data-autosave-target="status"></span>
+    <span class="text-gray-400 text-sm transition" data-autosave-target="status"></span>
 
     <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "w-32 p-2 text-center rounded-sm transition text-gray-600 text-red-400 hover:bg-red-100 hover:text-red-600" do %>
       <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %> Delete task
