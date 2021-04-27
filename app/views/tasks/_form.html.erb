@@ -5,17 +5,19 @@
               data: { controller: "autosave", "autosave-target": "form", action: "ajax:success->autosave#success ajax:error->autosave#error" },
               class: "w-full flex flex-col justify-between" do |f|
 %>
-  <div class="relative" data-controller="dropdown">
-    <div data-action="click->dropdown#toggle click@window->dropdown#hide" data-dropdown-target="button" class="inline-block select-none">
-      <div class="w-20 p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
-        <span class="pr-4"><%= task.status.capitalize %></span>
+  <div class="relative" data-controller="task-dropdown">
+    <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
+      <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
+        <%= f.hidden_field :status, data: { action: "keyup->autosave#save", "task-dropdown-target": "value" } %>
+        <span class="pr-4" data-task-dropdown-target="title"><%= task.status.titleize %></span>
         <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
       </div>
     </div>
-    <div data-dropdown-target="menu" class="absolute left-0 hidden" style="z-index: 9997;">
+
+    <div data-task-dropdown-target="menu" class="absolute left-0 hidden" style="z-index: 9997;">
       <div class="bg-white shadow rounded border">
         <% Task::STATUSES.each do |status| %>
-          <div class="w-32 pl-8 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->dropdown#toggle">
+          <div class="w-32 pl-8 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= status %>">
             <%= status.titleize %>
           </div>
         <% end %>
