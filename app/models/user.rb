@@ -6,6 +6,10 @@ class User < ApplicationRecord
 
   validates :name,
             presence: true
+
+  def avatar
+    FFaker::Avatar.image(nil, "128x128")
+  end
 end
 
 # == Schema Information
