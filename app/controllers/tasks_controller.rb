@@ -16,20 +16,16 @@ class TasksController < ApplicationController
   def edit; end
 
   def create
-    @task = Task.new(task_params)
+    @task = Task.new(graph: graph)
 
-    if @task.save
-      format.html { redirect_to tasks_url }
-    else
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { task: @task })
-      end
-    end
+    update
   end
 
   def update
+    @task.assign_attributes(task_params)
+
     respond_to do |format|
-      if @task.update(task_params)
+      if @task.save
         format.html { redirect_to tasks_url }
       else
         format.turbo_stream do
@@ -39,7 +35,13 @@ class TasksController < ApplicationController
     end
   end
 
-  def destroy; end
+  def destroy
+    @task.destroy
+
+    respond_to do |format|
+      format.html { redirect_to tasks_url }
+    end
+  end
 
   private
 
