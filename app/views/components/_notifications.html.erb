@@ -1,0 +1,13 @@
+<% if notice %>
+  <div class="notification w-1/6 p-4 fixed top-0 right-0 m-8 rounded-sm shadow-sm bg-white border-l-4 border-green-400">
+    <%= heroicon "check-circle", options: { class: "w-4 h-4 mr-2 inline-block text-green-600" } %>
+    <%= notice %>
+  </div>
+<% end %>
+
+<% if alert %>
+  <div class="notification w-1/6 p-4 fixed top-0 right-0 m-8 rounded-sm shadow-sm bg-white border-l-4 border-red-400">
+    <%= heroicon "exclamation-circle", options: { class: "w-4 h-4 mr-2 inline-block text-red-500" } %>
+    <%= alert %>
+  </div>
+<% end %>
