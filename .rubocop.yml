@@ -33,11 +33,7 @@ Metrics/AbcSize:
     - db/migrate/*
 
 Metrics/BlockLength:
-  Exclude:
-    - config/**/*
-    - db/migrate/*
-    - lib/tasks/*
-    - spec/**/*
+  Enabled: false
 
 Metrics/MethodLength:
   Exclude:
@@ -50,6 +46,12 @@ Rails:
 Rails/Output:
   Exclude:
     - db/seeds/**/*
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
