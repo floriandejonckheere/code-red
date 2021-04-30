@@ -57,6 +57,7 @@ class TasksController < ApplicationController
         :description,
         :status,
         :type,
+        :user_id,
       )
   end
 end

@@ -64,23 +64,24 @@
       <%= heroicon "chevron-down", options: { class: "ml-4 h-4 w-4 inline-block" } %>
     </div>
 
-    <div class="relative" data-controller="dropdown">
-      <div data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" data-dropdown-target="button" tabindex="0" class="inline-block select-none">
+    <div class="relative" data-controller="task-dropdown">
+      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
         <div class="ml-2 p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
-          <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
-          <span class="pl-2 pr-4">No assignee</span>
+          <%= f.hidden_field :user_id, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
+          <div data-task-dropdown-target="title">
+            <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
+            <span class="pl-2 pr-4">No assignee</span>
+          </div>
           <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
         </div>
       </div>
-      <div data-dropdown-target="menu" class="absolute left-0 hidden">
+      <div data-task-dropdown-target="menu" class="absolute left-0 hidden">
         <div class="bg-white shadow rounded border">
           <% User.all.each do |user| %>
-            <%= link_to "#", data: { action: "click->dropdown#toggle" } do %>
-              <div class="w-64 px-4 py-2 flex items-center rounded text-sm hover:bg-gray-100">
-                <div class="h-6 w-6 rounded-full border-2 border-white shadow-sm inline-block text-center text-white font-bold" style="background-color: #<%= user.id[0..5] %>;"><%= user.name[0].upcase %></div>
-                <span class="ml-4"><%= user.name %></span>
-              </div>
-            <% end %>
+            <div class="w-64 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= user.id %>">
+              <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
+              <span class="pl-2 pr-4"><%= user.name %></span>
+            </div>
           <% end %>
         </div>
       </div>
