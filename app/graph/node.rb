@@ -6,11 +6,14 @@ class Node
   include ActiveModel::Validations
   include ActiveModel::Callbacks
 
+  include Associations
   include Persistence
   include Timestamps
 
   attribute :graph
   attribute :id, :string
+
+  association :user
 
   validates :graph,
             presence: true

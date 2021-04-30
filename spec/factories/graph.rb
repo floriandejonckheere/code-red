@@ -18,5 +18,7 @@ FactoryBot.define do
     deadline { FFaker::Time.datetime }
     status { Task::STATUSES.sample }
     type { Task::TYPES.sample }
+
+    association :user
   end
 end
