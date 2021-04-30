@@ -67,10 +67,12 @@
     <div class="relative" data-controller="task-dropdown">
       <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
         <div class="ml-2 p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
-          <%= f.hidden_field :user_id, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
-          <div data-task-dropdown-target="title">
+          <%= f.hidden_field :user_id, value: task.user_id, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
+          <div class="text-gray-<%= task.user ? "600" : "400" %>" data-task-dropdown-target="title">
             <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
-            <span class="pl-2 pr-4">No assignee</span>
+            <span class="pl-2 pr-4">
+              <%= task.user&.name || "No assignee" %>
+            </span>
           </div>
           <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
         </div>
@@ -79,8 +81,10 @@
         <div class="bg-white shadow rounded border">
           <% User.all.each do |user| %>
             <div class="w-64 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= user.id %>">
-              <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
-              <span class="pl-2 pr-4"><%= user.name %></span>
+              <div class="text-gray-600">
+                <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
+                <span class="pl-2 pr-4"><%= user.name %></span>
+              </div>
             </div>
           <% end %>
         </div>

@@ -16,7 +16,7 @@ module Associations
       define_method(name) do
         id = send(:"#{name}_id")
 
-        type.to_s.camelize.constantize.find(id) if id
+        type.to_s.camelize.constantize.find(id) if id.present?
       end
 
       define_method(:"#{name}=") do |model|
