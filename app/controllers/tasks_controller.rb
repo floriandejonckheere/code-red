@@ -13,7 +13,9 @@ class TasksController < ApplicationController
     @task = Task.new(graph: graph)
   end
 
-  def edit; end
+  def edit
+    @users = User.all.order(:name)
+  end
 
   def create
     @task = Task.new(graph: graph)
@@ -23,6 +25,8 @@ class TasksController < ApplicationController
 
   def update
     @task.update(task_params)
+
+    @users = User.all.order(:name)
 
     respond_to do |format|
       format.turbo_stream do

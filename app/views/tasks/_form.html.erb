@@ -79,7 +79,15 @@
       </div>
       <div data-task-dropdown-target="menu" class="absolute left-0 hidden">
         <div class="bg-white shadow rounded border">
-          <% User.all.each do |user| %>
+          <% if task.user %>
+            <div class="w-64 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="">
+              <div class="text-gray-400">
+                <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
+                <span class="pl-2 pr-4">No assignee</span>
+              </div>
+            </div>
+          <% end %>
+          <% @users.each do |user| %>
             <div class="w-64 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= user.id %>">
               <div class="text-gray-600">
                 <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
