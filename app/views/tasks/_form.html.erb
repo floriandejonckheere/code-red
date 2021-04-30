@@ -6,9 +6,9 @@
               class: "w-full flex flex-col justify-between" do |f|
 %>
   <div class="relative" data-controller="task-dropdown">
+    <%= f.hidden_field :status, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
     <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
       <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
-        <%= f.hidden_field :status, class: "bg-red-400", data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
         <span class="pr-4" data-task-dropdown-target="title"><%= task.status.titleize %></span>
         <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
       </div>
@@ -28,28 +28,31 @@
   <%= f.text_field :title,
                    placeholder: "New task",
                    class: "w-full font-bold text-3xl text-gray-900 transition hover:bg-gray-100 focus:outline-none #{'bg-red-100' if task.errors[:title].any?}",
-                   data: { action: "keyup->autosave#save" },
+                   data: { action: "blur->autosave#save" },
                    autocomplete: "off"
   %>
 
+
   <div class="flex justify-left mt-4">
-    <div class="relative" data-controller="dropdown">
-      <div data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" data-dropdown-target="button" tabindex="0" class="inline-block select-none">
-        <div class="p-2 flex items-center rounded text-sm text-<%= color_for(task.type) %> transition hover:bg-gray-100">
-          <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block" } %>
-          <span class="ml-2"><%= task.type.capitalize %></span>
+    <div class="relative" data-controller="task-dropdown">
+      <%= f.hidden_field :type, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
+      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
+        <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
+          <div data-task-dropdown-target="title">
+            <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block text-#{color_for(task.type)}" } %>
+            <span class="ml-4 text-<%= color_for(task.type) %>"><%= task.type.capitalize %></span>
+          </div>
           <%= heroicon "chevron-down", options: { class: "ml-4 h-4 w-4 inline-block" } %>
         </div>
       </div>
-      <div data-dropdown-target="menu" class="absolute left-0 hidden">
+
+      <div data-task-dropdown-target="menu" class="absolute left-0 hidden" style="z-index: 9997;">
         <div class="bg-white shadow rounded border">
           <% Task::TYPES.each do |type| %>
-            <%= link_to "#", data: { action: "click->dropdown#toggle" } do %>
-              <div class="w-32 px-4 py-2 flex items-center rounded text-sm text-<%= color_for(type) %> hover:bg-gray-100">
-                <%= heroicon icon_for(type), options: { class: "h-4 w-4 inline-block" } %>
-                <span class="ml-4"><%= type.capitalize %></span>
-              </div>
-            <% end %>
+            <div class="w-32 pl-8 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= type %>">
+              <%= heroicon icon_for(type), options: { class: "h-4 w-4 inline-block text-#{color_for(type)}" } %>
+              <span class="ml-4 text-<%= color_for(type) %>"><%= type.capitalize %></span>
+            </div>
           <% end %>
         </div>
       </div>
@@ -87,7 +90,7 @@
   <%= f.text_area :description,
                   placeholder: "Description of your task...",
                   class: "w-full h-28 mt-4 text-gray-900 resize-none transition hover:bg-gray-100 focus:outline-none",
-                  data: { action: "keyup->autosave#save" },
+                  data: { action: "blur->autosave#save" },
                   autocomplete: "off"
   %>
 
