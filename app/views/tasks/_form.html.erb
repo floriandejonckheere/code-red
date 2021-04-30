@@ -34,7 +34,7 @@
 
 
   <div class="flex justify-left mt-4">
-    <div class="relative" data-controller="task-dropdown">
+    <div class="mr-2 relative" data-controller="task-dropdown">
       <%= f.hidden_field :type, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
       <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
         <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
@@ -58,15 +58,15 @@
       </div>
     </div>
 
-    <div class="ml-2 p-2 flex items-center rounded text-sm text-gray-400 cursor-pointer hover:bg-gray-100 focus:outline-none">
+    <div class="mr-2 p-2 flex items-center rounded text-sm text-gray-400 cursor-pointer hover:bg-gray-100 focus:outline-none">
       <%= heroicon "calendar", options: { class: "h-4 w-4 inline-block" } %>
       <span class="ml-2">No deadline</span>
       <%= heroicon "chevron-down", options: { class: "ml-4 h-4 w-4 inline-block" } %>
     </div>
 
-    <div class="relative" data-controller="task-dropdown">
+    <div class="mr-2 relative" data-controller="task-dropdown">
       <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
-        <div class="ml-2 p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
+        <div class="p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
           <%= f.hidden_field :user_id, value: task.user_id, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
           <div class="text-gray-<%= task.user ? "600" : "400" %>" data-task-dropdown-target="title">
             <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
