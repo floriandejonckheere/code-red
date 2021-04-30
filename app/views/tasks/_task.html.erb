@@ -6,11 +6,13 @@
       <%= task.description %>
     </div>
 
-    <div class="flex justify-left pt-2">
+    <div class="flex justify-between pt-2 pr-2">
       <div class="flex items-center text-sm text-<%= color_for(task.type) %>">
         <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block" } %>
         <span class="pl-2"><%= task.type.capitalize %></span>
       </div>
+
+      <%= heroicon "user", options: { class: "h-4 w-4 inline-block", title: task.user.name } if task.user %>
     </div>
   </div>
 <% end %>
