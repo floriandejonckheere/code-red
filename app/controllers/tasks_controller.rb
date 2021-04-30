@@ -59,6 +59,7 @@ class TasksController < ApplicationController
       .permit(
         :title,
         :description,
+        :status,
       )
   end
 end
