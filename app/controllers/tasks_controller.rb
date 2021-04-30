@@ -22,15 +22,11 @@ class TasksController < ApplicationController
   end
 
   def update
-    @task.assign_attributes(task_params)
+    @task.update(task_params)
 
     respond_to do |format|
-      if @task.save
-        format.html { redirect_to tasks_url, notice: "Task saved" }
-      else
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { task: @task })
-        end
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { task: @task })
       end
     end
   end
@@ -60,6 +56,7 @@ class TasksController < ApplicationController
         :title,
         :description,
         :status,
+        :type,
       )
   end
 end
