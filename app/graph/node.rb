@@ -6,6 +6,7 @@ class Node
   include ActiveModel::Validations
 
   include Persistence
+  include Timestamps
 
   attribute :graph
   attribute :id, :string
