@@ -4,6 +4,7 @@ class Node
   include ActiveModel::Model
   include ActiveModel::Attributes
   include ActiveModel::Validations
+  include ActiveModel::Callbacks
 
   include Persistence
   include Timestamps

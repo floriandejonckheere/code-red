@@ -4,18 +4,22 @@ module Persistence
   extend ActiveSupport::Concern
 
   included do
+    define_model_callbacks :destroy, :save
+
     def destroy
-      return false unless !destroyed? && (persisted? || !id.nil?)
+      run_callbacks :destroy do
+        return false unless !destroyed? && (persisted? || !id.nil?)
 
-      graph
-        .query("MATCH (n:#{self.class.name} {id: '#{id}'}) DELETE n")
+        graph
+          .query("MATCH (n:#{self.class.name} {id: '#{id}'}) DELETE n")
 
-      @_destroyed = true
-      @_persisted = false
+        @_destroyed = true
+        @_persisted = false
 
-      freeze
+        freeze
 
-      true
+        true
+      end
     end
 
     def destroyed?
@@ -45,19 +49,21 @@ module Persistence
     end
 
     def save
-      return false unless valid?
+      run_callbacks :save do
+        return false unless valid?
 
-      self.id ||= SecureRandom.uuid
+        self.id ||= SecureRandom.uuid
 
-      properties = attributes
-        .except(:graph)
-        .map { |k, v| "n.#{k} = '#{v}'" }
-        .join(", ")
+        properties = attributes
+          .except(:graph)
+          .map { |k, v| "n.#{k} = '#{v}'" }
+          .join(", ")
 
-      graph
-        .query("MERGE (n:#{self.class.name} {id: '#{id}'}) SET #{properties}")
+        graph
+          .query("MERGE (n:#{self.class.name} {id: '#{id}'}) SET #{properties}")
 
-      @_persisted = true
+        @_persisted = true
+      end
     end
 
     def update(attributes)
