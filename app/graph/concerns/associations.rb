@@ -11,7 +11,7 @@ module Associations
 
   class_methods do
     def association(name, class_name = name, optional: false)
-      associations[name] = class_name
+      associations[name] = { class_name: class_name, optional: optional }
 
       attribute :"#{name}_id", :string
 
