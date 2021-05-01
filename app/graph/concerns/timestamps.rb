@@ -4,8 +4,8 @@ module Timestamps
   extend ActiveSupport::Concern
 
   included do
-    attribute :created_at, :time
-    attribute :updated_at, :time
+    attribute :created_at, :datetime
+    attribute :updated_at, :datetime
 
     before_save :set_timestamps
 

@@ -5,24 +5,29 @@
               data: { controller: "autosave", "autosave-target": "form", action: "ajax:success->autosave#success ajax:error->autosave#error" },
               class: "w-full flex flex-col justify-between" do |f|
 %>
-  <div class="relative" data-controller="task-dropdown">
-    <%= f.hidden_field :status, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
-    <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
-      <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
-        <span class="pr-4" style="font-family: Cantarell;" data-task-dropdown-target="title"><%= task.status.titleize %></span>
-        <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
+
+  <div class="w-full mt-4 flex justify-between">
+    <div class="relative" data-controller="task-dropdown">
+      <%= f.hidden_field :status, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
+      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
+        <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
+          <span class="pr-4" style="font-family: Cantarell;" data-task-dropdown-target="title"><%= task.status.titleize %></span>
+          <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
+        </div>
+      </div>
+
+      <div data-task-dropdown-target="menu" class="absolute left-0 hidden" style="z-index: 9997;">
+        <div class="bg-white shadow rounded border">
+          <% Task::STATUSES.each do |status| %>
+            <div class="w-32 pl-8 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= status %>">
+              <%= status.titleize %>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
 
-    <div data-task-dropdown-target="menu" class="absolute left-0 hidden" style="z-index: 9997;">
-      <div class="bg-white shadow rounded border">
-        <% Task::STATUSES.each do |status| %>
-          <div class="w-32 pl-8 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= status %>">
-            <%= status.titleize %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <span class="text-gray-400 text-sm transition" data-autosave-target="status"></span>
   </div>
 
   <%= f.text_field :title,
@@ -108,7 +113,9 @@
   %>
 
   <div class="w-full mt-4 flex justify-between">
-    <span class="text-gray-400 text-sm transition" data-autosave-target="status"></span>
+    <div class="text-gray-400 text-xs transition" title="<%= task.created_at.iso8601 %>">
+      Created <%= distance_of_time_in_words(task.created_at, Time.zone.now) %> ago
+    </div>
 
     <%= link_to task_path(id: task.id), method: :delete, data: { confirm: "Are you sure you want to permanently delete the task?" }, class: "p-2 inline-flex items-center rounded-sm transition text-gray-600 text-red-400 hover:bg-red-100 hover:text-red-600" do %>
       <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %>
