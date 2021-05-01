@@ -2,6 +2,8 @@
 
 FactoryBot.define do
   factory :graph, class: "Graph" do
+    skip_create
+
     initialize_with { Graph.new(name: name) }
 
     name { FFaker::Lorem.word }
