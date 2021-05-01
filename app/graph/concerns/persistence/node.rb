@@ -7,6 +7,8 @@ module Persistence
     included do
       define_model_callbacks :destroy, :save
 
+      attr_accessor :_persisted
+
       def destroy
         run_callbacks :destroy do
           return false unless !destroyed? && (persisted? || !id.nil?)
@@ -24,7 +26,7 @@ module Persistence
       end
 
       def destroyed?
-        !!@_destroyed
+        !!_destroyed
       end
 
       def new_record?
@@ -32,7 +34,7 @@ module Persistence
       end
 
       def persisted?
-        !!@_persisted
+        !!_persisted
       end
 
       def reload
@@ -90,7 +92,10 @@ module Persistence
           &.reduce(&:merge)
           &.merge(graph: graph)
 
-        new(properties) if properties
+        return unless properties
+
+        new(properties)
+          .tap { |m| m._persisted = true }
       end
     end
   end
