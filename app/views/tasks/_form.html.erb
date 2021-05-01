@@ -9,7 +9,7 @@
     <%= f.hidden_field :status, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
     <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
       <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
-        <span class="pr-4" data-task-dropdown-target="title"><%= task.status.titleize %></span>
+        <span class="pr-4" style="font-family: Cantarell;" data-task-dropdown-target="title"><%= task.status.titleize %></span>
         <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
       </div>
     </div>

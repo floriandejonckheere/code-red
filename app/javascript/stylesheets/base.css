@@ -1,5 +1,9 @@
 @import 'tailwindcss/base';
 
+
+@import '@fontsource/cantarell'
+@import '@fontsource/cantarell/500.css'
+
 .turbo-progress-bar {
   height: 5px;
   background-color: darkred;

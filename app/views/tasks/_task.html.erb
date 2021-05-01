@@ -1,10 +1,6 @@
 <%= link_to edit_task_path(task.id), data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
   <div class="w-64 p-4 m-8 flex flex-col justify-between bg-white shadow-md rounded-sm border border-gray-200 hover:border-red-200 cursor-pointer">
-    <h1 class="text-gray-800 font-bold text-lg mb-2"><%= task.title %></h1>
-
-    <div class="text-gray-900 mb-2">
-      <%= task.description %>
-    </div>
+    <h1 class="text-gray-800 font-medium text-lg mb-2" style="font-family: Cantarell;"><%= task.title %></h1>
 
     <div class="flex justify-between pt-2 pr-2">
       <div class="flex items-center text-sm text-<%= color_for(task.type) %>">
