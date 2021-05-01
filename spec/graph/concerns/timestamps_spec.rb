@@ -3,8 +3,6 @@
 RSpec.describe Timestamps do
   subject(:node) { build(:node) }
 
-  it { is_expected.to have_attributes :created_at, :updated_at }
-
   describe "#created_at" do
     it "is empty when object has not been persisted" do
       expect(node.created_at).to be_nil

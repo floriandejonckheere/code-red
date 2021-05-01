@@ -9,7 +9,7 @@ RSpec.describe Graph do
 
   describe "#tasks" do
     it "returns a list of tasks" do
-      task = build(:task, graph: graph)
+      task = create(:task, graph: graph)
 
       expect(graph.tasks).to eq [task]
     end
