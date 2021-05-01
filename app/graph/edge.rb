@@ -7,6 +7,7 @@ class Edge
   include ActiveModel::Callbacks
 
   include Associations
+  include Persistence::Edge
 
   TYPES = %w(related_to blocked_by child_of).freeze
 
