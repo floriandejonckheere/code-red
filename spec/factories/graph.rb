@@ -12,6 +12,15 @@ FactoryBot.define do
     graph
   end
 
+  factory :edge, class: "Edge" do
+    type { Edge::TYPES.sample }
+
+    from { build(:node) }
+    to { build(:node) }
+
+    graph
+  end
+
   factory :task, parent: :node, class: "Task" do
     title { FFaker::Lorem.sentence(5) }
     description { FFaker::Lorem.sentence(20) }
