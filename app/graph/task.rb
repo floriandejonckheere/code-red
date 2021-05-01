@@ -9,7 +9,6 @@ class Task < Node
   attribute :deadline, :date
   attribute :status, :string, default: "todo"
   attribute :type, :string, default: "task"
-  attribute :user_id, :string
 
   association :user
 
