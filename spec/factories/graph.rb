@@ -9,6 +9,14 @@ FactoryBot.define do
     name { FFaker::Lorem.word }
   end
 
+  factory :dsl, class: "DSL" do
+    skip_create
+
+    initialize_with { DSL.new(graph) }
+
+    graph
+  end
+
   factory :node, class: "Node" do
     to_create(&:save)
 

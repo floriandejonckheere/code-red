@@ -14,6 +14,10 @@ class Graph < RedisGraph
       &.map { |result| Task.load(result.first.reduce(&:merge).merge(graph: self)) }
   end
 
+  def dsl
+    DSL.new(self)
+  end
+
   def inspect
     "#<Graph name=#{name}>"
   end
