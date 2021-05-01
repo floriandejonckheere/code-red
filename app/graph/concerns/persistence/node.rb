@@ -7,8 +7,6 @@ module Persistence
     included do
       define_model_callbacks :destroy, :save
 
-      attr_accessor :_persisted
-
       def destroy
         run_callbacks :destroy do
           return false unless !destroyed? && (persisted? || !id.nil?)
@@ -26,7 +24,7 @@ module Persistence
       end
 
       def destroyed?
-        !!_destroyed
+        !!@_destroyed
       end
 
       def new_record?
@@ -34,7 +32,11 @@ module Persistence
       end
 
       def persisted?
-        !!_persisted
+        !!@_persisted
+      end
+
+      def persist!
+        @_persisted = true
       end
 
       def reload
@@ -83,6 +85,10 @@ module Persistence
     end
 
     class_methods do
+      def load(...)
+        new.tap(&:persist!)
+      end
+
       def find(graph, id)
         properties = graph
           .query("MATCH (n:#{name} {id: '#{id}'}) RETURN n")
@@ -94,8 +100,7 @@ module Persistence
 
         return unless properties
 
-        new(properties)
-          .tap { |m| m._persisted = true }
+        load(properties)
       end
     end
   end
