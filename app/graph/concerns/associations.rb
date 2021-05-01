@@ -11,6 +11,8 @@ module Associations
 
   class_methods do
     def association(name, type = name)
+      associations[name] = type
+
       attribute :"#{name}_id", :string
 
       define_method(name) do
