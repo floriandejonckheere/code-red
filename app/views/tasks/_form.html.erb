@@ -110,8 +110,8 @@
   <div class="w-full mt-4 flex justify-between">
     <span class="text-gray-400 text-sm transition" data-autosave-target="status"></span>
 
-    <%= link_to "#", data: { action: "click->task#delete", id: task.id }, class: "w-32 p-2 text-center rounded-sm transition text-gray-600 text-red-400 hover:bg-red-100 hover:text-red-600" do %>
-      <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %> Delete task
+    <%= link_to task_path(id: task.id), method: :delete, data: { confirm: "Are you sure you want to permanently delete the task?" }, class: "p-2 inline-flex items-center rounded-sm transition text-gray-600 text-red-400 hover:bg-red-100 hover:text-red-600" do %>
+      <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %>
     <% end %>
   </div>
 <% end %>
