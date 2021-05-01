@@ -79,5 +79,19 @@ module Persistence
           other.id == id
       end
     end
+
+    class_methods do
+      def find(graph, id)
+        properties = graph
+          .query("MATCH (n:#{name} {id: '#{id}'}) RETURN n")
+          .resultset
+          .first
+          &.first
+          &.reduce(&:merge)
+          &.merge(graph: graph)
+
+        new(properties) if properties
+      end
+    end
   end
 end

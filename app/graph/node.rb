@@ -19,16 +19,4 @@ class Node
   def inspect
     "#<#{self.class.name} #{attributes.compact.map { |k, v| [k, v].join('=') }.join(' ')}>"
   end
-
-  def self.find(graph, id)
-    properties = graph
-      .query("MATCH (n:#{name} {id: '#{id}'}) RETURN n")
-      .resultset
-      .first
-      &.first
-      &.reduce(&:merge)
-      &.merge(graph: graph)
-
-    new(properties) if properties
-  end
 end

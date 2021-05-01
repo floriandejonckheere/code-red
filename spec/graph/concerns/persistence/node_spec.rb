@@ -121,4 +121,12 @@ RSpec.describe Persistence::Node do
       expect(node).to eq node
     end
   end
+
+  describe ".find" do
+    it "finds the node by id" do
+      node.save
+
+      expect(described_class.find(node.graph, node.id)).to eq node
+    end
+  end
 end
