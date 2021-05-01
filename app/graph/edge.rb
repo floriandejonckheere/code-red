@@ -13,8 +13,8 @@ class Edge
   attribute :graph
   attribute :type, :string, default: "related_to"
 
-  association :from, "Task"
-  association :to, "Task"
+  # TODO: use associations/attributes
+  attr_accessor :from, :to
 
   validates :graph,
             presence: true
