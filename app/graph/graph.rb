@@ -11,7 +11,7 @@ class Graph < RedisGraph
 
   def tasks
     Array(query("MATCH (n:Task) RETURN n").resultset)
-      &.map { |result| Task.new(result.first.reduce(&:merge).merge(graph: self)) }
+      &.map { |result| Task.load(result.first.reduce(&:merge).merge(graph: self)) }
   end
 
   def inspect
