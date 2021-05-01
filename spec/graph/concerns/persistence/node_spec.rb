@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Persistence do
+RSpec.describe Persistence::Node do
   subject(:node) { build(:node) }
 
   describe "#destroy" do

@@ -7,7 +7,7 @@ class Node
   include ActiveModel::Callbacks
 
   include Associations
-  include Persistence
+  include Persistence::Node
   include Timestamps
 
   attribute :graph
