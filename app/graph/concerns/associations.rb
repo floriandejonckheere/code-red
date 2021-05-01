@@ -10,10 +10,15 @@ module Associations
   end
 
   class_methods do
-    def association(name, type = name)
+    def association(name, type = name, optional: false)
       associations[name] = type
 
       attribute :"#{name}_id", :string
+
+      unless optional
+        validates :"#{name}_id",
+                  presence: true
+      end
 
       define_method(name) do
         id = send(:"#{name}_id")

@@ -10,7 +10,7 @@ class Task < Node
   attribute :status, :string, default: "todo"
   attribute :type, :string, default: "task"
 
-  association :user
+  association :user, optional: true
 
   validates :title,
             presence: true
