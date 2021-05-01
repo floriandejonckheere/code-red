@@ -86,7 +86,7 @@ module Persistence
 
     class_methods do
       def load(...)
-        new.tap(&:persist!)
+        new(...).tap(&:persist!)
       end
 
       def find(graph, id)
