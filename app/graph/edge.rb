@@ -8,7 +8,7 @@ class Edge
 
   include Associations
 
-  TYPES = %w(related_to blocks blocked_by parent_of child_of).freeze
+  TYPES = %w(related_to blocked_by child_of).freeze
 
   attribute :graph
   attribute :type, :string, default: "related_to"
