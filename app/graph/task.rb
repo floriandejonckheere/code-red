@@ -11,6 +11,8 @@ class Task < Node
   attribute :type, :string, default: "task"
   attribute :user_id, :string
 
+  association :user
+
   validates :title,
             presence: true
 

@@ -13,8 +13,6 @@ class Node
   attribute :graph
   attribute :id, :string
 
-  association :user
-
   validates :graph,
             presence: true
 
