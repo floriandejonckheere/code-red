@@ -3,16 +3,21 @@
 FactoryBot.define do
   factory :graph, class: "Graph" do
     initialize_with { Graph.new(name: name) }
+
     name { FFaker::Lorem.word }
   end
 
   factory :node, class: "Node" do
+    to_create(&:save)
+
     id { SecureRandom.uuid }
 
     graph
   end
 
   factory :edge, class: "Edge" do
+    to_create(&:save)
+
     type { Edge::TYPES.sample }
 
     from { build(:node) }
