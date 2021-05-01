@@ -9,7 +9,7 @@ module Persistence
 
       def destroy
         run_callbacks :destroy do
-          return false unless !destroyed? && (persisted? || !id.nil?)
+          return false unless !destroyed? && persisted?
 
           graph
             .query("MATCH (n:#{self.class.name} {id: '#{id}'}) DELETE n")
@@ -28,7 +28,7 @@ module Persistence
       end
 
       def new_record?
-        id.nil?
+        !persisted?
       end
 
       def persisted?
@@ -43,7 +43,7 @@ module Persistence
         return false unless persisted?
 
         graph
-          .query("MATCH (n:#{self.class.name} {id: '#{id}'} RETURN n")
+          .query("MATCH (n:#{self.class.name} {id: '#{id}'}) RETURN n")
           .resultset
           .first
           &.first

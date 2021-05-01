@@ -10,8 +10,6 @@ FactoryBot.define do
   factory :node, class: "Node" do
     to_create(&:save)
 
-    id { SecureRandom.uuid }
-
     graph
   end
 
@@ -20,8 +18,8 @@ FactoryBot.define do
 
     type { Edge::TYPES.sample }
 
-    from { build(:node) }
-    to { build(:node) }
+    from { create(:node, graph: graph) }
+    to { create(:node, graph: graph) }
 
     graph
   end

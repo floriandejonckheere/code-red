@@ -7,19 +7,19 @@ RSpec.describe Persistence::Node do
     it "destroys the node and returns true" do
       node.save
 
-      expect(described_class.find(node.id)).not_to be_nil
+      expect(Node.find(node.graph, node.id)).not_to be_nil
 
       expect(node.destroy).to eq true
 
-      expect(described_class.find(node.id)).to be_nil
+      expect(Node.find(node.graph, node.id)).to be_nil
     end
 
     it "returns false if the node was not destroyed" do
-      expect(described_class.find(node.id)).to be_nil
+      expect(Node.find(node.graph, node.id)).to be_nil
 
       expect(node.destroy).to eq false
 
-      expect(described_class.find(node.id)).to be_nil
+      expect(Node.find(node.graph, node.id)).to be_nil
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe Persistence::Node do
     it "returns false if the node was not destroyed" do
       node.destroy
 
-      expect(node).to be_destroyed
+      expect(node).not_to be_destroyed
     end
   end
 
@@ -52,26 +52,32 @@ RSpec.describe Persistence::Node do
   end
 
   describe "#persisted?" do
-    it "returns true if the record was not persisted yet" do
-      expect(node).to be_persisted
+    it "returns false if the record was not persisted yet" do
+      expect(node).not_to be_persisted
     end
 
-    it "returns false if the record was persisted" do
+    it "returns true if the record was persisted" do
       node.save
 
-      expect(node).not_to be_persisted
+      expect(node).to be_persisted
     end
 
     it "returns false if the record was destroyed" do
       node.save
-      node.delete
+      node.destroy
 
       expect(node).not_to be_persisted
     end
   end
 
   describe "#reload" do
-    xit "reloads the attributes"
+    it "reloads the attributes" do
+      node.save
+      node.created_at = nil
+
+      node.reload
+      expect(node.created_at).not_to be_nil
+    end
   end
 
   describe "#save" do
@@ -84,11 +90,11 @@ RSpec.describe Persistence::Node do
     end
 
     it "persists the node and returns true" do
-      expect(described_class.find(node.id)).to be_nil
+      expect(Node.find(node.graph, node.id)).to be_nil
 
       expect(node.save).to eq true
 
-      expect(described_class.find(node.id)).not_to be_nil
+      expect(Node.find(node.graph, node.id)).not_to be_nil
     end
 
     xit "returns false if the node was not persisted"
@@ -100,33 +106,11 @@ RSpec.describe Persistence::Node do
     xit "returns false if the node was not persisted"
   end
 
-  describe "#==" do
-    it "returns false when other is not a node" do
-      expect(node).not_to eq OpenStruct.new
-    end
-
-    it "returns false when it is not persisted" do
-      expect(node).not_to eq build(:node)
-    end
-
-    it "returns false when id is not equal" do
-      node.save
-
-      expect(node).not_to eq create(:node)
-    end
-
-    it "returns true when it is equal" do
-      node.save
-
-      expect(node).to eq node
-    end
-  end
-
   describe ".find" do
     it "finds the node by id" do
       node.save
 
-      found = described_class.find(node.graph, node.id)
+      found = Node.find(node.graph, node.id)
 
       expect(found).to eq node
       expect(found).to be_persisted
