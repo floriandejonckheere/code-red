@@ -10,8 +10,8 @@ module Associations
   end
 
   class_methods do
-    def association(name, type = name, optional: false)
-      associations[name] = type
+    def association(name, class_name = name, optional: false)
+      associations[name] = class_name
 
       attribute :"#{name}_id", :string
 
@@ -23,7 +23,7 @@ module Associations
       define_method(name) do
         id = send(:"#{name}_id")
 
-        type.to_s.camelize.constantize.find(id) if id.present?
+        class_name.to_s.camelize.constantize.find(id) if id.present?
       end
 
       define_method(:"#{name}=") do |model|
