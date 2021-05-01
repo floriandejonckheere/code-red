@@ -8,6 +8,7 @@ class Node
 
   include Associations
   include Persistence::Node
+  include Relationships
   include Timestamps
 
   attribute :graph

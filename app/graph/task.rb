@@ -12,6 +12,16 @@ class Task < Node
 
   association :user, optional: true
 
+  relationship :blocked_by
+  relationship :blocks,
+               inverse_of: :blocked_by
+
+  relationship :child_of
+  relationship :parent_of,
+               inverse_of: :parent_of
+
+  relationship :related_to
+
   validates :title,
             presence: true
 
