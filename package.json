@@ -10,6 +10,7 @@
     "tailwindcss-stimulus-components": "^2.2.0"
   },
   "devDependencies": {
+    "imports-loader": "1.1.0",
     "webpack-dev-server": "^3.11.2"
   }
 }
