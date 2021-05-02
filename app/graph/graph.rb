@@ -10,13 +10,17 @@ class Graph < RedisGraph
   end
 
   def tasks
-    Array(query("MATCH (n:Task) RETURN n").resultset)
-      &.map { |result| Task.load(result.first.reduce(&:merge).merge(graph: self)) }
+    match(:n, "Task")
+      .return(:n)
+      .execute
+      .map { |result| Task.load(result[:n].merge(graph: self)) }
   end
 
   def dsl
     DSL.new(self)
   end
+
+  delegate :match, :merge, to: :dsl
 
   def inspect
     "#<Graph name=#{name}>"

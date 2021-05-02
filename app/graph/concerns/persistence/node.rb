@@ -12,7 +12,9 @@ module Persistence
           return false unless !destroyed? && persisted?
 
           graph
-            .query("MATCH (n:#{self.class.name} {id: '#{id}'}) DELETE n")
+            .match(:n, self.class.name, id: id)
+            .delete(:n)
+            .execute
 
           @_destroyed = true
           @_persisted = false
@@ -42,13 +44,12 @@ module Persistence
       def reload
         return false unless persisted?
 
-        graph
-          .query("MATCH (n:#{self.class.name} {id: '#{id}'}) RETURN n")
-          .resultset
+        assign_attributes graph
+          .match(:n, self.class.name, id: id)
+          .return(:n)
+          .execute
           .first
-          &.first
-          &.reduce(:merge)
-          &.tap { |attributes| assign_attributes(attributes) }
+          &.fetch(:n)
 
         true
       end
@@ -59,13 +60,10 @@ module Persistence
 
           self.id ||= SecureRandom.uuid
 
-          properties = attributes
-            .except(:graph)
-            .map { |k, v| "n.#{k} = '#{v}'" }
-            .join(", ")
-
           graph
-            .query("MERGE (n:#{self.class.name} {id: '#{id}'}) SET #{properties}")
+            .merge(:n, self.class.name, id: id)
+            .set(**attributes.except(:graph))
+            .execute
 
           @_persisted = true
         end
@@ -90,17 +88,17 @@ module Persistence
       end
 
       def find(graph, id)
-        properties = graph
-          .query("MATCH (n:#{name} {id: '#{id}'}) RETURN n")
-          .resultset
+        attributes = graph
+          .match(:n, name, id: id)
+          .return(:n)
+          .execute
           .first
-          &.first
-          &.reduce(&:merge)
+          &.fetch(:n)
           &.merge(graph: graph)
 
-        return unless properties
+        return unless attributes
 
-        load(properties)
+        load(attributes)
       end
     end
   end
