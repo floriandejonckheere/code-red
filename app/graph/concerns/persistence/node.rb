@@ -47,7 +47,6 @@ module Persistence
         assign_attributes graph
           .match(:n, self.class.name, id: id)
           .return(:n)
-          .execute
           .first
           &.fetch(:n)
 
@@ -91,7 +90,6 @@ module Persistence
         attributes = graph
           .match(:n, name, id: id)
           .return(:n)
-          .execute
           .first
           &.fetch(:n)
           &.merge(graph: graph)

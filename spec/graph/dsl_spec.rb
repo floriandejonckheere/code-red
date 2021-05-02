@@ -32,7 +32,7 @@ RSpec.describe DSL do
         .return(:n)
 
       expect(query.to_cypher).to eq "MATCH (n:Task) RETURN n"
-      expect(query.execute)
+      expect(query)
         .to match_array [
           { n: including(id: task0.id) },
           { n: including(id: task1.id) },
@@ -45,7 +45,7 @@ RSpec.describe DSL do
         .return(:n)
 
       expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) RETURN n"
-      expect(query.execute)
+      expect(query)
         .to match_array [
           n: including(id: task0.id, title: task0.title),
         ]
@@ -58,7 +58,7 @@ RSpec.describe DSL do
         .return(:n, :m)
 
       expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}), (m:Task {id: '#{task1.id}'}) RETURN n, m"
-      expect(query.execute)
+      expect(query)
         .to match_array [
           {
             n: including(id: task0.id),
@@ -75,7 +75,7 @@ RSpec.describe DSL do
         .return(:n, :m, t: "type(r)")
 
       expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) -[r:related_to]-> (m) RETURN n, m, type(r) AS t"
-      expect(query.execute)
+      expect(query)
         .to match_array [
           {
             n: including(id: task0.id),
@@ -93,9 +93,9 @@ RSpec.describe DSL do
         .delete(:n)
 
       expect(query.to_cypher).to eq "MATCH (n) DELETE n"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute).to be_empty
+      expect(graph.dsl.match(:n).return(:n)).to be_empty
     end
 
     it "deletes nodes filtered on label" do
@@ -104,9 +104,9 @@ RSpec.describe DSL do
         .delete(:n)
 
       expect(query.to_cypher).to eq "MATCH (n:Task) DELETE n"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute)
+      expect(graph.dsl.match(:n).return(:n))
         .to match_array [
           n: including(id: node.id),
         ]
@@ -118,9 +118,9 @@ RSpec.describe DSL do
         .delete(:n)
 
       expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) DELETE n"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute)
+      expect(graph.dsl.match(:n).return(:n))
         .to match_array [
           { n: including(id: node.id) },
           { n: including(id: task1.id) },
@@ -135,9 +135,9 @@ RSpec.describe DSL do
         .delete(:r)
 
       expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) -[r:related_to]-> (m) DELETE r"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n, "Task", id: task0.id).to(:r, "related_to").match(:m).return(:n, :m, t: "type(r)").execute).to be_empty
+      expect(graph.dsl.match(:n, "Task", id: task0.id).to(:r, "related_to").match(:m).return(:n, :m, t: "type(r)")).to be_empty
     end
   end
 
@@ -148,9 +148,9 @@ RSpec.describe DSL do
         .set(title: "New title")
 
       expect(query.to_cypher).to eq "MATCH (n) SET n.title = 'New title'"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute)
+      expect(graph.dsl.match(:n).return(:n))
         .to match_array [
           { n: including(id: node.id, title: "New title") },
           { n: including(id: task0.id, title: "New title") },
@@ -164,9 +164,9 @@ RSpec.describe DSL do
         .set(title: "New title")
 
       expect(query.to_cypher).to eq "MATCH (n:Task) SET n.title = 'New title'"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute)
+      expect(graph.dsl.match(:n).return(:n))
         .to match_array [
           { n: including(id: node.id) },
           { n: including(id: task0.id, title: "New title") },
@@ -180,9 +180,9 @@ RSpec.describe DSL do
         .set(title: "New title")
 
       expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) SET n.title = 'New title'"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute)
+      expect(graph.dsl.match(:n).return(:n))
         .to match_array [
           { n: including(id: node.id) },
           { n: including(id: task0.id, title: "New title") },
@@ -198,9 +198,9 @@ RSpec.describe DSL do
         .set(title: "New title")
 
       expect(query.to_cypher).to eq "MERGE (n:Task {id: 'new_id'}) SET n.title = 'New title'"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute)
+      expect(graph.dsl.match(:n).return(:n))
         .to match_array [
           { n: including(id: node.id) },
           { n: including(id: task0.id, title: task0.title) },
@@ -215,9 +215,9 @@ RSpec.describe DSL do
         .set(title: "New title")
 
       expect(query.to_cypher).to eq "MERGE (n:Task {id: '#{task0.id}'}) SET n.title = 'New title'"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute)
+      expect(graph.dsl.match(:n).return(:n))
         .to match_array [
           { n: including(id: node.id) },
           { n: including(id: task0.id, title: "New title") },
@@ -234,9 +234,9 @@ RSpec.describe DSL do
         .merge(:m)
 
       expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}), (m:Node {id: '#{node.id}'}) MERGE (n) -[r:related_to]-> (m)"
-      expect(query.execute).to be_empty
+      expect(query).to be_empty
 
-      expect(graph.dsl.match(:n, "Task", id: task0.id).to(:r, "related_to").match(:m).return(:n, :m, t: "type(r)").execute)
+      expect(graph.dsl.match(:n, "Task", id: task0.id).to(:r, "related_to").match(:m, "Node").return(:n, :m, t: "type(r)"))
         .to match_array [
           {
             n: including(id: task0.id),

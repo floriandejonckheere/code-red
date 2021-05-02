@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DSL
+  include Enumerable
+
   attr_reader :graph, :clauses
   attr_accessor :names
 
@@ -83,7 +85,7 @@ class DSL
 
   # rubocop:disable Metrics/AbcSize
   def execute
-    Rails.logger.debug to_cypher
+    Rails.logger.debug "CYPHER #{graph.name} #{to_cypher}"
 
     result = graph
       .query(to_cypher)
@@ -96,6 +98,12 @@ class DSL
       .map { |r| names.index_with.with_index { |_name, i| r[i].respond_to?(:each) ? r[i].reduce(&:merge).symbolize_keys : r[i] } }
   end
   # rubocop:enable Metrics/AbcSize
+
+  delegate :each, to: :execute
+
+  def empty?
+    !any?
+  end
 
   def to_cypher
     clauses

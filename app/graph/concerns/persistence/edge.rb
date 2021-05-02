@@ -84,7 +84,6 @@ module Persistence
           .to(:r, type)
           .match(:m, to&.class&.name, **{ id: to&.id }.compact)
           .return(:n, :m, t: "type(r)")
-          .execute
           .map do |result|
           from = from.class.load(result[:n].merge(graph: graph))
           type = result[:t]

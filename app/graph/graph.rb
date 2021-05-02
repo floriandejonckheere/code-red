@@ -12,7 +12,6 @@ class Graph < RedisGraph
   def tasks
     match(:n, "Task")
       .return(:n)
-      .execute
       .map { |result| Task.load(result[:n].merge(graph: self)) }
   end
 
