@@ -1,5 +1,7 @@
 import { Controller } from "stimulus";
 
+import settings from "../graph/settings"
+
 export default class extends Controller {
   static targets = ["container"]
 
@@ -15,9 +17,7 @@ export default class extends Controller {
             container: this.containerTarget,
             type: "svg",
           },
-          settings: {
-            defaultNodeColor: "#ec5148",
-          },
+          settings: settings,
         })
 
         s.startForceAtlas2({
