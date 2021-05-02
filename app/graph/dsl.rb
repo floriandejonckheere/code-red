@@ -8,10 +8,12 @@ class DSL
     @graph = graph
 
     @query = []
-    @names = []
+    @names = Set.new
   end
 
   def match(name, label = nil, **attributes)
+    names << name
+
     label = ":#{label}" if label
     attributes = " {#{attributes.map { |k, v| "#{k}: '#{v}'" }.join(', ')}}" if attributes.any?
 
@@ -33,10 +35,16 @@ class DSL
     self.names += names
     query << "DELETE #{names.join(', ')}"
 
+    # TODO: return node when deleting
+
     self
   end
 
-  def merge(**attributes); end
+  def set(**attributes)
+    query << "SET #{names.flat_map { |n| attributes.map { |k, v| "#{n}.#{k} = '#{v}'" } }.join(', ')}"
+
+    self
+  end
 
   def execute
     Rails.logger.debug to_cypher

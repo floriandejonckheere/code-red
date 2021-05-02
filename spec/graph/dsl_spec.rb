@@ -73,6 +73,56 @@ RSpec.describe DSL do
     end
   end
 
+  describe "#set" do
+    it "sets properties on all nodes" do
+      query = dsl
+        .match(:n)
+        .set(title: "New title")
+
+      expect(query.to_cypher).to eq "MATCH (n) SET n.title = 'New title'"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n).return(:n).execute)
+        .to match_array [
+          { n: including(id: node.id, title: "New title") },
+          { n: including(id: task0.id, title: "New title") },
+          { n: including(id: task1.id, title: "New title") },
+        ]
+    end
+
+    it "sets properties on nodes filtered on label" do
+      query = dsl
+        .match(:n, "Task")
+        .set(title: "New title")
+
+      expect(query.to_cypher).to eq "MATCH (n:Task) SET n.title = 'New title'"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n).return(:n).execute)
+        .to match_array [
+          { n: including(id: node.id) },
+          { n: including(id: task0.id, title: "New title") },
+          { n: including(id: task1.id, title: "New title") },
+        ]
+    end
+
+    it "sets properties on a node" do
+      query = dsl
+        .match(:n, "Task", id: task0.id)
+        .set(title: "New title")
+
+      expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) SET n.title = 'New title'"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n).return(:n).execute)
+        .to match_array [
+          { n: including(id: node.id) },
+          { n: including(id: task0.id, title: "New title") },
+          { n: including(id: task1.id, title: task1.title) },
+        ]
+    end
+  end
+
   # dsl.match(:n, "Task", id: task.id).merge(title: "My task")
   #
   # dsl
