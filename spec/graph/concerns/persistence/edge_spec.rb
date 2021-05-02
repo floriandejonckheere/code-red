@@ -89,4 +89,16 @@ RSpec.describe Persistence::Edge do
       expect(Edge.where(edge.graph, from: edge.from, type: type, to: edge.to)).to be_empty
     end
   end
+
+  describe ".where" do
+    let(:graph) { build(:graph) }
+
+    let(:task0) { create(:task, graph: graph) }
+    let(:task1) { create(:task, graph: graph) }
+    let!(:edge) { create(:edge, graph: graph, from: task0, type: "related_to", to: task1) }
+
+    it "returns a node's edges" do
+      expect(Edge.where(graph, from: task0, type: "related_to", to: task1)).to eq [edge]
+    end
+  end
 end
