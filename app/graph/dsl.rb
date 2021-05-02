@@ -4,12 +4,15 @@ class DSL
   attr_reader :graph, :clauses
   attr_accessor :names
 
+  # Clause target for `.to` method (:match or :merge)
+  attr_writer :target
+
   def initialize(graph)
     @graph = graph
 
     @clauses = {
       match: MatchClause.new,
-      merge: Clause.new,
+      merge: MatchClause.new,
       return: ReturnClause.new,
       delete: Clause.new,
       set: Clause.new,
@@ -25,6 +28,9 @@ class DSL
 
     clauses[:match] << "(#{name}#{label.presence}#{attributes.presence})"
 
+    # Set clause target
+    self.target = :match
+
     self
   end
 
@@ -36,13 +42,16 @@ class DSL
 
     clauses[:merge] << "(#{name}#{label.presence}#{attributes.presence})"
 
+    # Set clause target
+    self.target = :merge
+
     self
   end
 
   def to(name, label = nil)
     label = ":#{label}" if label
 
-    clauses[:match] << "-[#{name}#{label}]->"
+    clauses[target] << "-[#{name}#{label}]->"
 
     self
   end
@@ -80,6 +89,7 @@ class DSL
       .query(to_cypher)
       .resultset
 
+    # TODO: check `stats` and return true/false
     return [] unless result
 
     result
@@ -91,6 +101,12 @@ class DSL
     clauses
       .filter_map { |k, v| "#{k.upcase} #{v.to_query}" if v.present? }
       .join(" ")
+  end
+
+  private
+
+  def target
+    @target || raise(ArgumentError, "method `to` without preceding `match` or `merge` not allowed")
   end
 
   # Simple clause: join elements with space

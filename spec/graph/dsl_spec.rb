@@ -224,5 +224,26 @@ RSpec.describe DSL do
           { n: including(id: task1.id, title: task1.title) },
         ]
     end
+
+    it "merges a relationship if it does not exist" do
+      query = dsl
+        .match(:n, "Task", id: task0.id)
+        .match(:m, "Node", id: node.id)
+        .merge(:n)
+        .to(:r, "related_to")
+        .merge(:m)
+
+      expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}), (m:Node {id: '#{node.id}'}) MERGE (n) -[r:related_to]-> (m)"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n, "Task", id: task0.id).to(:r, "related_to").match(:m).return(:n, :m, t: "type(r)").execute)
+        .to match_array [
+          {
+            n: including(id: task0.id),
+            t: "related_to",
+            m: including(id: node.id),
+          },
+        ]
+    end
   end
 end
