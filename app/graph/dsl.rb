@@ -29,17 +29,26 @@ class DSL
     self
   end
 
-  def delete(*names); end
+  def delete(*names)
+    self.names += names
+    query << "DELETE #{names.join(', ')}"
+
+    self
+  end
 
   def merge(**attributes); end
 
   def execute
     Rails.logger.debug to_cypher
 
-    graph
+    result = graph
       .query(to_cypher)
       .resultset
-      .map { |result| names.index_with.with_index { |_name, i| result[i].reduce(&:merge).symbolize_keys } }
+
+    return [] unless result
+
+    result
+      .map { |r| names.index_with.with_index { |_name, i| r[i].reduce(&:merge).symbolize_keys } }
   end
 
   def to_cypher

@@ -48,6 +48,9 @@ Rails/Output:
   Exclude:
     - db/seeds/**/*
 
+RSpec/ExampleLength:
+  Enabled: false
+
 RSpec/FilePath:
   Enabled: false
 

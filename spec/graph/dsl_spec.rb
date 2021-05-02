@@ -1,40 +1,78 @@
 # frozen_string_literal: true
 
 RSpec.describe DSL do
-  subject(:dsl) { build(:dsl) }
+  subject(:dsl) { build(:dsl, graph: graph) }
 
-  let!(:node) { create(:node, graph: dsl.graph) }
-  let!(:task0) { create(:task, graph: dsl.graph) }
-  let!(:task1) { create(:task, graph: dsl.graph) }
+  let(:graph) { build(:graph) }
 
-  it "returns all nodes" do
-    query = dsl
-      .match(:n)
-      .return(:n)
+  let!(:node) { create(:node, graph: graph) }
+  let!(:task0) { create(:task, graph: graph) }
+  let!(:task1) { create(:task, graph: graph) }
 
-    expect(query.to_cypher).to eq "MATCH (n) RETURN n"
-    expect(query.execute).to match_array [{ n: including(id: node.id) }, { n: including(id: task0.id) }, { n: including(id: task1.id) }]
+  describe "#return" do
+    it "returns all nodes" do
+      query = dsl
+        .match(:n)
+        .return(:n)
+
+      expect(query.to_cypher).to eq "MATCH (n) RETURN n"
+      expect(query.execute).to match_array [{ n: including(id: node.id) }, { n: including(id: task0.id) }, { n: including(id: task1.id) }]
+    end
+
+    it "returns nodes filtered on label" do
+      query = dsl
+        .match(:n, "Task")
+        .return(:n)
+
+      expect(query.to_cypher).to eq "MATCH (n:Task) RETURN n"
+      expect(query.execute).to match_array [{ n: including(id: task0.id) }, { n: including(id: task1.id) }]
+    end
+
+    it "returns a node" do
+      query = dsl
+        .match(:n, "Task", id: task0.id)
+        .return(:n)
+
+      expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) RETURN n"
+      expect(query.execute).to match_array [n: including(id: task0.id, title: task0.title)]
+    end
   end
 
-  it "returns nodes filtered on label" do
-    query = dsl
-      .match(:n, "Task")
-      .return(:n)
+  describe "#delete" do
+    it "deletes all nodes" do
+      query = dsl
+        .match(:n)
+        .delete(:n)
 
-    expect(query.to_cypher).to eq "MATCH (n:Task) RETURN n"
-    expect(query.execute).to match_array [{ n: including(id: task0.id) }, { n: including(id: task1.id) }]
+      expect(query.to_cypher).to eq "MATCH (n) DELETE n"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n).return(:n).execute).to be_empty
+    end
+
+    it "deletes nodes filtered on label" do
+      query = dsl
+        .match(:n, "Task")
+        .delete(:n)
+
+      expect(query.to_cypher).to eq "MATCH (n:Task) DELETE n"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n).return(:n).execute).to match_array [{ n: including(id: node.id) }]
+    end
+
+    it "deletes a node" do
+      query = dsl
+        .match(:n, "Task", id: task0.id)
+        .delete(:n)
+
+      expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) DELETE n"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n).return(:n).execute).to match_array [{ n: including(id: node.id) }, { n: including(id: task1.id) }]
+    end
   end
 
-  it "returns a node" do
-    query = dsl
-      .match(:n, "Task", id: task0.id)
-      .return(:n)
-
-    expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) RETURN n"
-    expect(query.execute).to match_array [n: including(id: task0.id, title: task0.title)]
-  end
-
-  # dsl.match(:n, "Task", id: task.id).delete(:n)
   # dsl.match(:n, "Task", id: task.id).merge(title: "My task")
   #
   # dsl
