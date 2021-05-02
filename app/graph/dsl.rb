@@ -22,6 +22,17 @@ class DSL
     self
   end
 
+  def merge(name, label = nil, **attributes)
+    names << name
+
+    label = ":#{label}" if label
+    attributes = " {#{attributes.map { |k, v| "#{k}: '#{v}'" }.join(', ')}}" if attributes.any?
+
+    query << "MERGE (#{name}#{label.presence}#{attributes.presence})"
+
+    self
+  end
+
   def to(name, label); end
 
   def return(*names)

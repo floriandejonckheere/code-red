@@ -142,8 +142,41 @@ RSpec.describe DSL do
     end
   end
 
-  # dsl.match(:n, "Task", id: task.id).merge(title: "My task")
-  #
+  describe "#merge" do
+    it "creates a node if it does not exist" do
+      query = dsl
+        .merge(:n, "Task", id: "new_id")
+        .set(title: "New title")
+
+      expect(query.to_cypher).to eq "MERGE (n:Task {id: 'new_id'}) SET n.title = 'New title'"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n).return(:n).execute)
+        .to match_array [
+          { n: including(id: node.id) },
+          { n: including(id: task0.id, title: task0.title) },
+          { n: including(id: task1.id, title: task1.title) },
+          { n: including(id: "new_id", title: "New title") },
+        ]
+    end
+
+    it "merges a node if it exists" do
+      query = dsl
+        .merge(:n, "Task", id: task0.id)
+        .set(title: "New title")
+
+      expect(query.to_cypher).to eq "MERGE (n:Task {id: '#{task0.id}'}) SET n.title = 'New title'"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n).return(:n).execute)
+        .to match_array [
+          { n: including(id: node.id) },
+          { n: including(id: task0.id, title: "New title") },
+          { n: including(id: task1.id, title: task1.title) },
+        ]
+    end
+  end
+
   # dsl
   #   .match(:n, "Task", id: task.id)
   #   .to(:r, "related_to")
