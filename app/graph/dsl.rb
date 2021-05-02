@@ -13,9 +13,9 @@ class DSL
     @graph = graph
 
     @clauses = {
-      match: MatchClause.new,
-      merge: MatchClause.new,
-      return: ReturnClause.new,
+      match: Clause::Match.new,
+      merge: Clause::Match.new,
+      return: Clause::Return.new,
       delete: Clause.new,
       set: Clause.new,
     }
@@ -115,41 +115,5 @@ class DSL
 
   def target
     @target || raise(ArgumentError, "method `to` without preceding `match` or `merge` not allowed")
-  end
-
-  # Simple clause: join elements with space
-  class Clause < Array
-    def to_query
-      join(" ")
-    end
-
-    def +(other)
-      self.class.new(super)
-    end
-  end
-
-  # Match clause: join nodes with comma, and relationships between nodes with spaces:
-  # [(n), (m)] => MATCH (n), (m)
-  # [(n), -[r]->, (m)] => MATCH (n) -[r]-> (m)
-  class MatchClause < Clause
-    def to_query
-      # Determine separators: if previous element ends with '>' or next element
-      # starts with '-', use space as separator, otherwise use comma space
-      separators = each_cons(2).map do |one, two|
-        next " " if one.ends_with?(">") || two.starts_with?("-")
-
-        ", "
-      end
-
-      # Zip query elements with separators and compact (because there are n - 1 separators)
-      zip(separators).flatten.compact.join
-    end
-  end
-
-  # Return clause: join nodes with comma
-  class ReturnClause < Clause
-    def to_query
-      join(", ")
-    end
   end
 end
