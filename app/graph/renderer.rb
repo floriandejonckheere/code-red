@@ -21,8 +21,8 @@ class Renderer
       {
         id: task.id,
         label: task.title,
-        x: 0,
-        y: 0,
+        x: rand(0..10),
+        y: rand(0..10),
         size: 3,
       }
     end

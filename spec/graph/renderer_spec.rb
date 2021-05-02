@@ -14,8 +14,8 @@ RSpec.describe Renderer do
     it "returns a list of nodes" do
       expect(renderer.to_h.fetch(:nodes))
         .to match_array [
-          { id: task0.id, label: task0.title, x: 0, y: 0, size: 3 },
-          { id: task1.id, label: task1.title, x: 0, y: 0, size: 3 },
+          { id: task0.id, label: task0.title, x: a_kind_of(Integer), y: a_kind_of(Integer), size: 3 },
+          { id: task1.id, label: task1.title, x: a_kind_of(Integer), y: a_kind_of(Integer), size: 3 },
         ]
     end
   end
