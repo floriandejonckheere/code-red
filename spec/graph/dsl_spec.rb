@@ -16,7 +16,12 @@ RSpec.describe DSL do
         .return(:n)
 
       expect(query.to_cypher).to eq "MATCH (n) RETURN n"
-      expect(query.execute).to match_array [{ n: including(id: node.id) }, { n: including(id: task0.id) }, { n: including(id: task1.id) }]
+      expect(query.execute)
+        .to match_array [
+          { n: including(id: node.id) },
+          { n: including(id: task0.id) },
+          { n: including(id: task1.id) },
+        ]
     end
 
     it "returns nodes filtered on label" do
@@ -25,7 +30,11 @@ RSpec.describe DSL do
         .return(:n)
 
       expect(query.to_cypher).to eq "MATCH (n:Task) RETURN n"
-      expect(query.execute).to match_array [{ n: including(id: task0.id) }, { n: including(id: task1.id) }]
+      expect(query.execute)
+        .to match_array [
+          { n: including(id: task0.id) },
+          { n: including(id: task1.id) },
+        ]
     end
 
     it "returns a node" do
@@ -34,7 +43,10 @@ RSpec.describe DSL do
         .return(:n)
 
       expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) RETURN n"
-      expect(query.execute).to match_array [n: including(id: task0.id, title: task0.title)]
+      expect(query.execute)
+        .to match_array [
+          n: including(id: task0.id, title: task0.title),
+        ]
     end
   end
 
@@ -58,7 +70,10 @@ RSpec.describe DSL do
       expect(query.to_cypher).to eq "MATCH (n:Task) DELETE n"
       expect(query.execute).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute).to match_array [{ n: including(id: node.id) }]
+      expect(graph.dsl.match(:n).return(:n).execute)
+        .to match_array [
+          n: including(id: node.id),
+        ]
     end
 
     it "deletes a node" do
@@ -69,7 +84,11 @@ RSpec.describe DSL do
       expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) DELETE n"
       expect(query.execute).to be_empty
 
-      expect(graph.dsl.match(:n).return(:n).execute).to match_array [{ n: including(id: node.id) }, { n: including(id: task1.id) }]
+      expect(graph.dsl.match(:n).return(:n).execute)
+        .to match_array [
+          { n: including(id: node.id) },
+          { n: including(id: task1.id) },
+        ]
     end
   end
 
