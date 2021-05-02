@@ -9,6 +9,8 @@ RSpec.describe DSL do
   let!(:task0) { create(:task, graph: graph) }
   let!(:task1) { create(:task, graph: graph) }
 
+  before { create(:edge, graph: graph, from: task0, type: "related_to", to: task1) }
+
   describe "#return" do
     it "returns all nodes" do
       query = dsl
@@ -46,6 +48,40 @@ RSpec.describe DSL do
       expect(query.execute)
         .to match_array [
           n: including(id: task0.id, title: task0.title),
+        ]
+    end
+
+    it "returns multiple nodes" do
+      query = dsl
+        .match(:n, "Task", id: task0.id)
+        .match(:m, "Task", id: task1.id)
+        .return(:n, :m)
+
+      expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}), (m:Task {id: '#{task1.id}'}) RETURN n, m"
+      expect(query.execute)
+        .to match_array [
+          {
+            n: including(id: task0.id),
+            m: including(id: task1.id),
+          },
+        ]
+    end
+
+    it "returns a node's relationships" do
+      query = dsl
+        .match(:n, "Task", id: task0.id)
+        .to(:r, "related_to")
+        .match(:m)
+        .return(:n, :m, t: "type(r)")
+
+      expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) -[r:related_to]-> (m) RETURN n, m, type(r) AS t"
+      expect(query.execute)
+        .to match_array [
+          {
+            n: including(id: task0.id),
+            t: "related_to",
+            m: including(id: task1.id),
+          },
         ]
     end
   end
@@ -177,11 +213,6 @@ RSpec.describe DSL do
     end
   end
 
-  # dsl
-  #   .match(:n, "Task", id: task.id)
-  #   .to(:r, "related_to")
-  #   .match(:m, "Task", id: task.id)
-  #   .return(:n, "type(r)", :m)
   #
   # dsl
   #   .match(:n, "Task", id: task.id)
