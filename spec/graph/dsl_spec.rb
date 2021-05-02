@@ -126,6 +126,19 @@ RSpec.describe DSL do
           { n: including(id: task1.id) },
         ]
     end
+
+    it "deletes a node's relationships" do
+      query = dsl
+        .match(:n, "Task", id: task0.id)
+        .to(:r, "related_to")
+        .match(:m)
+        .delete(:r)
+
+      expect(query.to_cypher).to eq "MATCH (n:Task {id: '#{task0.id}'}) -[r:related_to]-> (m) DELETE r"
+      expect(query.execute).to be_empty
+
+      expect(graph.dsl.match(:n, "Task", id: task0.id).to(:r, "related_to").match(:m).return(:n, :m, t: "type(r)").execute).to be_empty
+    end
   end
 
   describe "#set" do
@@ -212,17 +225,4 @@ RSpec.describe DSL do
         ]
     end
   end
-
-  #
-  # dsl
-  #   .match(:n, "Task", id: task.id)
-  #   .to(:r, "related_to")
-  #   .match(:m, "Task", id: task.id)
-  #   .delete(:r)
-  #
-  # dsl
-  #   .match(:n, "Task", id: task.id)
-  #   .to(:r, "related_to")
-  #   .match(:m, "Task", id: task.id)
-  #   .merge()
 end
