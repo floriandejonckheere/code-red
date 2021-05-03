@@ -77,7 +77,7 @@ export default {
   //          Available values: "node", "default"
   labelHoverBGColor: "default",
   // {string}
-  defaultHoverLabelBGColor: "#fff",
+  defaultHoverLabelBGColor: "rgba(0, 0, 0, 0)",
   // {string} Indicates how to choose the hovered labels color.
   //          Available values: "node", "default"
   labelHoverColor: "default",
@@ -160,9 +160,9 @@ export default {
   //          user zooms by double clicking.
   doubleClickZoomingRatio: 2.2,
   // {number} The minimum zooming level.
-  zoomMin: 0.0625,
+  zoomMin: 1,
   // {number} The maximum zooming level.
-  zoomMax: 2,
+  zoomMax: 1,
   // {number} The duration of animations following a mouse scrolling.
   mouseZoomDuration: 200,
   // {number} The duration of animations following a mouse double click.
