@@ -21,11 +21,6 @@ application.register('toggle', Toggle)
 application.register('slideover', Slideover)
 
 // Import Sigma
-// const sigma = require("sigma");
-// (window).sigma = sigma;
-
-// require("sigma/build/plugins/sigma.layout.forceAtlas2.min");
-
 import sigma from 'sigma'
 
 import "sigma/build/plugins/sigma.layout.forceAtlas2.min"
