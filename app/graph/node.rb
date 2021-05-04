@@ -9,6 +9,7 @@ class Node
   include Associations
   include Persistence::Node
   include Relationships
+  include RichText
   include Timestamps
 
   attribute :graph
