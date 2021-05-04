@@ -7,7 +7,6 @@ module Persistence
     included do
       define_model_callbacks :destroy, :save
 
-      # rubocop:disable Metrics/AbcSize
       def destroy
         run_callbacks :destroy do
           return false unless !destroyed? && persisted?
@@ -27,7 +26,6 @@ module Persistence
           true
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       def destroyed?
         !!@_destroyed
@@ -45,7 +43,6 @@ module Persistence
         @_persisted = true
       end
 
-      # rubocop:disable Metrics/AbcSize
       def save
         run_callbacks :save do
           return false unless valid?
@@ -61,7 +58,6 @@ module Persistence
           @_persisted = true
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       def update(attributes)
         assign_attributes(attributes)
@@ -83,7 +79,6 @@ module Persistence
         new(...).tap(&:persist!)
       end
 
-      # rubocop:disable Metrics/AbcSize
       def where(graph, from: nil, type: nil, to: nil)
         graph
           .match(:n, from&.class&.name, **{ id: from&.id }.compact)
@@ -98,7 +93,6 @@ module Persistence
           load(graph: graph, from: from, type: type, to: to)
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       def find(...)
         where(...).first

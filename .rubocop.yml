@@ -29,6 +29,7 @@ Lint/SafeNavigationWithEmpty:
   Enabled: false
 
 Metrics/AbcSize:
+  Max: 30
   Exclude:
     - db/migrate/*
 

@@ -83,7 +83,6 @@ class DSL
     self
   end
 
-  # rubocop:disable Metrics/AbcSize
   def execute
     Rails.logger.debug "CYPHER #{graph.name} #{to_cypher}"
 
@@ -97,8 +96,6 @@ class DSL
     result
       .map { |r| names.index_with.with_index { |_name, i| r[i].respond_to?(:each) ? r[i].reduce(&:merge).symbolize_keys : r[i] } }
   end
-  # rubocop:enable Metrics/AbcSize
-
   delegate :each, to: :execute
 
   def empty?
