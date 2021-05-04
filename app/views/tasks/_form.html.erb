@@ -105,11 +105,11 @@
     </div>
   </div>
 
-  <%= f.text_area :description,
-                  placeholder: "Description of your task...",
-                  class: "w-full h-28 mt-4 text-gray-900 resize-none transition hover:bg-gray-100 focus:outline-none",
-                  data: { action: "blur->autosave#save" },
-                  autocomplete: "off"
+  <%= f.rich_text_area :description,
+                       placeholder: "Description of your task...",
+                       class: "w-full h-28 mt-4 text-gray-900 resize-none transition hover:bg-gray-100 focus:outline-none",
+                       # data: { action: "blur->autosave#save" },
+                       autocomplete: "off"
   %>
 
   <% task.relationships.each_key do |relationship_type| %>
