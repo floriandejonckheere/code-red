@@ -27,5 +27,18 @@ module Relationships
         end
       end
     end
+
+    # Invert relationship if necessary (e.g. blocks => blocked_by)
+    def invert(from: nil, type: nil, to: nil)
+      inverse_of = relationships.dig(type.to_sym, :inverse_of)
+
+      if inverse_of
+        from, to = to, from
+
+        type = inverse_of
+      end
+
+      { from: from, type: type, to: to }
+    end
   end
 end
