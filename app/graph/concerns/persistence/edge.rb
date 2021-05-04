@@ -63,6 +63,12 @@ module Persistence
       end
       # rubocop:enable Metrics/AbcSize
 
+      def update(attributes)
+        assign_attributes(attributes)
+
+        save
+      end
+
       def ==(other)
         other.instance_of?(self.class) &&
           persisted? &&
@@ -93,6 +99,10 @@ module Persistence
         end
       end
       # rubocop:enable Metrics/AbcSize
+
+      def find(...)
+        where(...).first
+      end
     end
   end
 end
