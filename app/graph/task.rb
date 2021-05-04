@@ -18,7 +18,7 @@ class Task < Node
 
   relationship :child_of
   relationship :parent_of,
-               inverse_of: :parent_of
+               inverse_of: :child_of
 
   relationship :related_to
 
