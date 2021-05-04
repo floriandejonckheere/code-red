@@ -3,3 +3,9 @@
 @import '../stylesheets/notifications.scss';
 @import '../stylesheets/utilities.scss';
 @import '../stylesheets/rich_text.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Cantarell:wght@400;700&display=swap');
+
+#modal-background {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
