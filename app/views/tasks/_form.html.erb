@@ -32,7 +32,7 @@
 
   <%= f.text_field :title,
                    placeholder: "New task",
-                   class: "w-full font-bold text-3xl text-gray-900 transition hover:bg-gray-100 focus:outline-none #{'bg-red-100' if task.errors[:title].any?}",
+                   class: "w-full font-bold rounded p-1 px-2 text-3xl text-gray-900 transition border border-transparent hover:border-gray-300 focus:outline-none #{'bg-red-100' if task.errors[:title].any?}",
                    data: { action: "blur->autosave#save" },
                    autocomplete: "off"
   %>
@@ -107,7 +107,7 @@
 
   <%= f.rich_text_area :description,
                        placeholder: "Description of your task...",
-                       class: "w-full h-28 mt-4 text-gray-900 resize-none transition hover:bg-gray-100 focus:outline-none",
+                       class: "w-full h-28 mt-4 p-1 px-2 rounded text-gray-900 resize-none transition  border border-transparent hover:border-gray-300 focus:outline-none",
                        # data: { action: "blur->autosave#save" },
                        autocomplete: "off"
   %>

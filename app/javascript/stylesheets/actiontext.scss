@@ -34,3 +34,11 @@
     }
   }
 }
+
+.trix-button-group {
+  @apply bg-red-100;
+}
+
+.trix-button {
+  @apply bg-red-200 rounded-sm p-1 text-sm hover:bg-gray-200;
+}
