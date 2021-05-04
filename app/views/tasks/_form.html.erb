@@ -34,6 +34,7 @@
                    placeholder: "New task",
                    class: "w-full font-bold rounded p-1 px-2 text-3xl text-gray-900 transition border border-transparent hover:border-gray-300 focus:outline-none #{'bg-red-100' if task.errors[:title].any?}",
                    data: { action: "blur->autosave#save" },
+                   style: "font-family: Cantarell, sans-serif;",
                    autocomplete: "off"
   %>
 
@@ -106,35 +107,35 @@
   </div>
 
   <div data-controller="rich-text" class="my-4 p-4 pb-2 rounded border border-white hover:border-gray-200">
-    <%= f.hidden_field task.description, data: { rich_text_target: "hidden" } %>
+    <%= f.hidden_field :description, data: { action: "change->autosave#save", rich_text_target: "hidden" } %>
     <div data-rich-text-target="container">
       <%= raw(task.description) %>
     </div>
 
-    <div class="mt-4" data-rich-text-target="toolbar">
+    <div class="mt-8 text-gray-400 text-sm" data-rich-text-target="toolbar">
       <button class="rich-text-button ql-bold">
-        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+        <span class="collecticon collecticon-bold w-3 h-3"></span>
       </button>
       <button class="rich-text-button ql-italic">
-        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+        <span class="collecticon collecticon-italic w-3 h-3"></span>
       </button>
       <button class="rich-text-button ql-underline">
-        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+        <span class="collecticon collecticon-underline w-3 h-3"></span>
       </button>
       <button class="rich-text-button ql-strike">
-        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+        <span class="collecticon collecticon-minus w-3 h-3"></span>
       </button>
       <button class="rich-text-button ql-list" value="bullet" type="button">
-        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+        <span class="collecticon collecticon-list w-3 h-3"></span>
       </button>
       <button class="rich-text-button ql-list" value="ordered" type="button">
-        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+        <span class="collecticon collecticon-list-numbered w-3 h-3"></span>
       </button>
       <button class="rich-text-button ql-blockquote">
-        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+        <span class="collecticon collecticon-quote-right w-3 h-3"></span>
       </button>
       <button class="rich-text-button ql-code-block">
-        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+        <span class="collecticon collecticon-pi w-3 h-3"></span>
       </button>
     </div>
   </div>

@@ -11,10 +11,13 @@ export default class extends Controller {
 
   quillInit() {
     const quill = new Quill(this.containerTarget, this.quillOption)
-    let _this = this
+    let self = this
 
     quill.on('text-change', function(delta) {
-      _this.hiddenTarget.value = quill.root.innerHTML
+      self.hiddenTarget.value = quill.root.innerHTML
+
+      // Dispatch change event, so autosave triggers
+      self.hiddenTarget.dispatchEvent(new Event('change'))
     })
   }
 
