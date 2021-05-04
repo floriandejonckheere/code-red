@@ -1,5 +1,7 @@
 @import 'tailwindcss/base';
 
+@import url('https://fonts.googleapis.com/css2?family=Cantarell:wght@400;700&display=swap');
+
 .turbo-progress-bar {
   height: 5px;
   background-color: darkred;
