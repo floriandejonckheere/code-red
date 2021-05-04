@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root "application#index"
 
   resources :tasks
+  resources :relationships, only: [:create, :destroy]
 end
 
 # == Route Map
@@ -20,6 +21,8 @@ end
 #                                          PATCH  /tasks/:id(.:format)                                                                              tasks#update
 #                                          PUT    /tasks/:id(.:format)                                                                              tasks#update
 #                                          DELETE /tasks/:id(.:format)                                                                              tasks#destroy
+#                            relationships POST   /relationships(.:format)                                                                          relationships#create
+#                             relationship DELETE /relationships/:id(.:format)                                                                      relationships#destroy
 #         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh

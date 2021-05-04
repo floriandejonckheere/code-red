@@ -45,10 +45,6 @@ class TasksController < ApplicationController
 
   private
 
-  def graph
-    @graph ||= Graph.new(name: "default")
-  end
-
   def set_task
     @task = Task.find(graph, params[:id])
   end
