@@ -1,21 +1,21 @@
-import { Controller } from "stimulus";
+import { Controller } from 'stimulus';
 
-import settings from "../graph/settings"
+import settings from '../graph/settings'
 
 export default class extends Controller {
-  static targets = ["container"]
+  static targets = ['container']
 
   connect() {
     super.connect()
 
-    fetch("/tasks.json")
+    fetch('/tasks.json')
       .then(response => response.json())
       .then(json => {
         const s = new sigma({
           graph: json,
           renderer: {
             container: this.containerTarget,
-            type: "svg",
+            type: 'svg',
           },
           settings: settings,
         })
@@ -24,7 +24,7 @@ export default class extends Controller {
           linLogMode: false, // switch ForceAtlas' model from lin-lin to lin-log (tribute to Andreas Noack). Makes clusters more tight.
           outboundAttractionDistribution: false,
           adjustSizes: false,
-          edgeWeightInfluence: 0, // how much influence you give to the edges weight. 0 is "no influence" and 1 is "normal".
+          edgeWeightInfluence: 0, // how much influence you give to the edges weight. 0 is 'no influence' and 1 is 'normal'.
           scalingRatio: 1, // how much repulsion you want. More makes a more sparse graph.
           strongGravityMode: false,
           gravity: 1, // attracts nodes to the center. Prevents islands from drifting away.

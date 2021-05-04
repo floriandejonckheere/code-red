@@ -1,7 +1,7 @@
-import { Controller } from "stimulus";
+import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = ["menu", "title", "value"]
+  static targets = ['menu', 'title', 'value']
 
   static values = {
     // Dropdown state
@@ -26,7 +26,7 @@ export default class extends Controller {
     this.titleTarget.innerHTML = e.currentTarget.innerHTML
 
     // Dispatch change event, so autosave triggers
-    this.valueTarget.dispatchEvent(new Event("change"))
+    this.valueTarget.dispatchEvent(new Event('change'))
   }
 
   openValueChanged() {
@@ -35,13 +35,13 @@ export default class extends Controller {
 
   _show() {
     setTimeout(() => {
-      this.menuTarget.classList.remove("hidden")
+      this.menuTarget.classList.remove('hidden')
     })
   }
 
   _hide() {
     setTimeout(() => {
-      this.menuTarget.classList.add("hidden")
+      this.menuTarget.classList.add('hidden')
     })
   }
 }
