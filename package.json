@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@hotwired/turbo-rails": "^7.0.0-beta.5",
-    "@rails/actiontext": "^6.1.3-1",
     "@rails/ujs": "^6.1.3-1",
     "@rails/webpacker": "5.2.1",
     "quill": "^1.3.7",
@@ -10,8 +9,7 @@
     "sigma": "1.2.1",
     "stimulus": "^2.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "tailwindcss-stimulus-components": "^2.2.0",
-    "trix": "^1.2.0"
+    "tailwindcss-stimulus-components": "^2.2.0"
   },
   "devDependencies": {
     "imports-loader": "1.1.0",
