@@ -1,0 +1,43 @@
+.ql-clipboard {
+  @apply hidden;
+}
+
+.ql-editor {
+  @apply focus:outline-none;
+
+  font-family: Cantarell, sans-serif;
+}
+
+.ql-container {
+  @apply whitespace-pre-wrap p-0;
+
+  ol {
+    @apply list-inside list-decimal py-3;
+  }
+
+  ul {
+    @apply list-inside list-disc py-3;
+  }
+
+  blockquote {
+    @apply bg-gray-50 border-l border-indigo-200 p-2;
+  }
+
+  pre {
+    @apply bg-gray-50 p-2 my-2 text-sm;
+  }
+}
+
+@layer components {
+  .rich-text-button {
+    @apply hover:bg-gray-100 rounded p-2;
+
+    &.ql-active {
+      @apply bg-gray-100;
+    }
+
+  }
+  .rich-text-icon {
+    @apply w-3 h-3 text-gray-600;
+  }
+}

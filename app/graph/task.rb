@@ -4,9 +4,10 @@ class Task < Node
   STATUSES = %w(todo in_progress review done).freeze
   TYPES = %w(task epic idea bug feature goal).freeze
 
-  rich_text :description
+  # rich_text :description
 
   attribute :title, :string
+  attribute :description, :string
   attribute :deadline, :date
   attribute :status, :string, default: "todo"
   attribute :type, :string, default: "task"

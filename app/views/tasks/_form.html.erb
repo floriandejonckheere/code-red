@@ -105,7 +105,41 @@
     </div>
   </div>
 
-  <%= f.rich_text_area :description,
+  <div data-controller="rich-text" class="my-4 p-4 pb-2 rounded border border-white hover:border-gray-200">
+    <%= f.hidden_field task.description, data: { rich_text_target: "hidden" } %>
+    <div data-rich-text-target="container">
+      <%= raw(task.description) %>
+    </div>
+
+    <div class="mt-4" data-rich-text-target="toolbar">
+      <button class="rich-text-button ql-bold">
+        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+      </button>
+      <button class="rich-text-button ql-italic">
+        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+      </button>
+      <button class="rich-text-button ql-underline">
+        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+      </button>
+      <button class="rich-text-button ql-strike">
+        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+      </button>
+      <button class="rich-text-button ql-list" value="bullet" type="button">
+        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+      </button>
+      <button class="rich-text-button ql-list" value="ordered" type="button">
+        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+      </button>
+      <button class="rich-text-button ql-blockquote">
+        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+      </button>
+      <button class="rich-text-button ql-code-block">
+        <%= heroicon "link", options: { class: "rich-text-icon" } %>
+      </button>
+    </div>
+  </div>
+
+  <%#= f.rich_text_area :description,
                        placeholder: "Description of your task...",
                        class: "w-full h-28 mt-4 p-1 px-2 rounded text-gray-900 resize-none transition  border border-transparent hover:border-gray-300 focus:outline-none",
                        # data: { action: "blur->autosave#save" },
