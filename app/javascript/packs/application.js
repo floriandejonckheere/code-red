@@ -4,6 +4,6 @@ window.Rails = require("@rails/ujs")
 
 import "controllers"
 
-import "./application.css"
+import "./application.scss"
 
 Rails.start()
