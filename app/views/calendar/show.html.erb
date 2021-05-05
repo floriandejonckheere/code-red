@@ -29,8 +29,11 @@
     <% (@date.wday - 1).times do %>
       <div></div>
     <% end %>
+
     <% (@date.beginning_of_month..@date.end_of_month).each do |date| %>
-      <a href="#" class="p-2 rounded-full transition text-center <%= "font-bold" if date.today? %> hover:bg-gray-200"><%= date.day %></a>
+      <div class="p-2 rounded-full transition text-center cursor-pointer <%= "font-bold" if date.today? %> hover:bg-gray-200" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= date.iso8601 %>">
+        <%= date.day %>
+      </div>
     <% end %>
   </div>
 <% end %>

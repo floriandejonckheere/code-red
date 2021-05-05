@@ -59,6 +59,7 @@ class TasksController < ApplicationController
         :status,
         :type,
         :user_id,
+        :deadline,
       )
   end
 end
