@@ -8,6 +8,11 @@
   font-family: Cantarell, sans-serif;
 }
 
+.ql-blank::before {
+  @apply absolute text-gray-400;
+  content: 'Description of your task...'
+}
+
 .ql-container {
   @apply whitespace-pre-wrap p-0;
 

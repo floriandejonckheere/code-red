@@ -42,7 +42,6 @@ export default class extends Controller {
           userOnly: false
         },
       },
-      placeholder: 'Description of your task...',
     }
   }
 }
