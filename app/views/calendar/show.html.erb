@@ -5,12 +5,12 @@
       <span class="ml-1 text-gray-600"><%= @date.strftime("%Y") %></span>
     </div>
     <div>
-      <%= link_to calendar_path(year: @previous.year, month: @previous.month),
+      <%= link_to task_calendar_path(task_id: @task.id, year: @previous.year, month: @previous.month),
                   data: { turbo_frame: "calendar" },
                   class: "p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200" do %>
         <%= heroicon "chevron-left", options: { class: "h-4 w-4 ml-auto inline-block" } %>
       <% end %>
-      <%= link_to calendar_path(year: @next.year, month: @next.month),
+      <%= link_to task_calendar_path(task_id: @task.id, year: @next.year, month: @next.month),
                   data: { turbo_frame: "calendar" },
                   class: "p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200" do %>
         <%= heroicon "chevron-right", options: { class: "h-4 w-4 ml-auto inline-block" } %>
@@ -31,7 +31,11 @@
     <% end %>
 
     <% (@date.beginning_of_month..@date.end_of_month).each do |date| %>
-      <div class="p-2 rounded-full transition text-center cursor-pointer <%= "font-bold" if date.today? %> hover:bg-gray-200" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= date.iso8601 %>">
+      <div
+        class="p-2 rounded-full transition text-center cursor-pointer <%= "font-bold" if date.today? %> hover:bg-gray-200 <%= "bg-red-600 text-white hover:bg-red-700" if date == @selected %>"
+        data-action="click->task-dropdown#toggle click->task-dropdown#set"
+        data-value="<%= date.iso8601 unless date == @selected %>"
+      >
         <%= date.day %>
       </div>
     <% end %>

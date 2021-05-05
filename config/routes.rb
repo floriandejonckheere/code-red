@@ -5,16 +5,18 @@ Rails.application.routes.draw do
 
   root "application#index"
 
-  resources :tasks
-  resources :relationships, only: [:create, :destroy]
+  resources :tasks do
+    get "/years/:year/months/:month", to: "calendar#show", as: "calendar"
+  end
 
-  get "/years/:year/months/:month", to: "calendar#show", as: "calendar"
+  resources :relationships, only: [:create, :destroy]
 end
 
 # == Route Map
 #
 #                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
 #                                     root GET    /                                                                                                 application#index
+#                            task_calendar GET    /tasks/:task_id/years/:year/months/:month(.:format)                                               calendar#show
 #                                    tasks GET    /tasks(.:format)                                                                                  tasks#index
 #                                          POST   /tasks(.:format)                                                                                  tasks#create
 #                                 new_task GET    /tasks/new(.:format)                                                                              tasks#new
@@ -25,7 +27,6 @@ end
 #                                          DELETE /tasks/:id(.:format)                                                                              tasks#destroy
 #                            relationships POST   /relationships(.:format)                                                                          relationships#create
 #                             relationship DELETE /relationships/:id(.:format)                                                                      relationships#destroy
-#                                 calendar GET    /years/:year/months/:month(.:format)                                                              calendar#show
 #         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
