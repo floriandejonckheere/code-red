@@ -24,7 +24,7 @@
   }
 
   pre {
-    @apply bg-gray-50 p-2 my-2 text-sm;
+    @apply bg-gray-50 p-2 my-2 text-sm whitespace-pre-wrap;
   }
 }
 
