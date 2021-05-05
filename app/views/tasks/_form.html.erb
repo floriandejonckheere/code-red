@@ -9,7 +9,7 @@
   <div class="w-full mt-4 flex justify-between">
     <div class="relative" data-controller="task-dropdown">
       <%= f.hidden_field :status, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
-      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
+      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
         <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
           <span class="pr-4" style="font-family: Cantarell, sans-serif;" data-task-dropdown-target="title"><%= task.status.titleize %></span>
           <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
@@ -64,7 +64,7 @@
     </div>
 
     <div class="mr-2 relative" data-controller="task-dropdown">
-      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
+      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
         <div class="p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
           <%= f.hidden_field :deadline, value: task.deadline, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
           <div class="text-gray-<%= task.deadline ? "600" : "400" %>">
@@ -92,7 +92,7 @@
     </div>
 
     <div class="mr-2 relative" data-controller="task-dropdown">
-      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
+      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
         <div class="p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
           <%= f.hidden_field :user_id, value: task.user_id, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
           <div class="text-gray-<%= task.user ? "600" : "400" %>">

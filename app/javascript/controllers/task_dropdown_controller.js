@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
-  static targets = ['menu', 'title', 'value']
+  static targets = ['menu', 'title', 'value', 'button']
 
   static values = {
     // Dropdown state
@@ -36,12 +36,14 @@ export default class extends Controller {
   _show() {
     setTimeout(() => {
       this.menuTarget.classList.remove('hidden')
+      this.buttonTarget.classList.add('bg-gray-100')
     })
   }
 
   _hide() {
     setTimeout(() => {
       this.menuTarget.classList.add('hidden')
+      this.buttonTarget.classList.remove('bg-gray-100')
     })
   }
 }
