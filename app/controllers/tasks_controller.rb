@@ -11,6 +11,7 @@ class TasksController < ApplicationController
 
   def new
     @task = Task.new(graph: graph)
+    @users = User.all.order(:name)
   end
 
   def edit
@@ -30,7 +31,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { task: @task })
+        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { task: @task, notice: "Task saved" })
       end
     end
   end
