@@ -113,39 +113,32 @@
     </div>
 
     <div class="mt-8 text-gray-400 text-sm" data-rich-text-target="toolbar">
-      <button class="rich-text-button ql-bold">
+      <button class="rich-text-button ql-bold" title="Bold">
         <span class="collecticon collecticon-bold w-3 h-3"></span>
       </button>
-      <button class="rich-text-button ql-italic">
+      <button class="rich-text-button ql-italic" title="Italic">
         <span class="collecticon collecticon-italic w-3 h-3"></span>
       </button>
-      <button class="rich-text-button ql-underline">
+      <button class="rich-text-button ql-underline" title="Underline">
         <span class="collecticon collecticon-underline w-3 h-3"></span>
       </button>
-      <button class="rich-text-button ql-strike">
+      <button class="rich-text-button ql-strike" title="Strikethrough">
         <span class="collecticon collecticon-minus w-3 h-3"></span>
       </button>
-      <button class="rich-text-button ql-list" value="bullet" type="button">
+      <button class="rich-text-button ql-list" value="bullet" title="List">
         <span class="collecticon collecticon-list w-3 h-3"></span>
       </button>
-      <button class="rich-text-button ql-list" value="ordered" type="button">
+      <button class="rich-text-button ql-list" value="ordered" title="Numbered list">
         <span class="collecticon collecticon-list-numbered w-3 h-3"></span>
       </button>
-      <button class="rich-text-button ql-blockquote">
+      <button class="rich-text-button ql-blockquote" title="Quote">
         <span class="collecticon collecticon-quote-right w-3 h-3"></span>
       </button>
-      <button class="rich-text-button ql-code-block">
-        <span class="collecticon collecticon-pi w-3 h-3"></span>
+      <button class="rich-text-button ql-code-block" title="Code block">
+        <span class="collecticon collecticon-code w-3 h-3"></span>
       </button>
     </div>
   </div>
-
-  <%#= f.rich_text_area :description,
-                       placeholder: "Description of your task...",
-                       class: "w-full h-28 mt-4 p-1 px-2 rounded text-gray-900 resize-none transition  border border-transparent hover:border-gray-300 focus:outline-none",
-                       # data: { action: "blur->autosave#save" },
-                       autocomplete: "off"
-  %>
 
   <% task.relationships.each_key do |relationship_type| %>
     <% next if task.send(relationship_type).empty? %>
