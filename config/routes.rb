@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   resources :tasks
   resources :relationships, only: [:create, :destroy]
+
+  get "/years/:year/months/:month", to: "calendar#show", as: "calendar"
 end
 
 # == Route Map
@@ -23,6 +25,7 @@ end
 #                                          DELETE /tasks/:id(.:format)                                                                              tasks#destroy
 #                            relationships POST   /relationships(.:format)                                                                          relationships#create
 #                             relationship DELETE /relationships/:id(.:format)                                                                      relationships#destroy
+#                                 calendar GET    /years/:year/months/:month(.:format)                                                              calendar#show
 #         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh

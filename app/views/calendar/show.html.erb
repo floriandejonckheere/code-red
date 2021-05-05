@@ -1,0 +1,36 @@
+<%= turbo_frame_tag "calendar" do %>
+  <div class="flex flex-center justify-between items-center">
+    <div>
+      <span class="font-bold text-gray-800"><%= @date.strftime("%B") %></span>
+      <span class="ml-1 text-gray-600"><%= @date.strftime("%Y") %></span>
+    </div>
+    <div>
+      <%= link_to calendar_path(year: @previous.year, month: @previous.month),
+                  data: { turbo_frame: "calendar" },
+                  class: "p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200" do %>
+        <%= heroicon "chevron-left", options: { class: "h-4 w-4 ml-auto inline-block" } %>
+      <% end %>
+      <%= link_to calendar_path(year: @next.year, month: @next.month),
+                  data: { turbo_frame: "calendar" },
+                  class: "p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200" do %>
+        <%= heroicon "chevron-right", options: { class: "h-4 w-4 ml-auto inline-block" } %>
+      <% end %>
+    </div>
+  </div>
+  <div class="mt-8 w-full grid grid-cols-7 gap-x-2 text-xs text-gray-600 text-center">
+    <div class="font-bold">Mon</div>
+    <div class="font-bold">Tue</div>
+    <div class="font-bold">Wed</div>
+    <div class="font-bold">Thu</div>
+    <div class="font-bold">Fri</div>
+    <div class="font-bold">Sat</div>
+    <div class="font-bold">Sun</div>
+
+    <% (@date.wday - 1).times do %>
+      <div></div>
+    <% end %>
+    <% (@date.beginning_of_month..@date.end_of_month).each do |date| %>
+      <a href="#" class="p-2 rounded-full transition text-center <%= "font-bold" if date.today? %> hover:bg-gray-200"><%= date.day %></a>
+    <% end %>
+  </div>
+<% end %>

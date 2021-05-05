@@ -85,32 +85,7 @@
             </div>
           <% end %>
           <div class="w-72 p-4">
-            <div class="flex flex-center justify-between items-center">
-              <div>
-                <span class="font-bold text-gray-800">May</span>
-                <span class="ml-1 text-gray-600">2021</span>
-              </div>
-              <div>
-                <a href="#" class="p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200">
-                  <%= heroicon "chevron-left", options: { class: "h-4 w-4 ml-auto inline-block" } %>
-                </a>
-                <a href="#" class="p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200">
-                  <%= heroicon "chevron-right", options: { class: "h-4 w-4 ml-auto inline-block" } %>
-                </a>
-              </div>
-            </div>
-            <div class="mt-8 w-full grid grid-cols-7 gap-x-2 text-xs text-gray-600 text-center">
-              <div class="font-bold">Mon</div>
-              <div class="font-bold">Tue</div>
-              <div class="font-bold">Wed</div>
-              <div class="font-bold">Thu</div>
-              <div class="font-bold">Fri</div>
-              <div class="font-bold">Sat</div>
-              <div class="font-bold">Sun</div>
-              <% (1..31).each do |i| %>
-                <a href="#" class="p-2 rounded-full transition text-center <%= "font-bold" if i == Date.current.day %> hover:bg-gray-200"><%= i %></a>
-              <% end %>
-            </div>
+            <%= turbo_frame_tag "calendar", src: calendar_path(year: Date.current.year, month: Date.current.month) %>
           </div>
         </div>
       </div>
