@@ -38,7 +38,6 @@
                    autocomplete: "off"
   %>
 
-
   <div class="flex justify-left mt-4">
     <div class="mr-2 relative" data-controller="task-dropdown">
       <%= f.hidden_field :type, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
@@ -64,10 +63,57 @@
       </div>
     </div>
 
-    <div class="mr-2 p-2 flex items-center rounded text-sm text-gray-400 cursor-pointer hover:bg-gray-100 focus:outline-none">
-      <%= heroicon "calendar", options: { class: "h-4 w-4 inline-block" } %>
-      <span class="ml-2">No deadline</span>
-      <%= heroicon "chevron-down", options: { class: "ml-4 h-4 w-4 inline-block" } %>
+    <div class="mr-2 relative" data-controller="task-dropdown">
+      <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" class="inline-block select-none">
+        <div class="p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
+          <%= f.hidden_field :deadline, value: task.deadline, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
+          <div class="text-gray-<%= task.deadline ? "600" : "400" %>" data-task-dropdown-target="title">
+            <%= heroicon "calendar", options: { class: "h-4 w-4 inline-block" } %>
+            <span class="pl-2 pr-4"><%= task.user&.name || "No deadline" %></span>
+          </div>
+          <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
+        </div>
+      </div>
+      <div data-task-dropdown-target="menu" class="absolute left-0 hidden">
+        <div class="bg-white shadow rounded border">
+          <% if task.deadline %>
+            <div class="w-64 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="">
+              <div class="text-gray-400">
+                <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
+                <span class="pl-2 pr-4">Clear deadline</span>
+              </div>
+            </div>
+          <% end %>
+          <div class="w-72 p-4">
+            <div class="flex flex-center justify-between items-center">
+              <div>
+                <span class="font-bold text-gray-800">May</span>
+                <span class="ml-1 text-gray-600">2021</span>
+              </div>
+              <div>
+                <a href="#" class="p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200">
+                  <%= heroicon "chevron-left", options: { class: "h-4 w-4 ml-auto inline-block" } %>
+                </a>
+                <a href="#" class="p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200">
+                  <%= heroicon "chevron-right", options: { class: "h-4 w-4 ml-auto inline-block" } %>
+                </a>
+              </div>
+            </div>
+            <div class="mt-8 w-full grid grid-cols-7 gap-x-2 text-xs text-gray-600 text-center">
+              <div class="font-bold">Mon</div>
+              <div class="font-bold">Tue</div>
+              <div class="font-bold">Wed</div>
+              <div class="font-bold">Thu</div>
+              <div class="font-bold">Fri</div>
+              <div class="font-bold">Sat</div>
+              <div class="font-bold">Sun</div>
+              <% (1..31).each do |i| %>
+                <a href="#" class="p-2 rounded-full transition text-center <%= "font-bold" if i == Date.current.day %> hover:bg-gray-200"><%= i %></a>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="mr-2 relative" data-controller="task-dropdown">
@@ -76,9 +122,7 @@
           <%= f.hidden_field :user_id, value: task.user_id, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
           <div class="text-gray-<%= task.user ? "600" : "400" %>" data-task-dropdown-target="title">
             <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
-            <span class="pl-2 pr-4">
-              <%= task.user&.name || "No assignee" %>
-            </span>
+            <span class="pl-2 pr-4"><%= task.user&.name || "No assignee" %></span>
           </div>
           <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
         </div>
@@ -139,14 +183,14 @@
       <button class="rich-text-button ql-code-block" title="Code block">
         <span class="collecticon collecticon-code w-3 h-3"></span>
       </button>
-<!--      <div class="float-right">-->
-<!--        <button class="rich-text-button" title="Undo" data-action="click->rich-text#undo">-->
-<!--          <span class="collecticon collecticon-arrow-semi-spin-ccw w-3 h-3"></span>-->
-<!--        </button>-->
-<!--        <button class="rich-text-button" title="Redo" data-action="click->rich-text#redo">-->
-<!--          <span class="collecticon collecticon-arrow-semi-spin-cw w-3 h-3"></span>-->
-<!--        </button>-->
-<!--      </div>-->
+      <div class="hidden float-right">
+        <button class="rich-text-button" title="Undo" data-action="click->rich-text#undo">
+          <span class="collecticon collecticon-arrow-semi-spin-ccw w-3 h-3"></span>
+        </button>
+        <button class="rich-text-button" title="Redo" data-action="click->rich-text#redo">
+          <span class="collecticon collecticon-arrow-semi-spin-cw w-3 h-3"></span>
+        </button>
+      </div>
     </div>
   </div>
 
