@@ -45,8 +45,8 @@
       <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
         <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
           <div data-task-dropdown-target="title">
-            <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block text-#{color_for(task.type)}" } %>
-            <span class="ml-4 text-<%= color_for(task.type) %>"><%= task.type.capitalize %></span>
+            <%= heroicon icon_for_type(task.type), options: { class: "h-4 w-4 inline-block text-#{color_for_type(task.type)}" } %>
+            <span class="ml-4 text-<%= color_for_type(task.type) %>"><%= task.type.capitalize %></span>
           </div>
           <%= heroicon "chevron-down", options: { class: "ml-4 h-4 w-4 inline-block" } %>
         </div>
@@ -56,8 +56,8 @@
         <div class="bg-white shadow rounded border">
           <% Task::TYPES.each do |type| %>
             <div class="w-32 pl-8 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= type %>">
-              <%= heroicon icon_for(type), options: { class: "h-4 w-4 inline-block text-#{color_for(type)}" } %>
-              <span class="ml-4 text-<%= color_for(type) %>"><%= type.capitalize %></span>
+              <%= heroicon icon_for_type(type), options: { class: "h-4 w-4 inline-block text-#{color_for_type(type)}" } %>
+              <span class="ml-4 text-<%= color_for_type(type) %>"><%= type.capitalize %></span>
             </div>
           <% end %>
         </div>
@@ -157,7 +157,7 @@
     <% task.send(relationship_type).each do |to_task| %>
       <%= link_to edit_task_path(to_task.id), data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
         <div class="p-1 group flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
-          <%= heroicon icon_for(to_task.type), options: { class: "h-4 w-4 inline-block text-#{color_for(to_task.type)}" } %>
+          <%= heroicon icon_for_type(to_task.type), options: { class: "h-4 w-4 inline-block text-#{color_for_type(to_task.type)}" } %>
           <span class="ml-4"><%= to_task.title %></span>
 
           <%= link_to relationship_url(from_id: task.id, type: relationship_type, to_id: to_task.id, task_id: task.id),

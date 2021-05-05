@@ -1,14 +1,14 @@
 <%= link_to edit_task_path(task.id), class: "m-8", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
-  <div class="w-64 h-28 p-4 flex flex-col justify-between bg-white shadow-md rounded-sm border border-gray-200 hover:border-red-200 cursor-pointer">
-    <h1 class="text-gray-800 font-medium text-lg mb-2" style="font-family: Cantarell, sans-serif;"><%= task.title %></h1>
+  <div class="w-64 h-28 p-4 flex flex-col justify-between bg-white shadow-md rounded-sm border border-gray-200 hover:border-gray-300 cursor-pointer">
+    <h1 class="text-gray-800 font-medium text-lg text-gray-800 mb-2" style="font-family: Cantarell, sans-serif;"><%= task.title %></h1>
 
     <div class="flex justify-between pt-2 pr-2">
-      <div class="flex items-center text-sm text-<%= color_for(task.type) %>">
-        <%= heroicon icon_for(task.type), options: { class: "h-4 w-4 inline-block" } %>
+      <div class="flex items-center text-sm text-<%= color_for_type(task.type) %>">
+        <%= heroicon icon_for_type(task.type), options: { class: "h-4 w-4 inline-block" } %>
         <span class="pl-2"><%= task.type.capitalize %></span>
       </div>
 
-      <%= heroicon "user", options: { class: "h-4 w-4 inline-block", title: task.user.name } if task.user %>
+      <%= heroicon "user", options: { class: "h-4 w-4 inline-block text-gray-600", title: task.user.name } if task.user %>
     </div>
   </div>
 <% end %>

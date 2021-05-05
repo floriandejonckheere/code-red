@@ -10,11 +10,11 @@ module TaskHelper
     goal: { icon: "academic-cap", color: "green-500" },
   }.freeze
 
-  def icon_for(type)
+  def icon_for_type(type)
     TYPES.dig(type.to_sym, :icon)
   end
 
-  def color_for(type)
+  def color_for_type(type)
     TYPES.dig(type.to_sym, :color)
   end
 end
