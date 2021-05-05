@@ -1,5 +1,5 @@
 <%= link_to edit_task_path(task.id), class: "m-8", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
-  <div class="w-64 p-4 flex flex-col justify-between bg-white shadow-md rounded-sm border border-gray-200 hover:border-red-200 cursor-pointer">
+  <div class="w-64 h-28 p-4 flex flex-col justify-between bg-white shadow-md rounded-sm border border-gray-200 hover:border-red-200 cursor-pointer">
     <h1 class="text-gray-800 font-medium text-lg mb-2" style="font-family: Cantarell, sans-serif;"><%= task.title %></h1>
 
     <div class="flex justify-between pt-2 pr-2">

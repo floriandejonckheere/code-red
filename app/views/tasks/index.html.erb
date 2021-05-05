@@ -1,15 +1,16 @@
 <%= turbo_frame_tag "task" %>
 
-<div class="container" data-controller="task-modal" data-task-modal-prevent-default-action-opening="false" data-task-modal-prevent-default-action-closing="false">
+<div class="container flex flex-wrap" data-controller="task-modal" data-task-modal-prevent-default-action-opening="false" data-task-modal-prevent-default-action-closing="false">
   <%= render partial: "tasks/modal_form" %>
 
   <% @tasks.each do |task| %>
     <%= render partial: "tasks/task", locals: { task: task } %>
   <% end %>
 
-  <%#= link_to new_task_path,
-              class: "w-16 h-16 bg-red-600 rounded-full hover:bg-red-500 shadow-md focus:outline-none text-white",
-              data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
-    <%#= heroicon "plus" %>
-  <%# end %>
+  <%= link_to new_task_path, class: "m-8", title: "Create new task...", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
+    <div class="w-64 h-28 p-4 flex flex-col justify-center content-center items-center bg-white opacity-50 rounded-sm shadow-md border border-gray-200 hover:opacity-100 cursor-pointer">
+      <h1 class="text-gray-600 font-medium text-lg mb-2" style="font-family: Cantarell, sans-serif;">New task</h1>
+      <%= heroicon "plus", options: { class: "w-8 h-8 text-gray-600" } %>
+    </div>
+  <% end %>
 </div>
