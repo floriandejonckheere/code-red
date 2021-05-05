@@ -35,6 +35,7 @@
         class="p-2 rounded-full transition text-center cursor-pointer <%= "font-bold" if date.today? %> hover:bg-gray-200 <%= "bg-red-600 text-white hover:bg-red-700" if date == @selected %>"
         data-action="click->task-dropdown#toggle click->task-dropdown#set"
         data-value="<%= date.iso8601 unless date == @selected %>"
+        data-title="<%= date == @selected ? "No deadline" : I18n.l(date, format: :long) %>"
       >
         <%= date.day %>
       </div>

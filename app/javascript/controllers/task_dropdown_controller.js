@@ -23,7 +23,7 @@ export default class extends Controller {
     this.valueTarget.value = e.currentTarget.dataset.value
 
     // Set dropdown
-    this.titleTarget.innerHTML = e.currentTarget.innerHTML
+    this.titleTarget.innerHTML = e.currentTarget.dataset.title || e.currentTarget.innerHTML
 
     // Dispatch change event, so autosave triggers
     this.valueTarget.dispatchEvent(new Event('change'))
