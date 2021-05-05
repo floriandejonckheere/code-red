@@ -19,8 +19,3 @@ application.register('tabs', Tabs)
 application.register('popover', Popover)
 application.register('toggle', Toggle)
 application.register('slideover', Slideover)
-
-// Import Sigma
-import sigma from 'sigma'
-
-import 'sigma/build/plugins/sigma.layout.forceAtlas2.min'
