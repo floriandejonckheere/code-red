@@ -318,6 +318,8 @@ GEM
       rails (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2021.1)
+      tzinfo (>= 1.0.0)
     unicode-display_width (1.7.0)
     web-console (4.1.0)
       actionview (>= 6.0.0)
@@ -375,6 +377,7 @@ DEPENDENCIES
   spring
   timecop
   turbo-rails
+  tzinfo-data
   web-console (>= 4.1.0)
   webmock
   webpacker
