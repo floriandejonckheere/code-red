@@ -1,7 +1,7 @@
 version: "3.8"
 
 x-app: &app
-  image: ghcr.io/floriandejonckheere/code-red-app:v0.1.0
+  image: ghcr.io/floriandejonckheere/code-red-app:v0.2.0
   volumes:
     - storage:/app/storage
   environment:
@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
 
   redis:
-    image: redis:alpine
+    image: redislabs/redismod
     environment:
       TZ: Europe/Berlin
     volumes:
