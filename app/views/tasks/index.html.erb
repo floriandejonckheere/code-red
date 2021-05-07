@@ -3,6 +3,10 @@
 <div class="container flex flex-wrap" data-controller="task-modal" data-task-modal-prevent-default-action-opening="false" data-task-modal-prevent-default-action-closing="false">
   <%= render partial: "tasks/modal_form" %>
 
+  <div class="w-full h-full flex justify-center p-10" data-controller="graph">
+    <svg id="svg-canvas" class="" data-graph-target="container"></svg>
+  </div>
+
   <% @tasks.each do |task| %>
     <%= render partial: "tasks/task", locals: { task: task } %>
   <% end %>
