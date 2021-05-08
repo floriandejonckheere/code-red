@@ -56,6 +56,19 @@ export default class extends Controller {
           .text(d => d.label)
           .call(cola.drag)
 
+        const icon = svg
+          .selectAll('.icon')
+          .data(graph.nodes)
+          .enter()
+          .append('svg')
+          .attr('width', 16)
+          .attr('height', 16)
+          .attr('viewBox', `0 0 24 24`)
+          .attr('preserveAspectRatio', 'xMinYMin')
+          .attr('class', d => `icon text-${d.color}`)
+          .html(d => d.icon)
+          .call(cola.drag)
+
         const type = svg
           .selectAll('.type')
           .data(graph.nodes)
@@ -81,11 +94,15 @@ export default class extends Controller {
             .attr('y', d => (d.y - settings.node.height / 2))
 
           label
-            .attr('x', d => d.x + settings.node.padding)
+            .attr('x', d => (d.x - settings.node.width / 2) + settings.node.padding)
             .attr('y', d => (d.y - settings.node.height / 2) + settings.node.padding + 16)
 
-          type
+          icon
             .attr('x', d => (d.x - settings.node.width / 2) + settings.node.padding)
+            .attr('y', d => (d.y + settings.node.height / 2) - 16 - settings.node.padding)
+
+          type
+            .attr('x', d => (d.x - settings.node.width / 2) + 20 + settings.node.padding)
             .attr('y', d => (d.y + settings.node.height / 2) - 14)
         })
       })

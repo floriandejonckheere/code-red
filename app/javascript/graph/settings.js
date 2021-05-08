@@ -5,4 +5,7 @@ export default {
     radius: 2,
     padding: 10,
   },
+  icon: {
+    viewbox: 1200,
+  },
 }

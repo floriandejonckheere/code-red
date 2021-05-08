@@ -19,7 +19,11 @@
 
   font-family: Cantarell;
   font-size: 16px;
-  text-anchor: middle;
+  text-anchor: start;
+}
+
+.icon {
+  @apply cursor-pointer fill-current;
 }
 
 .type {
