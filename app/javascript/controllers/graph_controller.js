@@ -11,7 +11,7 @@ export default class extends Controller {
     const svg = d3.select(this.containerTarget)
 
     const cola = window.cola.d3adaptor(d3)
-      .linkDistance(200)
+      .linkDistance(settings.edge.length)
       .avoidOverlaps(true)
       .handleDisconnected(true)
       .convergenceThreshold(1e-9)
