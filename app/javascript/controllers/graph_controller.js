@@ -28,17 +28,27 @@ export default class extends Controller {
           .links(graph.edges)
           .start()
 
-        const link = svg
+        const edge = svg
           .selectAll('.link')
           .data(graph.edges)
           .enter()
           .append('line')
           .attr('class', 'link')
 
-        const node = svg
-          .selectAll('.node')
+        const anchor = svg
+          .selectAll('.anchor')
           .data(graph.nodes)
           .enter()
+          .append('a')
+          .attr('class', 'anchor')
+          .attr('data-action', 'click->task-modal#open')
+          .attr('data-turbo-frame', 'task')
+          .attr('href', d => `/tasks/${d.id}/edit`)
+          .attr('width', settings.node.width)
+          .attr('height', settings.node.height)
+          .call(cola.drag)
+
+        const node = anchor
           .append('rect')
           .attr('class', 'node')
           .attr('width', settings.node.width)
@@ -47,19 +57,17 @@ export default class extends Controller {
           .attr('ry', settings.node.radius)
           .call(cola.drag)
 
-        const label = svg
-          .selectAll('.label')
-          .data(graph.nodes)
-          .enter()
+        node
+          .append('title')
+          .text(d => d.label)
+
+        const label = anchor
           .append('text')
           .attr('class', 'label')
           .text(d => d.label)
           .call(cola.drag)
 
-        const icon = svg
-          .selectAll('.icon')
-          .data(graph.nodes)
-          .enter()
+        const icon = anchor
           .append('svg')
           .attr('width', 16)
           .attr('height', 16)
@@ -69,21 +77,14 @@ export default class extends Controller {
           .html(d => d.icon)
           .call(cola.drag)
 
-        const type = svg
-          .selectAll('.type')
-          .data(graph.nodes)
-          .enter()
+        const type = anchor
           .append('text')
           .attr('class', d => `type text-${d.color}`)
           .text(d => d.type)
           .call(cola.drag)
 
-        node
-          .append('title')
-          .text(d => d.label)
-
         cola.on('tick', () => {
-          link
+          edge
             .attr('x1', d => d.source.x)
             .attr('y1', d => d.source.y)
             .attr('x2', d => d.target.x)
