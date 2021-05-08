@@ -43,9 +43,8 @@ export default class extends Controller {
           .attr('class', 'node')
           .attr('width', settings.node.width)
           .attr('height', settings.node.height)
-          .attr('rx', 4)
-          .attr('ry', 4)
-          .style('fill', d => 'white')
+          .attr('rx', settings.node.radius)
+          .attr('ry', settings.node.radius)
           .call(cola.drag)
 
         const label = svg
@@ -55,6 +54,15 @@ export default class extends Controller {
           .append('text')
           .attr('class', 'label')
           .text(d => d.label)
+          .call(cola.drag)
+
+        const type = svg
+          .selectAll('.type')
+          .data(graph.nodes)
+          .enter()
+          .append('text')
+          .attr('class', d => `type text-${d.color}`)
+          .text(d => d.type)
           .call(cola.drag)
 
         node
@@ -73,11 +81,12 @@ export default class extends Controller {
             .attr('y', d => (d.y - settings.node.height / 2))
 
           label
-            .attr('x', d => (d.x))
-            .attr('y', function (d) {
-              var h = this.getBBox().height
-              return d.y + h / 4
-            })
+            .attr('x', d => d.x + settings.node.padding)
+            .attr('y', d => (d.y - settings.node.height / 2) + settings.node.padding + 16)
+
+          type
+            .attr('x', d => (d.x - settings.node.width / 2) + settings.node.padding)
+            .attr('y', d => (d.y + settings.node.height / 2) - 14)
         })
       })
   }

@@ -1,8 +1,11 @@
 .node {
-  @apply cursor-pointer;
+  @apply cursor-pointer stroke-current text-gray-200 drop-shadow-md;
 
-  stroke: white;
-  stroke-width: 1.5px;
+  fill: white;
+
+  stroke-width: 1px;
+
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .2));
 }
 
 .link {
@@ -12,9 +15,16 @@
 }
 
 .label {
-  @apply cursor-pointer;
+  @apply cursor-pointer text-gray-800 fill-current;
 
-  fill: gray;
   font-family: Cantarell;
+  font-size: 16px;
   text-anchor: middle;
+}
+
+.type {
+  @apply cursor-pointer fill-current;
+
+  font-size: 14px;
+  font-family: Cantarell;
 }
