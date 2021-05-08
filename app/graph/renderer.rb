@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Renderer
+  include TaskHelper
+
   attr_reader :graph
 
   def initialize(graph)
@@ -21,6 +23,9 @@ class Renderer
       {
         id: task.id,
         label: task.title,
+        icon: icon_for(task.type),
+        color: color_for_type(task.type),
+        type: task.type.titleize,
       }
     end
   end
@@ -43,6 +48,7 @@ class Renderer
     {
       id: "root",
       label: graph.name,
+      icon: nil,
     }
   end
 
@@ -53,5 +59,13 @@ class Renderer
         target: nodes.find_index { |n| n[:id] == task.id } + 1,
       }
     end
+  end
+
+  def icon_for(type)
+    # Extract <path> from SVG icon
+    Heroicon::Icon
+      .render(name: icon_for_type(type), variant: :outline, options: {})
+      .at("path")
+      .to_s
   end
 end
