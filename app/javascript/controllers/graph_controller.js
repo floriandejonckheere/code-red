@@ -1,95 +1,85 @@
-import { Controller } from "stimulus";
-
-import settings from "../graph/settings"
+import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = ["container"]
+  static targets = ['container']
 
   connect() {
     super.connect()
 
-    fetch("/tasks.json")
+    const svg = d3.select(this.containerTarget)
+
+    const width = 100
+    const height = 60
+
+    const cola = window.cola.d3adaptor(d3)
+      .linkDistance(200)
+      .avoidOverlaps(true)
+      .handleDisconnected(true)
+      .convergenceThreshold(1e-9)
+      .size([
+        svg.node().getBoundingClientRect().width,
+        svg.node().getBoundingClientRect().height,
+      ])
+
+    fetch('/tasks.json')
       .then(response => response.json())
-      .then(json => {
-        // Create the input graph
-        var g = new dagreD3.graphlib.Graph()
-          .setGraph({})
-          .setDefaultEdgeLabel(function() { return {}; });
+      .then(graph => {
+        cola
+          .nodes(graph.nodes)
+          .links(graph.edges)
+          .start()
 
-        // Create the SVG label to pass in
-        // Must create in SVG namespace
-        // http://stackoverflow.com/questions/7547117/add-a-new-line-in-svg-bug-cannot-see-the-line
-        // This mimics the same way string labels get added in Dagre-D3
-        var svg_label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        var tspan = document.createElementNS('http://www.w3.org/2000/svg','tspan');
-        tspan.setAttributeNS('http://www.w3.org/XML/1998/namespace', 'xml:space', 'preserve');
-        tspan.setAttribute('dy', '1em');
-        tspan.setAttribute('x', '1');
-        var link = document.createElementNS('http://www.w3.org/2000/svg', 'a');
-        link.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', 'http://google.com/');
-        link.setAttribute('target', '_blank');
-        link.textContent = 'IE Capable link';
-        tspan.appendChild(link);
-        svg_label.appendChild(tspan);
+        const link = svg
+          .selectAll('.link')
+          .data(graph.edges)
+          .enter()
+          .append('line')
+          .attr('class', 'link')
 
-        console.log(svg_label);
+        const node = svg
+          .selectAll('.node')
+          .data(graph.nodes)
+          .enter()
+          .append('rect')
+          .attr('class', 'node')
+          .attr('width', width)
+          .attr('height', height)
+          .attr('rx', 4)
+          .attr('ry', 4)
+          .style('fill', d => 'white')
+          .call(cola.drag)
 
-        // Here we're setting nodeclass, which is used by our custom drawNodes function
-        // below.
-        g.setNode(0,  { label: svg_label,       labelType: 'svg', class: "rounded-sm" });
-        g.setNode(1,  { label: "S",         class: "rounded-sm" });
-        g.setNode(2,  { label: "NP",        class: "type-NP" });
-        g.setNode(3,  { label: "DT",        class: "type-DT" });
-        g.setNode(4,  { label: "This",      class: "type-TK" });
-        g.setNode(5,  { label: "VP",        class: "type-VP" });
-        g.setNode(6,  { label: "VBZ",       class: "type-VBZ" });
-        g.setNode(7,  { label: "is",        class: "type-TK" });
-        g.setNode(8,  { label: "NP",        class: "type-NP" });
-        g.setNode(9,  { label: "DT",        class: "type-DT" });
-        g.setNode(10, { label: "an",        class: "type-TK" });
-        g.setNode(11, { label: "NN",        class: "type-NN" });
-        g.setNode(12, { label: "example",   class: "type-TK" });
-        g.setNode(13, { label: ".",         class: "type-." });
-        g.setNode(14, { label: "sentence",  class: "type-TK" });
+        const label = svg
+          .selectAll('.label')
+          .data(graph.nodes)
+          .enter()
+          .append('text')
+          .attr('class', 'label')
+          .text(d => d.label)
+          .call(cola.drag)
 
-        g.nodes().forEach(function(v) {
-          var node = g.node(v);
+        node
+          .append('title')
+          .text(d => d.label)
 
-          // Round the corners of the nodes
-          node.rx = node.ry = 4;
-        });
+        cola.on('tick', () => {
+          link
+            .attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y)
 
-        // Set up edges, no special attributes.
-        g.setEdge(3, 4);
-        g.setEdge(2, 3);
-        g.setEdge(1, 2);
-        g.setEdge(6, 7);
-        g.setEdge(5, 6);
-        g.setEdge(9, 10);
-        g.setEdge(8, 9);
-        g.setEdge(11,12);
-        g.setEdge(8, 11);
-        g.setEdge(5, 8);
-        g.setEdge(1, 5);
-        g.setEdge(13,14);
-        g.setEdge(1, 13);
-        g.setEdge(0, 1)
+          node
+            .attr('x', d => (d.x - width / 2))
+            .attr('y', d => (d.y - height / 2))
 
-        // Create the renderer
-        var render = new dagreD3.render();
-
-        // Set up an SVG group so that we can translate the final graph.
-        var svg = d3.select(this.containerTarget),
-          svgGroup = svg.append("g");
-
-        // Run the renderer. This is what draws the final graph.
-        render(d3.select("svg g"), g);
-
-        // Center the graph
-        // var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
-        // svgGroup.attr("transform", "translate(" + xCenterOffset + ", 20)");
-        svg.attr("height", g.graph().height);
-        svg.attr("width", g.graph().width);
+          label
+            .attr('x', d => (d.x))
+            .attr('y', function (d) {
+              var h = this.getBBox().height
+              return d.y + h / 4
+            })
+        })
       })
   }
 }

@@ -1,16 +1,20 @@
-text {
-  font-weight: 300;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+.node {
+  @apply cursor-pointer;
+
+  stroke: white;
+  stroke-width: 1.5px;
 }
 
-.node rect {
+.link {
   stroke: #999;
-  fill: #fff;
-  stroke-width: 1.5px;
+  stroke-width: 2px;
+  stroke-opacity: 1;
 }
 
-.edgePath path {
-  stroke: #333;
-  stroke-width: 1.5px;
+.label {
+  @apply cursor-pointer;
+
+  fill: gray;
+  font-family: Cantarell;
+  text-anchor: middle;
 }
