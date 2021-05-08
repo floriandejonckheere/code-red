@@ -1,5 +1,7 @@
 import { Controller } from 'stimulus'
 
+import settings from "../graph/settings"
+
 export default class extends Controller {
   static targets = ['container']
 
@@ -7,9 +9,6 @@ export default class extends Controller {
     super.connect()
 
     const svg = d3.select(this.containerTarget)
-
-    const width = 100
-    const height = 60
 
     const cola = window.cola.d3adaptor(d3)
       .linkDistance(200)
@@ -42,8 +41,8 @@ export default class extends Controller {
           .enter()
           .append('rect')
           .attr('class', 'node')
-          .attr('width', width)
-          .attr('height', height)
+          .attr('width', settings.node.width)
+          .attr('height', settings.node.height)
           .attr('rx', 4)
           .attr('ry', 4)
           .style('fill', d => 'white')
@@ -70,8 +69,8 @@ export default class extends Controller {
             .attr('y2', d => d.target.y)
 
           node
-            .attr('x', d => (d.x - width / 2))
-            .attr('y', d => (d.y - height / 2))
+            .attr('x', d => (d.x - settings.node.width / 2))
+            .attr('y', d => (d.y - settings.node.height / 2))
 
           label
             .attr('x', d => (d.x))
