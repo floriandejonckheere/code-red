@@ -2,13 +2,12 @@
               url: (task.id ? task_url(id: task.id) : tasks_url),
               method: (task.id ? :patch : :post),
               id: "task_form",
-              data: { controller: "autosave", "autosave-target": "form", action: "ajax:success->autosave#success ajax:error->autosave#error" },
               class: "w-full flex flex-col justify-between" do |f|
 %>
 
   <div class="w-full mt-4 flex justify-between">
     <div class="relative" data-controller="task-dropdown">
-      <%= f.hidden_field :status, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
+      <%= f.hidden_field :status, data: { "task-dropdown-target": "value" } %>
       <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
         <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
           <span class="pr-4" style="font-family: Cantarell, sans-serif;" data-task-dropdown-target="title"><%= task.status.titleize %></span>
@@ -26,21 +25,18 @@
         </div>
       </div>
     </div>
-
-    <span class="text-gray-400 text-sm transition" data-autosave-target="status"></span>
   </div>
 
   <%= f.text_field :title,
                    placeholder: "New task",
                    class: "mt-2 w-full font-bold rounded p-1 px-2 text-3xl text-gray-900 transition border border-transparent hover:border-gray-300 focus:outline-none #{'bg-red-100' if task.errors[:title].any?}",
-                   data: { action: "blur->autosave#save" },
                    style: "font-family: Cantarell, sans-serif;",
                    autocomplete: "off"
   %>
 
   <div class="flex justify-left mt-4">
     <div class="mr-2 relative" data-controller="task-dropdown">
-      <%= f.hidden_field :type, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
+      <%= f.hidden_field :type, data: { "task-dropdown-target": "value" } %>
       <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
         <div class="p-2 flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
           <div data-task-dropdown-target="title">
@@ -66,7 +62,7 @@
     <div class="mr-2 relative" data-controller="task-dropdown">
       <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
         <div class="p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
-          <%= f.hidden_field :deadline, value: task.deadline, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
+          <%= f.hidden_field :deadline, value: task.deadline, data: { "task-dropdown-target": "value" } %>
           <div class="text-gray-<%= task.deadline ? "600" : "400" %>">
             <%= heroicon "calendar", options: { class: "h-4 w-4 inline-block" } %>
             <span class="pl-2 pr-4" data-task-dropdown-target="title"><%= task.deadline ? I18n.l(task.deadline, format: :long) : "No deadline" %></span>
@@ -94,7 +90,7 @@
     <div class="mr-2 relative" data-controller="task-dropdown">
       <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
         <div class="p-2 flex items-center rounded text-sm text-gray-400 hover:bg-gray-100 focus:outline-none cursor-pointer">
-          <%= f.hidden_field :user_id, value: task.user_id, data: { action: "change->autosave#save", "task-dropdown-target": "value" } %>
+          <%= f.hidden_field :user_id, value: task.user_id, data: { "task-dropdown-target": "value" } %>
           <div class="text-gray-<%= task.user ? "600" : "400" %>">
             <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
             <span class="pl-2 pr-4" data-task-dropdown-target="title"><%= task.user&.name || "No assignee" %></span>
@@ -126,7 +122,7 @@
   </div>
 
   <div data-controller="rich-text" class="my-4 p-4 pb-2 rounded border border-white hover:border-gray-200">
-    <%= f.hidden_field :description, data: { action: "change->autosave#save", rich_text_target: "hidden" } %>
+    <%= f.hidden_field :description, data: { rich_text_target: "hidden" } %>
     <div data-rich-text-target="container">
       <%= raw(task.description) %>
     </div>
@@ -167,6 +163,13 @@
         </button>
       </div>
     </div>
+  </div>
+
+  <div class="my-4 p-4 ">
+    <%= f.submit "Save",
+                 data: { action: "click->task-modal#close" },
+                 class: "float-right px-4 py-2 flex items-center rounded text-sm text-gray-600 bg-white transition cursor-pointer hover:bg-gray-100"
+    %>
   </div>
 
   <% task.relationships.each_key do |relationship_type| %>
