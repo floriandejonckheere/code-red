@@ -14,7 +14,7 @@ RSpec.describe Renderer do
     it "returns a list of nodes" do
       expect(renderer.to_h.fetch(:nodes))
         .to match_array [
-          including(id: "root", label: graph.name, x: 0, y: 0),
+          including(id: "root", label: graph.name),
           including(id: task0.id, label: task0.title),
           including(id: task1.id, label: task1.title),
         ]
@@ -25,8 +25,8 @@ RSpec.describe Renderer do
     it "returns a list of edges" do
       expect(renderer.to_h.fetch(:edges))
         .to match_array [
-          including(id: 1, source: "root", target: task0.id),
-          including(id: 2, source: task0.id, target: task1.id, label: "Related To"),
+          including(source: 0, target: 1),
+          including(source: 1, target: 2, label: "Related To"),
         ]
     end
   end
