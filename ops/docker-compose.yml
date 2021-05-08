@@ -32,10 +32,11 @@ services:
 
   redis:
     image: redislabs/redismod
+    command: redis-server --appendonly yes
     environment:
       TZ: Europe/Berlin
     volumes:
-      - "redis:/data/"
+      - redis:/data/
     restart: unless-stopped
 
   traefik:
