@@ -6,7 +6,7 @@ export default {
     padding: 10,
   },
   edge: {
-    length: 200,
+    length: 150,
   },
   icon: {
     viewbox: 1200,

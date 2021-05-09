@@ -26,8 +26,9 @@ export default class extends Controller {
         cola
           .nodes(graph.nodes)
           .links(graph.edges)
-          .constraints(graph.constraints)
-          .start(30)
+          // .constraints(graph.constraints)
+          .groups(graph.groups)
+          .start()
 
         const edge = svg
           .selectAll('.link')

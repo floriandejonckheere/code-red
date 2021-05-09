@@ -13,6 +13,7 @@ class Renderer
     {
       nodes: nodes,
       edges: edges,
+      groups: groups,
       constraints: constraints,
     }
   end
@@ -42,6 +43,14 @@ class Renderer
           }
         end
       end.reject(&:blank?)
+    end
+  end
+
+  def groups
+    @groups ||= tasks_by_type.fetch("feature", []).filter_map do |task|
+      children = task.parent_of.map { |n| tasks.index(n) }
+
+      { leaves: children } if children.present?
     end
   end
 
