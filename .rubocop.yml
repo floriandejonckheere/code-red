@@ -45,6 +45,9 @@ Metrics/MethodLength:
     - db/migrate/*
     - lib/tasks/*
 
+Metrics/PerceivedComplexity:
+  Enabled: false
+
 Rails:
   Enabled: true
 

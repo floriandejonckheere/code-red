@@ -13,13 +13,14 @@ class Renderer
     {
       nodes: nodes,
       edges: edges,
+      constraints: constraints,
     }
   end
 
   private
 
   def nodes
-    @nodes ||= graph.tasks.map do |task|
+    @nodes ||= tasks_by_type.values.flatten.map do |task|
       {
         id: task.id,
         label: task.title,
@@ -31,13 +32,28 @@ class Renderer
   end
 
   def edges
-    @edges ||= graph.tasks.flat_map do |task|
+    @edges ||= tasks.flat_map do |task|
       task.relationships.select { |_k, v| v[:inverse_of].nil? }.keys.flat_map do |relationship_type|
         task.send(relationship_type).map do |node|
           {
             source: nodes.find_index { |n| n[:id] == task.id },
             target: nodes.find_index { |n| n[:id] == node.id },
             label: relationship_type.to_s.titleize,
+          }
+        end
+      end.reject(&:blank?)
+    end
+  end
+
+  def constraints
+    @constraints ||= tasks_by_type.each_cons(2).flat_map do |(_type, nodes), (_subtype, subnodes)|
+      nodes.flat_map do |node|
+        subnodes.map do |subnode|
+          {
+            axis: "y",
+            left: tasks.index(node),
+            right: tasks.index(subnode),
+            gap: 150,
           }
         end
       end
@@ -50,5 +66,19 @@ class Renderer
       .render(name: icon_for_type(type), variant: :outline, options: {})
       .at("path")
       .to_s
+  end
+
+  def tasks_by_type
+    @tasks_by_type ||= graph
+      .tasks
+      .group_by(&:type)
+      .sort_by { |k, _v| Task::TYPES.index(k) }
+      .to_h
+  end
+
+  def tasks
+    @tasks ||= tasks_by_type
+      .values
+      .flatten
   end
 end

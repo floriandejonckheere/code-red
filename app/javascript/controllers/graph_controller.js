@@ -13,7 +13,7 @@ export default class extends Controller {
     const cola = window.cola.d3adaptor(d3)
       .linkDistance(settings.edge.length)
       .avoidOverlaps(true)
-      .handleDisconnected(true)
+      .handleDisconnected(false)
       .convergenceThreshold(1e-9)
       .size([
         svg.node().getBoundingClientRect().width,
@@ -26,7 +26,8 @@ export default class extends Controller {
         cola
           .nodes(graph.nodes)
           .links(graph.edges)
-          .start()
+          .constraints(graph.constraints)
+          .start(30)
 
         const edge = svg
           .selectAll('.link')
