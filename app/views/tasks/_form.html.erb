@@ -81,7 +81,7 @@
             </div>
           <% end %>
           <div class="w-72 p-4">
-            <%= turbo_frame_tag "calendar", src: task_calendar_path(task_id: task.id, year: Date.current.year, month: Date.current.month) %>
+            <%= turbo_frame_tag "calendar", src: calendar_path(task_id: task&.id, year: Date.current.year, month: Date.current.month) %>
           </div>
         </div>
       </div>

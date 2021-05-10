@@ -5,9 +5,9 @@ Rails.application.routes.draw do
 
   root "application#index"
 
-  resources :tasks do
-    get "/years/:year/months/:month", to: "calendar#show", as: "calendar"
-  end
+  get "/years/:year/months/:month", to: "calendar#show", as: "calendar"
+
+  resources :tasks
 
   resources :relationships, only: [:create, :destroy]
 end
@@ -16,7 +16,7 @@ end
 #
 #                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
 #                                     root GET    /                                                                                                 application#index
-#                            task_calendar GET    /tasks/:task_id/years/:year/months/:month(.:format)                                               calendar#show
+#                                 calendar GET    /years/:year/months/:month(.:format)                                                              calendar#show
 #                                    tasks GET    /tasks(.:format)                                                                                  tasks#index
 #                                          POST   /tasks(.:format)                                                                                  tasks#create
 #                                 new_task GET    /tasks/new(.:format)                                                                              tasks#new
