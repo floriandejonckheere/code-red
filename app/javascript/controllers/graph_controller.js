@@ -49,6 +49,8 @@ export default class extends Controller {
           .groups(graph.groups)
           .start(settings.iterations.layout, settings.iterations.structural, settings.iterations.all)
 
+        setTimeout(() => { this.cola.stop() }, settings.iterations.timeout)
+
         const edge = this.container
           .selectAll('.link')
           .data(graph.edges)
