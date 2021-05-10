@@ -1,18 +1,22 @@
 <%= turbo_frame_tag "task" %>
 
-<div class="w-full h-full" data-controller="task-modal" data-task-modal-prevent-default-action-opening="false" data-task-modal-prevent-default-action-closing="false">
-  <div class="w-full h-full relative" data-controller="graph">
+<div class="w-full h-full relative" data-controller="task-modal" data-task-modal-prevent-default-action-opening="false" data-task-modal-prevent-default-action-closing="false">
+  <% if @tasks.empty? %>
+    <div class="w-full h-full flex items-center justify-center text-xl text-gray-400">Nothing here</div>
+  <% end %>
+
+  <div class="absolute left-4 top-4">
+    <%= link_to new_task_path, class: "m-8", title: "Create new task...", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
+      <div class="p-2 rounded border-2 border-b-2 border-l-2 bg-white border-gray-200 cursor-pointer hover:bg-gray-100" title="Add node">
+        <%= heroicon "plus", options: { class: "w-6 h-6" } %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="w-full h-full" data-controller="graph">
     <%= render partial: "tasks/modal_form" %>
 
     <svg id="svg-canvas" class="w-full h-full" data-graph-target="container"></svg>
-
-    <div class="absolute left-4 top-4">
-      <%= link_to new_task_path, class: "m-8", title: "Create new task...", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
-        <div class="p-2 rounded border-2 border-b-2 border-l-2 bg-white border-gray-200 cursor-pointer hover:bg-gray-100" title="Add node">
-          <%= heroicon "plus", options: { class: "w-6 h-6" } %>
-        </div>
-      <% end %>
-    </div>
 
 <!--    <div class="fixed right-4 bottom-4 flex bg-white">-->
 <!--      <div class="p-2 rounded-l border-t-2 border-b-2 border-l-2 bg-white border-gray-200 cursor-pointer hover:bg-gray-100" data-action="click->graph#zoomIn" title="Zoom in">-->
