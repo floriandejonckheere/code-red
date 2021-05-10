@@ -20,7 +20,7 @@ export default class extends Controller {
         this.svg.node().getBoundingClientRect().height,
       ])
 
-    const zoom = d3
+    this.zoom = d3
       .zoom()
       .scaleExtent([settings.zoom.min, settings.zoom.max])
       .on('zoom', () => {
@@ -33,7 +33,7 @@ export default class extends Controller {
       .attr('class', 'background')
       .attr('width', '100%')
       .attr('height', '100%')
-      .call(zoom)
+      .call(this.zoom)
 
     this.container = this.svg
       .append('g')
@@ -130,5 +130,32 @@ export default class extends Controller {
             .attr('y', d => (d.y + settings.node.height / 2) - 14)
         })
       })
+  }
+
+  zoomIn(e) {
+    e.preventDefault()
+
+    this.svg
+      .transition()
+      .duration(500)
+      .call(this.zoom.scaleBy, settings.zoom.step)
+  }
+
+  zoomOut(e) {
+    e.preventDefault()
+
+    this.svg
+      .transition()
+      .duration(500)
+      .call(this.zoom.scaleBy, -1 * settings.zoom.step)
+  }
+
+  zoomReset(e) {
+    e.preventDefault()
+
+    this.svg
+      .transition()
+      .duration(750)
+      .call(this.zoom.transform, d3.zoomIdentity)
   }
 }

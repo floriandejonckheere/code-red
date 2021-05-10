@@ -14,6 +14,7 @@ export default {
   zoom: {
     min: 0.7,
     max: 2,
+    step: 0.3,
   },
   iterations: {
     layout: 10,
