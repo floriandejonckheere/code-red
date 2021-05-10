@@ -47,6 +47,7 @@ export default class extends Controller {
           .map(node => { return { ...node, width: settings.node.width, height: settings.node.height } })
 
         this.cola
+          .linkDistance(settings.edge.length)
           .nodes(graph.nodes)
           .links(graph.edges)
           // .constraints(graph.constraints)
