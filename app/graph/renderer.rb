@@ -73,7 +73,7 @@ class Renderer
     # Extract <path> from SVG icon
     Heroicon::Icon
       .render(name: icon_for_type(type), variant: :outline, options: {})
-      .at("path")
+      .css("path")
       .to_s
   end
 
