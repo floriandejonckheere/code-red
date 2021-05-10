@@ -8,54 +8,55 @@ export default class extends Controller {
   connect() {
     super.connect()
 
-    const svg = d3.select(this.containerTarget)
+    this.svg = d3.select(this.containerTarget)
 
-    const cola = window.cola.d3adaptor(d3)
+    this.cola = window.cola.d3adaptor(d3)
       .linkDistance(settings.edge.length)
       .avoidOverlaps(true)
       .handleDisconnected(false)
       .convergenceThreshold(1e-9)
       .size([
-        svg.node().getBoundingClientRect().width,
-        svg.node().getBoundingClientRect().height,
+        this.svg.node().getBoundingClientRect().width,
+        this.svg.node().getBoundingClientRect().height,
       ])
 
     const zoom = d3
       .zoom()
       .scaleExtent([settings.zoom.min, settings.zoom.max])
       .on('zoom', () => {
-        container.attr('transform', d3.event.transform)
+        this.container
+          .attr('transform', d3.event.transform)
       })
 
-    svg
+    this.svg
       .append('rect')
       .attr('class', 'background')
       .attr('width', '100%')
       .attr('height', '100%')
       .call(zoom)
 
-    const container = svg
+    this.container = this.svg
       .append('g')
       .attr('transform', 'translate(0, 0)')
 
     fetch('/tasks.json')
       .then(response => response.json())
       .then(graph => {
-        cola
+        this.cola
           .nodes(graph.nodes)
           .links(graph.edges)
           // .constraints(graph.constraints)
           .groups(graph.groups)
-          .start(20)
+          .start()
 
-        const edge = container
+        const edge = this.container
           .selectAll('.link')
           .data(graph.edges)
           .enter()
           .append('line')
           .attr('class', 'link')
 
-        const anchor = container
+        const anchor = this.container
           .selectAll('.anchor')
           .data(graph.nodes)
           .enter()
@@ -66,7 +67,7 @@ export default class extends Controller {
           .attr('href', d => `/tasks/${d.id}/edit`)
           .attr('width', settings.node.width)
           .attr('height', settings.node.height)
-          .call(cola.drag)
+          .call(this.cola.drag)
 
         const node = anchor
           .append('rect')
@@ -75,7 +76,7 @@ export default class extends Controller {
           .attr('height', settings.node.height)
           .attr('rx', settings.node.radius)
           .attr('ry', settings.node.radius)
-          .call(cola.drag)
+          .call(this.cola.drag)
 
         node
           .append('title')
@@ -85,7 +86,7 @@ export default class extends Controller {
           .append('text')
           .attr('class', 'label')
           .text(d => d.label)
-          .call(cola.drag)
+          .call(this.cola.drag)
 
         const icon = anchor
           .append('svg')
@@ -95,15 +96,15 @@ export default class extends Controller {
           .attr('preserveAspectRatio', 'xMinYMin')
           .attr('class', d => `icon text-${d.color}`)
           .html(d => d.icon)
-          .call(cola.drag)
+          .call(this.cola.drag)
 
         const type = anchor
           .append('text')
           .attr('class', d => `type text-${d.color}`)
           .text(d => d.type)
-          .call(cola.drag)
+          .call(this.cola.drag)
 
-        cola.on('tick', () => {
+        this.cola.on('tick', () => {
           edge
             .attr('x1', d => d.source.x)
             .attr('y1', d => d.source.y)
