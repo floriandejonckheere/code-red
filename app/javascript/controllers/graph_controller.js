@@ -20,17 +20,11 @@ export default class extends Controller {
         svg.node().getBoundingClientRect().height,
       ])
 
-    const drag = d3
-      .drag()
-      .on('drag', function () {
-        container.x ||= 0
-        container.y ||= 0
-
-        container.x += d3.event.dx;
-        container.y += d3.event.dy;
-
-        container
-          .attr('transform', `translate(${container.x}, ${container.y})`)
+    const zoom = d3
+      .zoom()
+      .scaleExtent([settings.zoom.min, settings.zoom.max])
+      .on('zoom', () => {
+        container.attr('transform', d3.event.transform)
       })
 
     svg
@@ -38,7 +32,7 @@ export default class extends Controller {
       .attr('class', 'background')
       .attr('width', '100%')
       .attr('height', '100%')
-      .call(drag)
+      .call(zoom)
 
     const container = svg
       .append('g')

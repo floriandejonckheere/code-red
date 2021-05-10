@@ -11,4 +11,8 @@ export default {
   icon: {
     viewbox: 1200,
   },
+  zoom: {
+    min: 0.7,
+    max: 2,
+  }
 }
