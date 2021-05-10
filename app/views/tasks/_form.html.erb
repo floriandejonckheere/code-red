@@ -70,7 +70,7 @@
           <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
         </div>
       </div>
-      <div data-task-dropdown-target="menu" class="absolute left-0 hidden">
+      <div data-task-dropdown-target="menu" class="absolute left-0 hidden" style="z-index: 9997;">
         <div class="bg-white shadow rounded border">
           <% if task.deadline %>
             <div class="w-72 p-4 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="" data-title="No deadline">
@@ -98,7 +98,7 @@
           <%= heroicon "chevron-down", options: { class: "h-4 w-4 inline-block" } %>
         </div>
       </div>
-      <div data-task-dropdown-target="menu" class="absolute left-0 hidden">
+      <div data-task-dropdown-target="menu" class="absolute left-0 hidden" style="z-index: 9997;">
         <div class="bg-white shadow rounded border">
           <% if task.user %>
             <div class="w-64 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="" data-title="No assignee">
