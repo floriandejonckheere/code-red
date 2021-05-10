@@ -47,7 +47,7 @@ export default class extends Controller {
           .links(graph.edges)
           // .constraints(graph.constraints)
           .groups(graph.groups)
-          .start()
+          .start(settings.iterations.layout, settings.iterations.structural, settings.iterations.all)
 
         const edge = this.container
           .selectAll('.link')
