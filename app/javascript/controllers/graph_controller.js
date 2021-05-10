@@ -42,6 +42,10 @@ export default class extends Controller {
     fetch('/tasks.json')
       .then(response => response.json())
       .then(graph => {
+        // Inject height/width for bounding boxes
+        graph.nodes = graph.nodes
+          .map(node => { return { ...node, width: settings.node.width, height: settings.node.height } })
+
         this.cola
           .nodes(graph.nodes)
           .links(graph.edges)
