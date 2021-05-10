@@ -1,6 +1,6 @@
 export default {
   node: {
-    width: 150,
+    width: 175,
     height: 75,
     radius: 2,
     padding: 10,

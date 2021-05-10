@@ -90,8 +90,10 @@ export default class extends Controller {
           .text(d => d.label)
 
         const label = anchor
-          .append('text')
+          .append('foreignObject')
           .attr('class', 'label')
+          .attr('width', settings.node.width - (2 * settings.node.padding))
+          .attr('height', 20)
           .text(d => d.label)
           .call(this.cola.drag)
 
@@ -124,7 +126,7 @@ export default class extends Controller {
 
           label
             .attr('x', d => (d.x - settings.node.width / 2) + settings.node.padding)
-            .attr('y', d => (d.y - settings.node.height / 2) + settings.node.padding + 16)
+            .attr('y', d => (d.y - settings.node.height / 2) + settings.node.padding)
 
           icon
             .attr('x', d => (d.x - settings.node.width / 2) + settings.node.padding)
