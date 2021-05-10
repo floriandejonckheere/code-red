@@ -13,8 +13,8 @@ export default class extends Controller {
     this.cola = window.cola.d3adaptor(d3)
       .linkDistance(settings.edge.length)
       .avoidOverlaps(true)
-      .handleDisconnected(false)
-      .convergenceThreshold(1e-9)
+      .handleDisconnected(true)
+      .convergenceThreshold(1e-3)
       .size([
         this.svg.node().getBoundingClientRect().width,
         this.svg.node().getBoundingClientRect().height,
