@@ -1,3 +1,7 @@
+.background {
+  @apply text-gray-100 fill-current;
+}
+
 .node {
   @apply cursor-pointer stroke-current text-gray-200 drop-shadow-md;
 
@@ -12,6 +16,8 @@
   stroke: #999;
   stroke-width: 2px;
   stroke-opacity: 1;
+
+  marker-end: url(#end-arrow);
 }
 
 .label {

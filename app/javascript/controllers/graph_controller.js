@@ -20,6 +20,30 @@ export default class extends Controller {
         svg.node().getBoundingClientRect().height,
       ])
 
+    const drag = d3
+      .drag()
+      .on('drag', function () {
+        container.x ||= 0
+        container.y ||= 0
+
+        container.x += d3.event.dx;
+        container.y += d3.event.dy;
+
+        container
+          .attr('transform', `translate(${container.x}, ${container.y})`)
+      })
+
+    svg
+      .append('rect')
+      .attr('class', 'background')
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .call(drag)
+
+    const container = svg
+      .append('g')
+      .attr('transform', 'translate(0, 0)')
+
     fetch('/tasks.json')
       .then(response => response.json())
       .then(graph => {
@@ -28,16 +52,16 @@ export default class extends Controller {
           .links(graph.edges)
           // .constraints(graph.constraints)
           .groups(graph.groups)
-          .start()
+          .start(20)
 
-        const edge = svg
+        const edge = container
           .selectAll('.link')
           .data(graph.edges)
           .enter()
           .append('line')
           .attr('class', 'link')
 
-        const anchor = svg
+        const anchor = container
           .selectAll('.anchor')
           .data(graph.nodes)
           .enter()
