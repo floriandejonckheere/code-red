@@ -24,7 +24,7 @@
     <%= render partial: "components/notifications" %>
 
     <div class="bg-gray-100 flex flex-row justify-start">
-      <div class="w-64 h-screen bg-white border-r border-gray-200">
+      <div class="w-72 h-screen bg-white border-r border-gray-200">
         <div class="flex flex-col items-center justify-start mt-10 px-8 border-b border-gray-200">
           <%= image_pack_tag "logo.png", class: "w-20 h-20" %>
           <div class="my-4 mb-8 text-xl" style="font-family: Cantarell, sans-serif;">Code Red</div>
@@ -33,14 +33,16 @@
         <nav class="mt-10">
           <div class="py-2 px-8 capitalize text-gray-400 text-xs">PROJECTS</div>
 
-          <a class="flex items-center mt-1 py-2 px-8 text-sm text-gray-600 bg-gray-100" href="#">
-            <%= heroicon "clipboard-list", options: { class: "w-5" } %>
-            <span class="mx-4 font-medium">My project</span>
-          </a>
+          <% Project.all.each do |project| %>
+            <%= link_to project_tasks_path(project), class: "flex items-center mt-1 py-2 px-8 text-sm text-gray-600 #{'bg-gray-100' if params[:project_id] == project.id}" do %>
+              <%= heroicon project.icon, options: { class: "w-5" } %>
+              <span class="mx-4 font-medium"><%= project.name %></span>
+            <% end %>
+          <% end %>
         </nav>
 
         <div class="absolute bottom-0 my-10">
-          <a class="flex items-center py-2 px-8 text-gray-500 hover:text-gray-600" href="#">
+          <a class="flex items-center py-2 px-8 text-gray-500 cursor-not-allowed hover:text-gray-600" href="#">
             <%= heroicon "cog", options: { class: "w-5" } %>
             <span class="mx-4 font-medium">Settings</span>
           </a>

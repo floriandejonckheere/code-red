@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TasksController < ApplicationController
+class TasksController < ProjectsController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index

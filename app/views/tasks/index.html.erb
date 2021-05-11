@@ -6,7 +6,7 @@
   <% end %>
 
   <div class="absolute left-4 top-4">
-    <%= link_to new_task_path, class: "m-8", title: "Create new task...", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
+    <%= link_to new_project_task_path(@project), class: "m-8", title: "Create new task...", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
       <div class="p-2 rounded border-2 border-b-2 border-l-2 bg-white border-gray-200 cursor-pointer hover:bg-gray-100" title="Add node">
         <%= heroicon "plus", options: { class: "w-6 h-6" } %>
       </div>
@@ -18,16 +18,16 @@
 
     <svg id="svg-canvas" class="w-full h-full" data-graph-target="container"></svg>
 
-<!--    <div class="fixed right-4 bottom-4 flex bg-white">-->
-<!--      <div class="p-2 rounded-l border-t-2 border-b-2 border-l-2 bg-white border-gray-200 cursor-pointer hover:bg-gray-100" data-action="click->graph#zoomIn" title="Zoom in">-->
-        <%#= heroicon "zoom-in", options: { class: "w-6 h-6" } %>
-<!--      </div>-->
-<!--      <div class="p-2 border-2 bg-white border-gray-200 cursor-pointer hover:bg-gray-100" data-action="click->graph#zoomReset" title="Reset zoom">-->
-        <%#= heroicon "globe-alt", options: { class: "w-6 h-6" } %>
-<!--      </div>-->
-<!--      <div class="p-2 rounded-r border-t-2 border-b-2 border-r-2 bg-white border-gray-200 cursor-pointer hover:bg-gray-100" data-action="click->graph#zoomOut" title="Zoom out">-->
-        <%#= heroicon "zoom-out", options: { class: "w-6 h-6" } %>
-<!--      </div>-->
-<!--    </div>-->
+    <div class="fixed right-4 bottom-4 flex bg-white">
+      <div class="p-2 rounded-l border-t-2 border-b-2 border-l-2 bg-white border-gray-200 cursor-not-allowed" title="Zoom in">
+        <%= heroicon "zoom-in", options: { class: "w-6 h-6" } %>
+      </div>
+      <div class="p-2 border-2 bg-white border-gray-200 cursor-not-allowed" title="Reset zoom">
+        <%= heroicon "globe-alt", options: { class: "w-6 h-6" } %>
+      </div>
+      <div class="p-2 rounded-r border-t-2 border-b-2 border-r-2 bg-white border-gray-200 cursor-not-allowed" title="Zoom out">
+        <%= heroicon "zoom-out", options: { class: "w-6 h-6" } %>
+      </div>
+    </div>
   </div>
 </div>
