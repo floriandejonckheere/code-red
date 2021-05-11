@@ -1,0 +1,9 @@
+#!/usr/bin/sh
+
+SOURCE="app/javascript/images/logo.png"
+FAVICON="public/favicon.ico"
+
+convert ${SOURCE} -resize 16x16 /tmp/favicon-16.png
+convert ${SOURCE} -resize 32x32 /tmp/favicon-32.png
+convert ${SOURCE} -resize 64x64 /tmp/favicon-64.png
+convert /tmp/favicon-16.png /tmp/favicon-32.png /tmp/favicon-64.png ${FAVICON}
