@@ -38,6 +38,12 @@ rails db:migrate
 
 Use the `bin/update` script to update your development environment dependencies.
 
+If you want to enable faster compilation of assets, run Webpack dev server in the same container as the Rails server:
+
+```
+docker-compose exec app bin/webpack-bin-server
+```
+
 ## Debugging
 
 To debug the server component in your IDE, start the `debug` instead of the `app` container, and connect to `localhost:1234`.
