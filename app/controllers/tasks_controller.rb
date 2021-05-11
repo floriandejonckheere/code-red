@@ -4,7 +4,7 @@ class TasksController < ProjectsController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = graph.tasks
+    @tasks = @project.tasks
   end
 
   def show; end
@@ -16,6 +16,7 @@ class TasksController < ProjectsController
 
   def edit
     @users = User.all.order(:name)
+    @tasks = @project.tasks.sort_by(&:title)
   end
 
   def create

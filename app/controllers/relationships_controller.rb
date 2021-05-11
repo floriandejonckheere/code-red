@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
-class RelationshipsController < ApplicationController
+class RelationshipsController < ProjectsController
   before_action :set_relationship
 
   def create
     @relationship = Edge.new(graph: graph)
-    @relationship.update(relationship_params)
+
+    from = Task.find(graph, relationship_params[:from_id])
+    to = Task.find(graph, relationship_params[:to_id])
+
+    @relationship.update(**Task.invert(from: from, type: relationship_params[:type], to: to))
 
     @users = User.all.order(:name)
 
@@ -44,7 +48,7 @@ class RelationshipsController < ApplicationController
 
   def relationship_params
     params
-      .require(:task)
+      .require(:relationship)
       .permit(
         :from_id,
         :to_id,
