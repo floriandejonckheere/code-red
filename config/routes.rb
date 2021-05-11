@@ -3,30 +3,32 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  root "application#index"
+  root to: "tasks#index", project_id: "055616f0-a130-42b1-a3fd-81b7c8a3ef1b"
 
   get "/years/:year/months/:month", to: "calendar#show", as: "calendar"
 
-  resources :tasks
+  resources :projects, only: :none do
+    resources :tasks
 
-  resources :relationships, only: [:create, :destroy]
+    resources :relationships, only: [:create, :destroy]
+  end
 end
 
 # == Route Map
 #
 #                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
-#                                     root GET    /                                                                                                 application#index
+#                                     root GET    /                                                                                                 tasks#index {:project_id=>"055616f0-a130-42b1-a3fd-81b7c8a3ef1b"}
 #                                 calendar GET    /years/:year/months/:month(.:format)                                                              calendar#show
-#                                    tasks GET    /tasks(.:format)                                                                                  tasks#index
-#                                          POST   /tasks(.:format)                                                                                  tasks#create
-#                                 new_task GET    /tasks/new(.:format)                                                                              tasks#new
-#                                edit_task GET    /tasks/:id/edit(.:format)                                                                         tasks#edit
-#                                     task GET    /tasks/:id(.:format)                                                                              tasks#show
-#                                          PATCH  /tasks/:id(.:format)                                                                              tasks#update
-#                                          PUT    /tasks/:id(.:format)                                                                              tasks#update
-#                                          DELETE /tasks/:id(.:format)                                                                              tasks#destroy
-#                            relationships POST   /relationships(.:format)                                                                          relationships#create
-#                             relationship DELETE /relationships/:id(.:format)                                                                      relationships#destroy
+#                            project_tasks GET    /projects/:project_id/tasks(.:format)                                                             tasks#index
+#                                          POST   /projects/:project_id/tasks(.:format)                                                             tasks#create
+#                         new_project_task GET    /projects/:project_id/tasks/new(.:format)                                                         tasks#new
+#                        edit_project_task GET    /projects/:project_id/tasks/:id/edit(.:format)                                                    tasks#edit
+#                             project_task GET    /projects/:project_id/tasks/:id(.:format)                                                         tasks#show
+#                                          PATCH  /projects/:project_id/tasks/:id(.:format)                                                         tasks#update
+#                                          PUT    /projects/:project_id/tasks/:id(.:format)                                                         tasks#update
+#                                          DELETE /projects/:project_id/tasks/:id(.:format)                                                         tasks#destroy
+#                    project_relationships POST   /projects/:project_id/relationships(.:format)                                                     relationships#create
+#                     project_relationship DELETE /projects/:project_id/relationships/:id(.:format)                                                 relationships#destroy
 #         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh
