@@ -1,26 +1,22 @@
 # frozen_string_literal: true
 
 class TasksController < ProjectsController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
-
   def index
-    @tasks = @project.tasks
+    render locals: { project: project, users: users }
   end
 
-  def show; end
-
   def new
-    @task = Task.new(graph: graph)
-    @users = User.all.order(:name)
+    @task = Task.new(graph: project.graph)
+
+    render locals: { project: project, task: task }
   end
 
   def edit
-    @users = User.all.order(:name)
-    @tasks = @project.tasks.sort_by(&:title)
+    render locals: { project: project, task: task }
   end
 
   def create
-    @task = Task.new(graph: graph)
+    @task = Task.new(graph: project.graph)
 
     update
   end
@@ -28,11 +24,9 @@ class TasksController < ProjectsController
   def update
     @task.update(task_params)
 
-    @users = User.all.order(:name)
-
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { task: @task, notice: "Task saved" })
+        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { project: project, task: task, notice: "Task saved" })
       end
     end
   end
@@ -41,14 +35,18 @@ class TasksController < ProjectsController
     @task.destroy
 
     respond_to do |format|
-      format.html { redirect_to tasks_url, notice: "Task deleted" }
+      format.html { redirect_to project_tasks_path(project_id: project.id), notice: "Task deleted" }
     end
   end
 
   private
 
-  def set_task
-    @task = Task.find(graph, params[:id])
+  def task
+    @task ||= Task.find(project.graph, params[:id])
+  end
+
+  def users
+    @users ||= User.all.order(:name)
   end
 
   def task_params

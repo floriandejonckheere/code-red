@@ -1,6 +1,6 @@
 <div id="task_form">
   <%= form_with model: task,
-                url: (task.id ? project_task_path(project_id: @project.id, task_id: task.id) : project_tasks_path(project_id: @project)),
+                url: (task.id ? project_task_path(project_id: project.id, id: task.id) : project_tasks_path(project_id: project.id)),
                 method: (task.id ? :patch : :post),
                 class: "w-full flex flex-col justify-between" do |f|
   %>
@@ -80,7 +80,7 @@
               </div>
             <% end %>
             <div class="w-72 p-4">
-              <%= turbo_frame_tag "calendar", src: calendar_path(project_id: @project.id, task_id: task.id, year: Date.current.year, month: Date.current.month) %>
+              <%= turbo_frame_tag "calendar", src: calendar_path(project_id: project.id, task_id: task.id, year: Date.current.year, month: Date.current.month) %>
             </div>
           </div>
         </div>
@@ -107,7 +107,7 @@
                 </div>
               </div>
             <% end %>
-            <% @users.each do |user| %>
+            <% User.all.each do |user| %>
               <div class="w-64 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= user.id %>" data-title="<%= user.name %>">
                 <div class="text-gray-600">
                   <%= heroicon "user", options: { class: "h-4 w-4 inline-block" } %>
@@ -178,12 +178,12 @@
       <div class="text-xs font-bold text-gray-400 my-4"><%= relationship_type.to_s.titleize %></div>
 
       <% task.send(relationship_type).each do |to_task| %>
-        <%= link_to edit_project_task_path(project_id: @project.id, task_id: to_task.id), data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
+        <%= link_to edit_project_task_path(project_id: project.id, id: to_task.id), data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
           <div class="p-1 group flex items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
             <%= heroicon icon_for_type(to_task.type), options: { class: "h-4 w-4 inline-block text-#{color_for_type(to_task.type)}" } %>
             <span class="ml-4"><%= to_task.title %></span>
 
-            <%= link_to project_relationship_path(project_id: @project.id, from_id: task.id, type: relationship_type, to_id: to_task.id, task_id: task.id),
+            <%= link_to project_relationships_path(project_id: project.id, relationship: { from_id: task.id, type: relationship_type, to_id: to_task.id, task_id: task.id }),
                         method: :delete,
                         class: "ml-auto p-2 inline-flex items-center rounded-sm transition text-gray-400 opacity-0 hover:bg-gray-200 group-hover:opacity-100" do %>
               <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %>
@@ -194,8 +194,9 @@
     <% end %>
 
     <div class="text-xs font-bold text-gray-400 my-4">Add relationship</div>
-    <%= form_for :relationship, url: project_relationships_path(project_id: @project), method: :post, class: "w-full flex flex-col justify-between" do |f| %>
+    <%= form_for :relationship, url: project_relationships_path(project_id: project), method: :post, class: "w-full flex flex-col justify-between" do |f| %>
       <%= f.hidden_field :from_id, value: task.id %>
+      <%= f.hidden_field :task_id, value: task.id %>
 
       <div class="w-full flex">
         <div class="relative" data-controller="task-dropdown">
@@ -219,7 +220,7 @@
         </div>
 
         <div class="mx-4 relative" data-controller="task-dropdown">
-          <%= f.hidden_field :to_id, data: { "task-dropdown-target": "value" } %>
+          <%= f.hidden_field :to_id, value: nil, data: { "task-dropdown-target": "value" } %>
           <div data-action="click->task-dropdown#toggle click@window->task-dropdown#hide" data-task-dropdown-target="button" class="inline-block select-none">
             <div class="w-64 p-2 flex justify-between items-center rounded text-sm text-gray-600 transition cursor-pointer hover:bg-gray-100">
               <span class="pr-4 truncate" style="font-family: Cantarell, sans-serif;" data-task-dropdown-target="title">Select a task...</span>
@@ -229,7 +230,7 @@
 
           <div data-task-dropdown-target="menu" class="absolute bottom-8 mb-1 left-0 hidden" style="z-index: 9997;">
             <div class="bg-white shadow rounded border">
-              <% @tasks.each do |task| %>
+              <% project.tasks.each do |task| %>
                 <div class="w-72 pl-8 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= task.id %>">
                   <%= heroicon icon_for_type(task.type), options: { class: "h-4 w-4 inline-block text-#{color_for_type(task.type)}" } %>
                   <span class="ml-4"><%= task.title %></span>
@@ -248,7 +249,7 @@
         Created <%= distance_of_time_in_words(task.created_at, Time.zone.now) %> ago
       </div>
 
-      <%= link_to project_task_path(project_id: @project.id, task_id: task.id), method: :delete, data: { confirm: "Are you sure you want to permanently delete the task?" }, class: "p-2 inline-flex items-center rounded-sm transition text-red-400 hover:bg-red-100 hover:text-red-600" do %>
+      <%= link_to project_task_path(project_id: project.id, id: task.id), method: :delete, data: { confirm: "Are you sure you want to permanently delete the task?" }, class: "p-2 inline-flex items-center rounded-sm transition text-red-400 hover:bg-red-100 hover:text-red-600" do %>
         <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %>
       <% end %>
     </div>

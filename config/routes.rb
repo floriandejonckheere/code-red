@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   get "/years/:year/months/:month", to: "calendar#show", as: "calendar"
 
   resources :projects, only: :none do
-    resources :tasks
+    resources :tasks, except: :show
 
-    resources :relationships, only: [:create, :destroy]
+    resource :relationships, only: [:create, :destroy]
   end
 end
 
@@ -23,12 +23,11 @@ end
 #                                          POST   /projects/:project_id/tasks(.:format)                                                             tasks#create
 #                         new_project_task GET    /projects/:project_id/tasks/new(.:format)                                                         tasks#new
 #                        edit_project_task GET    /projects/:project_id/tasks/:id/edit(.:format)                                                    tasks#edit
-#                             project_task GET    /projects/:project_id/tasks/:id(.:format)                                                         tasks#show
-#                                          PATCH  /projects/:project_id/tasks/:id(.:format)                                                         tasks#update
+#                             project_task PATCH  /projects/:project_id/tasks/:id(.:format)                                                         tasks#update
 #                                          PUT    /projects/:project_id/tasks/:id(.:format)                                                         tasks#update
 #                                          DELETE /projects/:project_id/tasks/:id(.:format)                                                         tasks#destroy
-#                    project_relationships POST   /projects/:project_id/relationships(.:format)                                                     relationships#create
-#                     project_relationship DELETE /projects/:project_id/relationships/:id(.:format)                                                 relationships#destroy
+#                    project_relationships DELETE /projects/:project_id/relationships(.:format)                                                     relationships#destroy
+#                                          POST   /projects/:project_id/relationships(.:format)                                                     relationships#create
 #         turbo_recede_historical_location GET    /recede_historical_location(.:format)                                                             turbo/native/navigation#recede
 #         turbo_resume_historical_location GET    /resume_historical_location(.:format)                                                             turbo/native/navigation#resume
 #        turbo_refresh_historical_location GET    /refresh_historical_location(.:format)                                                            turbo/native/navigation#refresh

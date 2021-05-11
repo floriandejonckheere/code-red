@@ -1,16 +1,16 @@
 <%= turbo_frame_tag "calendar" do %>
   <div class="flex flex-center justify-between items-center bg-white">
     <div>
-      <span class="font-bold text-gray-800"><%= @date.strftime("%B") %></span>
-      <span class="ml-1 text-gray-600"><%= @date.strftime("%Y") %></span>
+      <span class="font-bold text-gray-800"><%= date.strftime("%B") %></span>
+      <span class="ml-1 text-gray-600"><%= date.strftime("%Y") %></span>
     </div>
     <div>
-      <%= link_to calendar_path(project_id: @project.id, task_id: @task&.id, year: @previous.year, month: @previous.month),
+      <%= link_to calendar_path(project_id: project.id, task_id: task&.id, year: past.year, month: past.month),
                   data: { turbo_frame: "calendar" },
                   class: "p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200" do %>
         <%= heroicon "chevron-left", options: { class: "h-4 w-4 ml-auto inline-block" } %>
       <% end %>
-      <%= link_to calendar_path(project_id: @project.id, task_id: @task&.id, year: @next.year, month: @next.month),
+      <%= link_to calendar_path(project_id: project.id, task_id: task&.id, year: future.year, month: future.month),
                   data: { turbo_frame: "calendar" },
                   class: "p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200" do %>
         <%= heroicon "chevron-right", options: { class: "h-4 w-4 ml-auto inline-block" } %>
@@ -26,16 +26,16 @@
     <div class="font-bold">Sat</div>
     <div class="font-bold">Sun</div>
 
-    <% (@date.wday - 1).times do %>
+    <% (date.wday - 1).times do %>
       <div></div>
     <% end %>
 
-    <% (@date.beginning_of_month..@date.end_of_month).each do |date| %>
+    <% (date.beginning_of_month..date.end_of_month).each do |date| %>
       <div
-        class="p-2 rounded-full transition text-center cursor-pointer <%= "font-bold" if date.today? %> hover:bg-gray-200 <%= "bg-red-600 text-white hover:bg-red-700" if date == @task&.deadline %>"
+        class="p-2 rounded-full transition text-center cursor-pointer <%= "font-bold" if date.today? %> hover:bg-gray-200 <%= "bg-red-600 text-white hover:bg-red-700" if date == task&.deadline %>"
         data-action="click->task-dropdown#toggle click->task-dropdown#set"
-        data-value="<%= date.iso8601 unless date == @task&.deadline %>"
-        data-title="<%= date == @task&.deadline ? "No deadline" : I18n.l(date, format: :long) %>"
+        data-value="<%= date.iso8601 unless date == task&.deadline %>"
+        data-title="<%= date == task&.deadline ? "No deadline" : I18n.l(date, format: :long) %>"
       >
         <%= date.day %>
       </div>

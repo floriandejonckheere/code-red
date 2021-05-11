@@ -1,55 +1,55 @@
 # frozen_string_literal: true
 
 class RelationshipsController < ProjectsController
-  before_action :set_relationship
-
   def create
-    @relationship = Edge.new(graph: graph)
+    @relationship = Edge.new(graph: project.graph)
 
-    from = Task.find(graph, relationship_params[:from_id])
-    to = Task.find(graph, relationship_params[:to_id])
+    from = Task.find(project.graph, relationship_params[:from_id])
+    to = Task.find(project.graph, relationship_params[:to_id])
 
-    @relationship.update(**Task.invert(from: from, type: relationship_params[:type], to: to))
-
-    @users = User.all.order(:name)
+    relationship.update(**Task.invert(from: from, type: relationship_params[:type], to: to))
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { task: @task })
+        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { project: project, task: task })
       end
     end
   end
 
   def destroy
-    @relationship.destroy
-
-    @users = User.all.order(:name)
+    relationship.destroy
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { task: @task })
+        render turbo_stream: turbo_stream.replace("task_form", partial: "tasks/form", locals: { project: project, task: task })
       end
     end
   end
 
   private
 
-  def set_relationship
-    # Use task_id to render the correct task form
-    @task = Task.find(graph, params[:task_id]) if params[:task_id]
+  def task
+    @task ||= Task.find(project.graph, relationship_params[:task_id]) if relationship_params[:task_id]
+  end
 
-    return unless params[:from_id] && params[:type] && params[:to_id]
+  def relationship
+    @relationship ||= find_relationship
+  end
 
-    from = Task.find(graph, params[:from_id])
-    to = Task.find(graph, params[:to_id])
+  def find_relationship
+    return unless relationship_params[:from_id] && relationship_params[:type] && relationship_params[:to_id]
 
-    @relationship = Edge.find(graph, **Task.invert(from: from, type: params[:type], to: to))
+    from = Task.find(project.graph, relationship_params[:from_id])
+    to = Task.find(project.graph, relationship_params[:to_id])
+
+    Edge.find(project.graph, **Task.invert(from: from, type: relationship_params[:type], to: to))
   end
 
   def relationship_params
     params
       .require(:relationship)
       .permit(
+        :task_id,
         :from_id,
         :to_id,
         :type,
