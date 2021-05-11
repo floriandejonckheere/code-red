@@ -6,7 +6,7 @@
   <% end %>
 
   <div class="absolute left-4 top-4">
-    <%= link_to new_project_task_path(@project), class: "m-8", title: "Create new task...", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
+    <%= link_to new_project_task_path(project_id: @project), class: "m-8", title: "Create new task...", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
       <div class="p-2 rounded border-2 border-b-2 border-l-2 bg-white border-gray-200 cursor-pointer hover:bg-gray-100" title="Add node">
         <%= heroicon "plus", options: { class: "w-6 h-6" } %>
       </div>

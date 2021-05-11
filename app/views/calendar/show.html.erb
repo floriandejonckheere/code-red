@@ -5,12 +5,12 @@
       <span class="ml-1 text-gray-600"><%= @date.strftime("%Y") %></span>
     </div>
     <div>
-      <%= link_to calendar_path(task_id: @task&.id, year: @previous.year, month: @previous.month),
+      <%= link_to calendar_path(project_id: @project.id, task_id: @task&.id, year: @previous.year, month: @previous.month),
                   data: { turbo_frame: "calendar" },
                   class: "p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200" do %>
         <%= heroicon "chevron-left", options: { class: "h-4 w-4 ml-auto inline-block" } %>
       <% end %>
-      <%= link_to calendar_path(task_id: @task&.id, year: @next.year, month: @next.month),
+      <%= link_to calendar_path(project_id: @project.id, task_id: @task&.id, year: @next.year, month: @next.month),
                   data: { turbo_frame: "calendar" },
                   class: "p-2 rounded-full inline-flex items-center transition text-gray-400 hover:bg-gray-200" do %>
         <%= heroicon "chevron-right", options: { class: "h-4 w-4 ml-auto inline-block" } %>

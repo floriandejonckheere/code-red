@@ -1,4 +1,4 @@
-<%= link_to edit_task_path(task.id), class: "m-8", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
+<%= link_to edit_project_task_path(project_id: @project.id, task_id: task.id), class: "m-8", data: { action: "click->task-modal#open", "turbo-frame": "task" } do %>
   <div class="w-64 h-28 p-4 flex flex-col justify-between bg-white shadow-md rounded-sm border border-gray-200 hover:border-gray-300 cursor-pointer">
     <h1 class="text-gray-800 font-medium text-lg text-gray-800 mb-2" style="font-family: Cantarell, sans-serif;"><%= task.title %></h1>
 

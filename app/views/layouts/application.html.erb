@@ -34,7 +34,7 @@
           <div class="py-2 px-8 capitalize text-gray-400 text-xs">PROJECTS</div>
 
           <% Project.all.each do |project| %>
-            <%= link_to project_tasks_path(project), class: "flex items-center mt-1 py-2 px-8 text-sm text-gray-600 #{'bg-gray-100' if params[:project_id] == project.id}" do %>
+            <%= link_to project_tasks_path(project_id: project.id), class: "flex items-center mt-1 py-2 px-8 text-sm text-gray-600 #{'bg-gray-100' if params[:project_id] == project.id}" do %>
               <%= heroicon project.icon, options: { class: "w-5" } %>
               <span class="mx-4 font-medium"><%= project.name %></span>
             <% end %>

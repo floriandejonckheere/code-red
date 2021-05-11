@@ -75,7 +75,7 @@ export default class extends Controller {
           .attr('class', 'anchor')
           .attr('data-action', 'click->task-modal#open')
           .attr('data-turbo-frame', 'task')
-          .attr('href', d => `/tasks/${d.id}/edit`)
+          .attr('href', d => `/projects/${this.projectIdValue}/tasks/${d.id}/edit`)
           .attr('width', settings.node.width)
           .attr('height', settings.node.height)
           .call(this.cola.drag)

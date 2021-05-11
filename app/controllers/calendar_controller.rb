@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CalendarController < ApplicationController
+class CalendarController < ProjectsController
   before_action :set_task
 
   def show
