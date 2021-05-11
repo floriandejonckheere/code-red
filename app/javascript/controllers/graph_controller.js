@@ -48,7 +48,7 @@ export default class extends Controller {
       .then(graph => {
         // Inject height/width for bounding boxes
         graph.nodes = graph.nodes
-          .map(node => { return { ...node, width: settings.node.width, height: settings.node.height } })
+          .map(node => { return { ...node, width: (settings.node.width + settings.node.padding), height: (settings.node.height + settings.node.padding) } })
 
         this.cola
           .linkDistance(settings.edge.length)
