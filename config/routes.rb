@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  root to: "tasks#index", project_id: "055616f0-a130-42b1-a3fd-81b7c8a3ef1b"
+  root to: redirect("/projects/055616f0-a130-42b1-a3fd-81b7c8a3ef1b/tasks")
 
   get "/years/:year/months/:month", to: "calendar#show", as: "calendar"
 
@@ -17,7 +17,7 @@ end
 # == Route Map
 #
 #                                   Prefix Verb   URI Pattern                                                                                       Controller#Action
-#                                     root GET    /                                                                                                 tasks#index {:project_id=>"055616f0-a130-42b1-a3fd-81b7c8a3ef1b"}
+#                                     root GET    /                                                                                                 redirect(301, /projects/055616f0-a130-42b1-a3fd-81b7c8a3ef1b/tasks)
 #                                 calendar GET    /years/:year/months/:month(.:format)                                                              calendar#show
 #                            project_tasks GET    /projects/:project_id/tasks(.:format)                                                             tasks#index
 #                                          POST   /projects/:project_id/tasks(.:format)                                                             tasks#create
