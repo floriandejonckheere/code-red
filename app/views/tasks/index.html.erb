@@ -13,7 +13,7 @@
     <% end %>
   </div>
 
-  <div class="w-full h-full" data-controller="graph">
+  <div class="w-full h-full" data-controller="graph" data-graph-project-id-value="<%= @project.id %>">
     <%= render partial: "tasks/modal_form" %>
 
     <svg id="svg-canvas" class="w-full h-full" data-graph-target="container"></svg>

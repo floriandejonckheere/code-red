@@ -5,6 +5,10 @@ import settings from "../graph/settings"
 export default class extends Controller {
   static targets = ['container']
 
+  static values = {
+    projectId: String,
+  }
+
   connect() {
     super.connect()
 
@@ -39,7 +43,7 @@ export default class extends Controller {
       .append('g')
       .attr('transform', 'translate(0, 0)')
 
-    fetch('/tasks.json')
+    fetch(`/projects/${this.projectIdValue}/tasks.json`)
       .then(response => response.json())
       .then(graph => {
         // Inject height/width for bounding boxes

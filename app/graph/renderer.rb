@@ -3,10 +3,10 @@
 class Renderer
   include TaskHelper
 
-  attr_reader :graph
+  attr_reader :project
 
-  def initialize(graph)
-    @graph = graph
+  def initialize(project)
+    @project = project
   end
 
   def to_h
@@ -78,7 +78,8 @@ class Renderer
   end
 
   def tasks_by_type
-    @tasks_by_type ||= graph
+    @tasks_by_type ||= project
+      .graph
       .tasks
       .group_by(&:type)
       .sort_by { |k, _v| Task::TYPES.index(k) }
