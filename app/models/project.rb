@@ -20,6 +20,7 @@ end
 #
 #  id          :uuid             not null, primary key
 #  description :string
+#  icon        :string           default("clipboard-list"), not null
 #  name        :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

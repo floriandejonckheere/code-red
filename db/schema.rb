@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2021_05_11_164733) do
   create_table "projects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
+    t.string "icon", default: "clipboard-list", null: false
     t.uuid "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

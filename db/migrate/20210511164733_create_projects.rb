@@ -5,6 +5,7 @@ class CreateProjects < ActiveRecord::Migration[6.1]
     create_table :projects, id: :uuid do |t|
       t.string :name, null: false
       t.string :description
+      t.string :icon, null: false, default: "clipboard-list"
 
       t.references :user, null: true, type: :uuid, foreign_key: { on_delete: :nullify }
 
