@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 def create(type, id, title, description, **attrs)
-  graph = Graph.new(name: "redis-hackathon")
+  graph = Graph.new(name: Project.first.id)
 
   Task
     .new(graph: graph, id: id, type: type.to_s, title: title, description: description, **attrs)
@@ -9,7 +9,7 @@ def create(type, id, title, description, **attrs)
 end
 
 def relate(from, type, to)
-  graph = Graph.new(name: "redis-hackathon")
+  graph = Graph.new(name: Project.first.id)
 
   Edge
     .new(graph: graph, from: from, type: type.to_s, to: to)

@@ -1,28 +1,17 @@
 # frozen_string_literal: true
 
 class Project < ApplicationRecord
-  after_initialize :set_graph_id
-
   belongs_to :user,
              optional: true
 
   validates :name,
             presence: true
 
-  validates :graph_id,
-            presence: true
-
   def graph
-    @graph ||= Graph.new(name: graph_id)
+    @graph ||= Graph.new(name: id)
   end
 
   delegate :tasks, to: :graph
-
-  private
-
-  def set_graph_id
-    self.graph_id ||= name.parameterize
-  end
 end
 
 # == Schema Information
@@ -34,7 +23,6 @@ end
 #  name        :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  graph_id    :string           not null
 #  user_id     :uuid
 #
 # Indexes

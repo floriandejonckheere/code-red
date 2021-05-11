@@ -45,7 +45,6 @@ ActiveRecord::Schema.define(version: 2021_05_11_164733) do
   end
 
   create_table "projects", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "graph_id", null: false
     t.string "name", null: false
     t.string "description"
     t.uuid "user_id"

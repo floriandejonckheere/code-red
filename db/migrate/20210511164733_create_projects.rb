@@ -3,7 +3,6 @@
 class CreateProjects < ActiveRecord::Migration[6.1]
   def change
     create_table :projects, id: :uuid do |t|
-      t.string :graph_id, null: false
       t.string :name, null: false
       t.string :description
 
