@@ -6,7 +6,7 @@ RSpec.describe Renderer do
   let(:project) { create(:project) }
 
   let!(:task0) { create(:task, graph: project.graph, type: "epic") }
-  let!(:task1) { create(:task, graph: project.graph) }
+  let!(:task1) { create(:task, graph: project.graph, type: "task") }
 
   before { create(:edge, graph: project.graph, from: task0, type: "related_to", to: task1) }
 
@@ -24,7 +24,7 @@ RSpec.describe Renderer do
     it "returns a list of edges" do
       expect(renderer.to_h.fetch(:edges))
         .to match_array [
-          including(source: 1, target: 0, label: "Related To"),
+          including(source: 0, target: 1, label: "Related To"),
         ]
     end
   end
