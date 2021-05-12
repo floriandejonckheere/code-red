@@ -1,7 +1,7 @@
 version: "3.8"
 
 x-app: &app
-  image: ghcr.io/floriandejonckheere/code-red-app:v0.2.0
+  image: ghcr.io/floriandejonckheere/code-red-app:v0.3.0
   volumes:
     - storage:/app/storage
   environment:
@@ -32,7 +32,7 @@ services:
 
   redis:
     image: redislabs/redismod
-    command: redis-server --appendonly yes
+    command: --appendonly yes --loadmodule /usr/lib/redis/modules/redisgraph.so
     environment:
       TZ: Europe/Berlin
     volumes:
