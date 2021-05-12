@@ -1,4 +1,4 @@
-# Code Red
+![Code Red](logo.png)
 
 ![Continuous Integration](https://github.com/floriandejonckheere/code-red/workflows/Continuous%20Integration/badge.svg)
 ![Continuous Deployment](https://github.com/floriandejonckheere/code-red/workflows/Continuous%20Deployment/badge.svg)
