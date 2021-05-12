@@ -1,0 +1,22 @@
+{
+  "app_name": "Code Red",
+  "description": "Task management app using graphs to represent tasks and resources",
+  "hidden": "true",
+  "rank": "",
+  "type": "Full App",
+  "contributed_by": "Community",
+  "repo_url": "https://github.com/floriandejonckheere/code-red",
+  "download_url": "https://github.com/floriandejonckheere/code-red/archive/refs/heads/master.zip",
+  "hosted_url": "https://codered.cloud.dejonckhee.re/",
+  "quick_deploy": "false",
+  "deploy_buttons": [],
+  "language": ["Ruby"],
+  "redis_commands": ["GRAPH.QUERY"],
+  "redis_features": [],
+  "redis_modules": ["RedisGraph"],
+  "app_image_urls": [],
+  "youtube_url": "",
+  "special_tags": ["Hackathon"],
+  "verticals": ["Technology"],
+  "markdown": "https://raw.githubusercontent.com/floriandejonckheere/code-red/master/README.md"
+}
