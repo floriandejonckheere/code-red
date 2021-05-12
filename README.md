@@ -6,33 +6,55 @@
 ![Release](https://img.shields.io/github/v/release/floriandejonckheere/code-red?label=Latest%20release)
 ![Deployment](https://img.shields.io/github/deployments/floriandejonckheere/code-red/production?label=Deployment)
 
-Code Red is a collaborative project management app, using a graph-based approach to task and resource management.
+Code Red is a simple project management app, using a graph-based approach to task and resource management.
+This app was built for the [Build on Redis Hackathon 2021](https://hackathons.redislabs.com/hackathons/build-on-redis-hackathon).
 
-## Set up
+## What it does
 
-Use the `bin/setup` script or run the following steps manually.
+Code Red is a simple app that allows you to manage and visualize your heavily interdependent project using the power of graphs.
+
+A project consists of a single graph, containing many tasks.
+A task can be an idea, goal, epic, feature, simple task or bug.
+It has a status as well: to do, in progress, in review or done.
+
+Tasks can be linked to each other using a generic link (related to), or a specific relationship (blocked by, child of).
+
+## How it works
+
+![Architecture](architecture.png)
+
+The applications stores its data both relationally and in a graph: the former using PostgreSQL, the latter in [RedisGraph](https://oss.redislabs.com/redisgraph/), a Redis module by RedisLabs.
+Administrative data (such as users and projects) is stored relationally, while storage of tasks and the relationships between them is delegated to the graph storage.
+
+The web app is plain HTML sprinkled with some JavaScript (Stimulus for interactivity and D3.js for graph visualization).
+The HTML is rendered server-side before being sent to the client.
+In order to keep the application fast and snappy, [Hotwire](https://hotwire.dev/) was used as a framework.
+This means that instead of using JSON to transfer data between the server and client, HTML is sent and only the part of the DOM that changes, is replaced.
+Please refer to [Turbo](https://turbo.hotwire.dev/) and [Stimulus](https://stimulus.hotwire.dev/) documentation for more information.
+
+## Setup
+
+First, ensure you have a working Docker environment.
+
+Pull the images and start the containers:
+
+```
+docker-compose up -d
+```
 
 Set up the PostgreSQL database:
 
 ```
-rails db:setup
+docker-compose exec app rails db:setup
 ```
 
-Initialize database seeds:
+Load sample data into the PostgreSQL and Redis databases:
 
 ```
-rails database:seed             # Production and development seeds
-rails database:seed:production  # Production seeds
-rails database:seed:development # Development seeds
+docker-compose exec app rails database:seed
 ```
 
-## Migrating
-
-Run database migrations:
-
-```
-rails db:migrate
-```
+The application should now be available at [http://localhost:3000](http://localhost:3000).
 
 ## Development
 
