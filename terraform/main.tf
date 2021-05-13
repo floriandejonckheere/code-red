@@ -212,20 +212,123 @@ resource "hcloud_firewall" "default" {
 # DNS
 #
 ##
-# Subdomain
+# Domain
 #
-resource "gandi_livedns_record" "default4" {
-  zone = "dejonckhee.re"
-  name = "codered.cloud"
+data "gandi_livedns_domain_ns" "default" {
+  name = "codered.pm"
+}
+
+resource "gandi_domain" "default" {
+  name = "codered.pm"
+  autorenew = false
+  nameservers = data.gandi_livedns_domain_ns.default.nameservers
+
+  admin {
+    type = "person"
+
+    country = lookup(var.domain_contact, "country")
+    email = lookup(var.domain_contact, "email")
+    family_name = lookup(var.domain_contact, "family_name")
+    given_name = lookup(var.domain_contact, "given_name")
+    phone = lookup(var.domain_contact, "phone")
+    street_addr = lookup(var.domain_contact, "street_addr")
+    city = lookup(var.domain_contact, "city")
+    zip = lookup(var.domain_contact, "zip")
+    extra_parameters = var.domain_contact_extra
+
+    data_obfuscated = true
+    mail_obfuscated = true
+  }
+
+  billing {
+    type = "person"
+
+    country = lookup(var.domain_contact, "country")
+    email = lookup(var.domain_contact, "email")
+    family_name = lookup(var.domain_contact, "family_name")
+    given_name = lookup(var.domain_contact, "given_name")
+    phone = lookup(var.domain_contact, "phone")
+    street_addr = lookup(var.domain_contact, "street_addr")
+    city = lookup(var.domain_contact, "city")
+    zip = lookup(var.domain_contact, "zip")
+    extra_parameters = var.domain_contact_extra
+
+    data_obfuscated = true
+    mail_obfuscated = true
+  }
+
+  owner {
+    type = "person"
+
+    country = lookup(var.domain_contact, "country")
+    email = lookup(var.domain_contact, "email")
+    family_name = lookup(var.domain_contact, "family_name")
+    given_name = lookup(var.domain_contact, "given_name")
+    phone = lookup(var.domain_contact, "phone")
+    street_addr = lookup(var.domain_contact, "street_addr")
+    city = lookup(var.domain_contact, "city")
+    zip = lookup(var.domain_contact, "zip")
+    extra_parameters = var.domain_contact_extra
+
+    data_obfuscated = true
+    mail_obfuscated = true
+  }
+
+  tech {
+    type = "person"
+
+    country = lookup(var.domain_contact, "country")
+    email = lookup(var.domain_contact, "email")
+    family_name = lookup(var.domain_contact, "family_name")
+    given_name = lookup(var.domain_contact, "given_name")
+    phone = lookup(var.domain_contact, "phone")
+    street_addr = lookup(var.domain_contact, "street_addr")
+    city = lookup(var.domain_contact, "city")
+    zip = lookup(var.domain_contact, "zip")
+    extra_parameters = var.domain_contact_extra
+
+    data_obfuscated = true
+    mail_obfuscated = true
+  }
+
+  lifecycle {
+    ignore_changes = [
+      admin,
+      billing,
+      owner,
+      tech,
+    ]
+  }
+}
+
+resource "gandi_livedns_record" "a" {
+  zone = "codered.pm"
+  name = "@"
   type = "A"
   values = [hcloud_floating_ip.default.ip_address]
   ttl = 1800
 }
 
-resource "gandi_livedns_record" "default6" {
-  zone = "dejonckhee.re"
-  name = "codered.cloud"
+resource "gandi_livedns_record" "cname" {
+  zone = "codered.pm"
+  name = "www"
+  type = "CNAME"
+  values = ["codered.pm."]
+  ttl = 1800
+}
+
+resource "gandi_livedns_record" "aaaa" {
+  zone = "codered.pm"
+  name = "@"
   type = "AAAA"
   values = [hcloud_server.default.ipv6_address]
+  ttl = 1800
+}
+
+resource "gandi_livedns_record" "caa" {
+  zone = "codered.pm"
+  name = "@"
+  type = "CAA"
+  values = ["0 issue \"letsencrypt.org\""]
   ttl = 1800
 }
