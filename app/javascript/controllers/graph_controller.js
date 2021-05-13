@@ -139,7 +139,7 @@ export default class extends Controller {
           .append('foreignObject')
           .attr('class', d => `label text-${d.status}ZZ`)
           .attr('width', settings.node.width - (2 * settings.node.padding))
-          .attr('height', 20)
+          .attr('height', 30)
           .text(d => d.label)
           .call(this.cola.drag)
 
