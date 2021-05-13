@@ -228,7 +228,7 @@
             </div>
           </div>
 
-          <div data-task-dropdown-target="menu" class="absolute bottom-8 mb-1 left-0 hidden" style="z-index: 9997;">
+          <div data-task-dropdown-target="menu" class="max-h-96 absolute bottom-8 mb-1 left-0 hidden overflow-x-hidden overflow-y-scroll" style="z-index: 9997;">
             <div class="bg-white shadow rounded border">
               <% project.tasks.each do |task| %>
                 <div class="w-72 pl-8 px-4 py-2 flex items-center rounded text-sm cursor-pointer hover:bg-gray-100" data-action="click->task-dropdown#toggle click->task-dropdown#set" data-value="<%= task.id %>">
