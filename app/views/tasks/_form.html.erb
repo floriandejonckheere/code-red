@@ -1,4 +1,5 @@
 <div id="task_form">
+  <% return unless task %>
   <%= form_with model: task,
                 url: (task.id ? project_task_path(project_id: project.id, id: task.id) : project_tasks_path(project_id: project.id)),
                 method: (task.id ? :patch : :post),
@@ -185,7 +186,7 @@
 
             <%= link_to project_relationships_path(project_id: project.id, relationship: { from_id: task.id, type: relationship_type, to_id: to_task.id, task_id: task.id }),
                         method: :delete,
-                        data: { action: "click->graph#reset" },
+                        data: { action: "click->task-model#close click->graph#reset" },
                         class: "ml-auto p-2 inline-flex items-center rounded-sm transition text-gray-400 opacity-0 hover:bg-gray-200 group-hover:opacity-100" do %>
               <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %>
             <% end %>
