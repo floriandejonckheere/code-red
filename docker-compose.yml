@@ -46,3 +46,4 @@ volumes:
   postgres:
   redis:
   bundle:
+  npm:
