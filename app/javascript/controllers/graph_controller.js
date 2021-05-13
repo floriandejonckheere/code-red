@@ -73,6 +73,8 @@ export default class extends Controller {
           .groups(graph.groups)
           .start(settings.iterations.layout, settings.iterations.structural, settings.iterations.all)
 
+        setTimeout(() => { this.cola.stop() }, settings.iterations.timeout)
+
         const edge = this.container
           .selectAll('.link')
           .data(graph.edges)
@@ -117,7 +119,7 @@ export default class extends Controller {
 
         const label = anchor
           .append('foreignObject')
-          .attr('class', d => `label text-${d.status}`)
+          .attr('class', d => `label text-${d.status}ZZ`)
           .attr('width', settings.node.width - (2 * settings.node.padding))
           .attr('height', 20)
           .text(d => d.label)

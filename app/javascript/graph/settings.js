@@ -21,6 +21,6 @@ export default {
     layout: 40,
     structural: 30,
     all: 50,
-    timeout: 2000,
+    timeout: 3000,
   },
 }
