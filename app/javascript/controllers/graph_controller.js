@@ -14,6 +14,21 @@ export default class extends Controller {
 
     this.svg = d3.select(this.containerTarget)
 
+    // Arrow markers
+    this.svg
+      .append('svg:defs')
+      .append('svg:marker')
+      .attr('id', 'end-arrow')
+      .attr('viewBox', '0 -5 10 10')
+      .attr('refX', 5)
+      .attr('markerWidth', 5)
+      .attr('markerHeight', 5)
+      .attr('orient', 'auto')
+      .append('svg:path')
+      .attr('d', 'M0,-5L10,0L0,5L2,0')
+      .attr('stroke-width', '0px')
+      .attr('fill', '#999')
+
     this.cola = window.cola.d3adaptor(d3)
       .linkDistance(settings.edge.length)
       .avoidOverlaps(true)
@@ -118,15 +133,19 @@ export default class extends Controller {
           .call(this.cola.drag)
 
         this.cola.on('tick', () => {
-          edge
-            .attr('x1', d => d.source.x)
-            .attr('y1', d => d.source.y)
-            .attr('x2', d => d.target.x)
-            .attr('y2', d => d.target.y)
-
           node
             .attr('x', d => (d.x - settings.node.width / 2))
             .attr('y', d => (d.y - settings.node.height / 2))
+            .each(d => d.innerBounds = d.bounds.inflate(-5))
+
+          edge
+            .each(d => d.route = window.cola.makeEdgeBetween(d.source.innerBounds, d.target.innerBounds, 5))
+
+          edge
+            .attr("x1", d => d.route.sourceIntersection.x)
+            .attr("y1", d => d.route.sourceIntersection.y)
+            .attr("x2", d => d.route.arrowStart.x)
+            .attr("y2", d => d.route.arrowStart.y)
 
           label
             .attr('x', d => (d.x - settings.node.width / 2) + settings.node.padding)
