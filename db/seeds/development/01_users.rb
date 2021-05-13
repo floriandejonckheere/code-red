@@ -4,4 +4,8 @@ puts "== Creating users =="
 
 return if User.all.any?
 
-5.times.each { FactoryBot.create(:user) }
+User.create!(name: "Darth Vader", email: "darthvader@example.com")
+User.create!(name: "Luke Skywalker", email: "lukeskywalker@example.com")
+User.create!(name: "Obi-Wan Kenobi", email: "obiwankenobi@example.com")
+User.create!(name: "Han Solo", email: "hansolo@example.com")
+User.create!(name: "Chewbacca", email: "chewbacca@example.com")
