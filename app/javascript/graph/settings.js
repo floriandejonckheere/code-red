@@ -13,14 +13,14 @@ export default {
     viewbox: 1200,
   },
   zoom: {
-    min: 0.7,
+    min: 0.3,
     max: 2,
     step: 0.3,
   },
   iterations: {
-    layout: 10,
+    layout: 40,
     structural: 30,
     all: 50,
-    timeout: 1000,
+    timeout: 2000,
   },
 }

@@ -27,12 +27,15 @@ Project.find_each do |project|
   # Tasks
   manage_tasks = create(project.graph, :epic, "Task management", "Task management involves creating, modifying and deleting tasks")
   create_task = create(project.graph, :feature, "Create a task", "As a user, I want to create a task within a project. A task can have a title, description, deadline (date), status (todo, in progress, review, done), type (task, idea, bug, feature, goal, epic) and assignee (user).")
-  data_model = create(project.graph, :task, "Implement data model", "Implement the data model for tasks. Tasks should be stored in Redis, and make use of the Redis Graph module.")
   view_task = create(project.graph, :feature, "View a task", "As a user, I want to view a task. A popup should display the title, description, deadline, status, type and assignee of the task.")
   modify_task = create(project.graph, :feature, "Modify a task", "As a user, I want to modify a task. I should be able to modify the title, description, deadline, status, type and assignee.")
   delete_task = create(project.graph, :feature, "Delete a task", "As a user, I want to delete a task. A confirmation modal should be displayed before the task is deleted.")
 
+  analyze_data = create(project.graph, :task, "Analyze data model", "Analyze the data model for tasks. Construct an ERD.")
+  implement_data = create(project.graph, :task, "Implement data model", "Implement the data model for tasks. Tasks should be stored in Redis, and make use of the Redis Graph module.")
+
   quotes = create(project.graph, :bug, "Quotes not saved", "Tasks containing single quotes in title or description are not saved to the database. The server returns a 500 error.")
+  saved = create(project.graph, :bug, "Graph not updated on save", "After saving a task, the rendered graph does not update automatically.")
 
   relate(manage_tasks, :child_of, project)
 
@@ -41,8 +44,10 @@ Project.find_each do |project|
   relate(modify_task, :child_of, manage_tasks)
   relate(delete_task, :child_of, manage_tasks)
 
-  relate(data_model, :child_of, create_task)
+  relate(analyze_data, :child_of, create_task)
+  relate(implement_data, :child_of, create_task)
   relate(quotes, :related_to, modify_task)
+  relate(saved, :related_to, modify_task)
 
   # Relationships
   manage_relationships = create(project.graph, :epic, "Relationship management", "Relationship management involves creating, modifying and deleting relationships between tasks")
@@ -58,17 +63,21 @@ Project.find_each do |project|
   relate(view_relationship, :child_of, manage_relationships)
   relate(delete_relationship, :child_of, manage_relationships)
 
-  relate(view_relationship, :blocked_by, create_relationship)
-  relate(delete_relationship, :blocked_by, create_relationship)
-
   # Views
   views = create(project.graph, :epic, "Views", "Views involve displaying, filtering and organizing tasks and their relationships on the screen")
   view_graph = create(project.graph, :feature, "View graph", "As a user, I want to visualize the tasks in the project as a graph.")
+  view_timeline = create(project.graph, :feature, "View timeline", "As a user, I want to visualize the tasks in the project in a timeline. Tasks blocked by other tasks should appear first in the timeline. Tasks with a deadline should appear on that date in the timeline.")
 
-  graph = create(project.graph, :task, "Analyze graph libraries", "Analyze existing graph JavaScript libraries, taking into account the use cases.")
+  analyze_graph = create(project.graph, :task, "Analyze graph libraries", "Analyze existing graph JavaScript libraries, taking into account the use cases.")
+  implement_graph = create(project.graph, :task, "Implement graph library", "Implement the graph rendering algorithm using the JavaScript graph library.")
+  overlap = create(project.graph, :bug, "Tasks overlap", "Disconnected tasks can overlap other tasks. Fix the bounding box algorithm to take into account disconnected graphs.")
 
   relate(views, :child_of, project)
 
   relate(view_graph, :child_of, views)
-  relate(graph, :child_of, view_graph)
+  relate(analyze_graph, :child_of, view_graph)
+  relate(implement_graph, :child_of, view_graph)
+  relate(overlap, :child_of, view_graph)
+
+  relate(view_timeline, :child_of, views)
 end
