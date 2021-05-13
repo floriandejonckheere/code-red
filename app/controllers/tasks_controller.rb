@@ -22,7 +22,7 @@ class TasksController < ProjectsController
   end
 
   def update
-    @task.update(task_params)
+    task.update(task_params)
 
     respond_to do |format|
       format.turbo_stream do
@@ -32,7 +32,7 @@ class TasksController < ProjectsController
   end
 
   def destroy
-    @task.destroy
+    task.destroy
 
     respond_to do |format|
       format.html { redirect_to project_tasks_path(project_id: project.id), notice: "Task deleted" }

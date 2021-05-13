@@ -28,6 +28,7 @@ class Renderer
         icon: icon_for(task.type),
         color: color_for_type(task.type),
         type: task.type.titleize,
+        status: color_for_status(task.status),
       }
     end
   end

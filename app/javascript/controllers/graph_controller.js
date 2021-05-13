@@ -117,7 +117,7 @@ export default class extends Controller {
 
         const label = anchor
           .append('foreignObject')
-          .attr('class', 'label')
+          .attr('class', d => `label text-${d.status}`)
           .attr('width', settings.node.width - (2 * settings.node.padding))
           .attr('height', 20)
           .text(d => d.label)
