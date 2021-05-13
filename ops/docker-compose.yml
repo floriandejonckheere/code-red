@@ -81,7 +81,7 @@ services:
       traefik.http.routers.app-tls.tls: "true"
       traefik.http.routers.app-tls.tls.certresolver: "letsencrypt"
 
-      traefik.http.services.app.loadbalancer.server.port: "80"
+      traefik.http.services.app.loadbalancer.server.port: "3000"
 
   migration:
     <<: *app
