@@ -45,8 +45,10 @@ ADD app/assets                              /app/app/assets
 ADD app/javascript                          /app/app/javascript
 ADD bin/webpack                             /app/bin/webpack
 
-ARG SECRET_KEY_BASE
-RUN NODE_ENV=production rake assets:precompile
+ARG SECRET_KEY_BASE=secret_key_base
+ARG RAILS_ENV=production
+ARG NODE_ENV=production
+RUN rake webpacker:compile
 
 FROM ruby
 
@@ -70,8 +72,7 @@ RUN apk add --no-cache postgresql
 ADD . /app/
 
 # Copy assets
-COPY --from=assets /app/public/assets /app/public/assets
-COPY --from=assets /app/public/packs /app/public/packs
+COPY --from=assets /app/public/ /app/public/
 
 RUN mkdir -p /app/tmp/pids/
 RUN chown -R $UID:$GID /app/
