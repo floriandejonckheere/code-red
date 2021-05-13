@@ -72,11 +72,20 @@ services:
       traefik.enable: "true"
       traefik.http.middlewares.app-tls.redirectscheme.scheme: "https"
 
-      traefik.http.routers.app.rule: "Host(`codered.cloud.dejonckhee.re`)"
+      traefik.http.middlewares.nginx-redirect.redirectregex.regex: "^(https?://)([^/]*)/(.*)$$"
+      traefik.http.middlewares.nginx-redirect.redirectregex.replacement: "$${1}codered.pm/$${3}"
+
+      traefik.http.routers.app.rule: "Host(`codered.pm`, `www.codered.pm`)"
       traefik.http.routers.app.entrypoints: "web"
       traefik.http.routers.app.middlewares: "app-tls"
 
-      traefik.http.routers.app-tls.rule: "Host(`codered.cloud.dejonckhee.re`)"
+      traefik.http.routers.nginx-redirect.rule: "Host(`www.codered.pm`)"
+      traefik.http.routers.nginx-redirect.entrypoints: "websecure"
+      traefik.http.routers.nginx-redirect.tls: "true"
+      traefik.http.routers.nginx-redirect.middlewares: "nginx-redirect"
+      traefik.http.routers.nginx-redirect.tls.certresolver: "letsencrypt"
+
+      traefik.http.routers.app-tls.rule: "Host(`codered.pm`)"
       traefik.http.routers.app-tls.entrypoints: "websecure"
       traefik.http.routers.app-tls.tls: "true"
       traefik.http.routers.app-tls.tls.certresolver: "letsencrypt"
