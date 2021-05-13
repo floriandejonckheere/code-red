@@ -28,7 +28,6 @@ export default class extends Controller {
   }
 
   redo() {
-    console.log(this.quill)
     this.quill.history.redo()
   }
 
