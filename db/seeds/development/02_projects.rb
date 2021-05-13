@@ -2,7 +2,7 @@
 
 puts "== Creating projects =="
 
-return if Project.all.any?
+return if Project.any?
 
 Project
   .create_with(

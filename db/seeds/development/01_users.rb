@@ -2,7 +2,7 @@
 
 puts "== Creating users =="
 
-return if User.all.any?
+return if User.any?
 
 User.create!(name: "Darth Vader", email: "darthvader@example.com")
 User.create!(name: "Luke Skywalker", email: "lukeskywalker@example.com")
