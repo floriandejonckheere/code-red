@@ -166,7 +166,7 @@
 
     <div class="p-4">
       <%= f.submit "Save",
-                   data: { action: "click->task-modal#close" },
+                   data: { action: "click->task-modal#close click->graph#reset" },
                    class: "float-right px-4 py-2 flex items-center rounded text-sm text-gray-600 bg-white transition cursor-pointer hover:bg-gray-100"
       %>
     </div>
@@ -185,6 +185,7 @@
 
             <%= link_to project_relationships_path(project_id: project.id, relationship: { from_id: task.id, type: relationship_type, to_id: to_task.id, task_id: task.id }),
                         method: :delete,
+                        data: { action: "click->graph#reset" },
                         class: "ml-auto p-2 inline-flex items-center rounded-sm transition text-gray-400 opacity-0 hover:bg-gray-200 group-hover:opacity-100" do %>
               <%= heroicon "trash", options: { class: "h-4 w-4 ml-auto inline-block" } %>
             <% end %>
@@ -240,7 +241,10 @@
           </div>
         </div>
 
-        <%= f.submit "Add", class: "px-4 py-2 rounded text-sm text-gray-600 bg-white transition cursor-pointer hover:bg-gray-100" %>
+        <%= f.submit "Add",
+                     class: "px-4 py-2 rounded text-sm text-gray-600 bg-white transition cursor-pointer hover:bg-gray-100",
+                     data: { action: "click->graph#reset" }
+        %>
       </div>
     <% end %>
 
