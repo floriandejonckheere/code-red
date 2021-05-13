@@ -20,9 +20,9 @@ Project.find_each do |project|
   # Project
   project = create(project.graph, :idea, "Graph project management", "Use graphs to visualize and represent tasks, features and resources.")
 
-  deploy = create(project.graph, :task, "Deploy app", "Deploy application using a Continuous Deployment mechanism.")
+  # deploy = create(project.graph, :task, "Deploy app", "Deploy application using a Continuous Deployment mechanism.")
 
-  relate(deploy, :child_of, project)
+  # relate(deploy, :child_of, project)
 
   # Tasks
   manage_tasks = create(project.graph, :epic, "Task management", "Task management involves creating, modifying and deleting tasks")

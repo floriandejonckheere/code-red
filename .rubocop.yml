@@ -51,6 +51,9 @@ Metrics/PerceivedComplexity:
 Rails:
   Enabled: true
 
+Rails/EnvironmentVariableAccess:
+  Enabled: false
+
 Rails/Output:
   Exclude:
     - db/seeds/**/*
