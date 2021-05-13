@@ -26,7 +26,7 @@ Tasks can be linked to each other using a generic link (related to), or a specif
 The applications stores its data both relationally and in a graph: the former using PostgreSQL, the latter in [RedisGraph](https://oss.redislabs.com/redisgraph/), a Redis module by RedisLabs.
 Administrative data (such as users and projects) is stored relationally, while storage of tasks and the relationships between them is delegated to the graph storage.
 
-The web app is plain HTML sprinkled with some JavaScript (Stimulus for interactivity and D3.js for graph visualization).
+The web app is plain HTML sprinkled with some JavaScript (Stimulus for interactivity and [D3.js](https://d3js.org/)/[cola.js](https://ialab.it.monash.edu/webcola/) for graph visualization).
 The HTML is rendered server-side before being sent to the client.
 In order to keep the application fast and snappy, [Hotwire](https://hotwire.dev/) was used as a framework.
 This means that instead of using JSON to transfer data between the server and client, HTML is sent and only the part of the DOM that changes, is replaced.
