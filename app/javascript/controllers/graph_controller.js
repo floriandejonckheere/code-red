@@ -82,6 +82,15 @@ export default class extends Controller {
           .append('line')
           .attr('class', 'link')
 
+        const edgeLabel = this.container
+          .selectAll('.link-label')
+          .data(graph.edges)
+          .enter()
+          .append('text')
+          .attr('class', 'link-label')
+          .text(d => d.label)
+          .call(this.cola.drag)
+
         const anchor = this.container
           .selectAll('.anchor')
           .data(graph.nodes)
@@ -142,10 +151,36 @@ export default class extends Controller {
             .each(d => d.route = window.cola.makeEdgeBetween(d.source.innerBounds, d.target.innerBounds, 5))
 
           edge
-            .attr("x1", d => d.route.sourceIntersection.x)
-            .attr("y1", d => d.route.sourceIntersection.y)
-            .attr("x2", d => d.route.arrowStart.x)
-            .attr("y2", d => d.route.arrowStart.y)
+            .attr('x1', d => d.route.sourceIntersection.x)
+            .attr('y1', d => d.route.sourceIntersection.y)
+            .attr('x2', d => d.route.arrowStart.x)
+            .attr('y2', d => d.route.arrowStart.y)
+
+          edgeLabel
+            .attr('transform', d => {
+              // Calculate angle of edge
+              const p1 = d.route.sourceIntersection
+              const p2 = d.route.targetIntersection
+
+              let rad = Math.atan2(p2.y - p1.y, p2.x - p1.x)
+              let deg = rad * 180 / Math.PI
+
+              // Calculate middle of edge
+              let x = (p1.x + p2.x) / 2
+              let y = (p1.y + p2.y) / 2
+
+              // Flip labels if upside down
+              if ((deg > 90 && deg < 270) || (deg < -90 && deg > -270)) {
+                rad -= Math.PI
+                deg -= 180
+              }
+
+              // Float labels above edge
+              x += settings.edge.margin * Math.sin(rad)
+              y -= settings.edge.margin * Math.cos(rad)
+
+              return `translate(${x}, ${y}) rotate(${deg})`
+            })
 
           label
             .attr('x', d => (d.x - settings.node.width / 2) + settings.node.padding)

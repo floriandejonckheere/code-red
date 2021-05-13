@@ -20,6 +20,14 @@
   marker-end: url(#end-arrow);
 }
 
+.link-label {
+  @apply text-gray-600 fill-current;
+
+  font-family: Cantarell;
+  font-size: 10px;
+  text-anchor: middle
+}
+
 .label {
   @apply cursor-pointer text-gray-800 fill-current;
 
