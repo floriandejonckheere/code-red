@@ -33,15 +33,6 @@ services:
     ports:
       - "3000:3000"
 
-  debug:
-    <<: *app
-    command: rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 -- bin/rails s -b 0.0.0.0
-    ports:
-      - "3000:3000"
-      - "1234:1234"
-    environment:
-      RUBYLIB: ""
-
 volumes:
   postgres:
   redis:
