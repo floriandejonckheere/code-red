@@ -45,6 +45,95 @@ In order to keep the application fast and snappy, [Hotwire](https://hotwire.dev/
 
 Finally, the UI is built using [TailwindCSS](https://tailwindcss.com/), [Heroicons](https://heroicons.com/), [Collecticons](http://collecticons.io/) and [QuillJS](https://quilljs.com/) for the rich text editor.
 
+**Project**
+
+Projects are stored relationally in PostgreSQL.
+A project has the following properties:
+
+- `id`: User identifier
+- `user`: Owner of the project
+- `name`: Human readable name of the project
+
+The project is linked to a graph (using `id` as graph name)
+A graph has many tasks.
+
+**Task**
+
+Tasks are stored as nodes in Redis Graph.
+A task is a graph node and has the following properties:
+
+- `title`: Task title
+- `description`: Rich text, multiline description of the task
+- `deadline`: Date
+- `status`: One of `Todo`, `In Progress`, `Review` or `Done`
+- `type`: One of `Idea`, `Goal`, `Epic`, `Feature`, `Task` or `Bug`
+-` user`: Assignee
+  
+A task can be linked to many other tasks, by relationships.
+
+**Relationship**
+
+Relationships are stored as edges in Redis Graph.
+A relationship is a directed graph edge and has the following properties:
+
+- `from`: Source node
+- `type`: One of `Blocked By`, `Child Of`, `Related To`
+- `to`: Destination node
+
+Relationships are stored as directed edges, but in the interface both directions are rendered.
+For example, if Task A is blocked by Task B, Task B will be shown as "blocks Task A".
+It is also possible to add relationships in both directions.
+
+**Fetch tasks**
+
+A graph has many tasks, which are fetched using the following Redis Graph query:
+
+```cypher
+"GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MATCH (n:Task) RETURN n" "--compact"
+```
+
+**Create/update task**
+
+A task is created and updated with all its properties using the following query:
+
+```cypher
+"GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MERGE (n:Task {id: 'f5ec1f25-0cee-49d0-9a85-1043f04ea845'}) SET n.created_at = '2021-05-15 10:20:28 UTC', n.updated_at = '2021-05-15 10:20:28 UTC', n.graph = '#<Graph name=055616f0-a130-42b1-a3fd-81b7c8a3ef1b>', n.id = 'f5ec1f25-0cee-49d0-9a85-1043f04ea845', n.title = 'Submit hackathon app', n.description = '<p>Description of my task</p>', n.deadline = '2021-05-15', n.status = 'todo', n.type = 'task', n.user_id = '25714246-be92-4d96-b1ce-cbb57aaf4747'" "--compact"
+```
+
+**Delete task**
+
+A task is deleted using the following query:
+
+```cypher
+ "GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MATCH (n:Task {id: 'f5ec1f25-0cee-49d0-9a85-1043f04ea845'}) DELETE n" "--compact"
+```
+
+**Fetch relationship**
+
+A task's related nodes are always queried based on relationship type.
+The related tasks are fetched using the following query:
+
+```cypher
+GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MATCH (n:Task {id: 'c9bc52a0-c436-499c-954c-da40e82f50b2'}) -[r:blocked_by]-> (m:Task) RETURN n, m, type(r) AS t" "--compact"
+```
+
+**Add relationship**
+
+Two tasks are linked to each other using the following query:
+
+```cypher
+"GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MATCH (n:Task {id: '1ad21814-69d7-47d0-a7bb-de678b86c653'}), (m:Task {id: '07427e6b-7bba-44e4-b967-8fb5ca098053'}) MERGE (n) -[r:blocked_by]-> (m)" "--compact"
+```
+
+**Delete relationship**
+
+Two tasks are unlinked from each other using the following query:
+
+
+```cypher
+"GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MATCH (n:Task {id: '1ad21814-69d7-47d0-a7bb-de678b86c653'}) -[r:related_to]-> (m:Task) DELETE r" "--compact"
+```
+
 ## DSL
 
 A small Domain Specific Language was built to accommodate and simplify graph persistence.
