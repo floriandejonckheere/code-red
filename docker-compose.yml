@@ -33,6 +33,11 @@ services:
     ports:
       - "3000:3000"
 
+  reset:
+    <<: *app
+    command: bin/reset
+    restart: "no"
+
 volumes:
   postgres:
   redis:

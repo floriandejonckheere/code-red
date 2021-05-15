@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "rake"
+
+require_relative "../config/environment"
+
+Rails.application.load_tasks
+
+interval = ENV.fetch("RESET_INTERVAL", 0)&.to_i
+
+return if interval.zero?
+
+loop do
+  puts "[#{DateTime.current.iso8601}] Resetting database"
+  Rake::Task["database:clear"].invoke
+  Rake::Task["database:seed"].invoke
+
+  sleep interval.minutes
+end
