@@ -1,4 +1,4 @@
-![Code Red](logo.png)
+![Code Red](https://github.com/floriandejonckheere/code-red/raw/master/logo.png)
 
 ![Continuous Integration](https://github.com/floriandejonckheere/code-red/workflows/Continuous%20Integration/badge.svg)
 ![Continuous Deployment](https://github.com/floriandejonckheere/code-red/workflows/Continuous%20Deployment/badge.svg)
@@ -21,7 +21,7 @@ Tasks can be linked to each other using a generic link (related to), or a specif
 
 ## How it works
 
-![Architecture](architecture.png)
+![Architecture](https://github.com/floriandejonckheere/code-red/raw/master/architecture.png)
 
 The applications stores its data both relationally and in a graph: the former using PostgreSQL, the latter in [RedisGraph](https://oss.redislabs.com/redisgraph/), a Redis module by RedisLabs.
 Administrative data (such as users and projects) is stored relationally, while storage of tasks and the relationships between them is delegated to the graph storage.
