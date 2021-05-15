@@ -1,7 +1,7 @@
 version: "3.8"
 
 x-app: &app
-  image: ghcr.io/floriandejonckheere/code-red-app:v0.6.0
+  image: ghcr.io/floriandejonckheere/code-red-app:v0.7.0
   volumes:
     - storage:/app/storage
   environment:
