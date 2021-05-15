@@ -105,7 +105,7 @@ A task is created and updated with all its properties using the following query:
 A task is deleted using the following query:
 
 ```cypher
- "GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MATCH (n:Task {id: 'f5ec1f25-0cee-49d0-9a85-1043f04ea845'}) DELETE n" "--compact"
+"GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MATCH (n:Task {id: 'f5ec1f25-0cee-49d0-9a85-1043f04ea845'}) DELETE n" "--compact"
 ```
 
 **Fetch relationship**
@@ -114,7 +114,7 @@ A task's related nodes are always queried based on relationship type.
 The related tasks are fetched using the following query:
 
 ```cypher
-GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MATCH (n:Task {id: 'c9bc52a0-c436-499c-954c-da40e82f50b2'}) -[r:blocked_by]-> (m:Task) RETURN n, m, type(r) AS t" "--compact"
+"GRAPH.QUERY" "055616f0-a130-42b1-a3fd-81b7c8a3ef1b" "MATCH (n:Task {id: 'c9bc52a0-c436-499c-954c-da40e82f50b2'}) -[r:blocked_by]-> (m:Task) RETURN n, m, type(r) AS t" "--compact"
 ```
 
 **Add relationship**
