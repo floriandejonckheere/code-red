@@ -14,7 +14,12 @@
   "redis_commands": ["GRAPH.QUERY"],
   "redis_features": [],
   "redis_modules": ["RedisGraph"],
-  "app_image_urls": [],
+  "app_image_urls": [
+    "https://github.com/floriandejonckheere/code-red/raw/master/screenshot0.png",
+    "https://github.com/floriandejonckheere/code-red/raw/master/screenshot1.png",
+    "https://github.com/floriandejonckheere/code-red/raw/master/screenshot2.png",
+    "https://github.com/floriandejonckheere/code-red/raw/master/screenshot3.png"
+  ],
   "youtube_url": "",
   "special_tags": ["Hackathon"],
   "verticals": ["Technology"],
