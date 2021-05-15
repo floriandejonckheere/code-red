@@ -11,7 +11,7 @@ This app was built for the [Build on Redis Hackathon 2021](https://hackathons.re
 
 A demo server is publicly available at [https://codered.pm/](https://codered.pm/), the database resets to sample data every 15 minutes.
 
-<a href="https://github.com/floriandejonckheere/code-red/raw/master/screenshot0.png"><img src="https://github.com/floriandejonckheere/code-red/raw/master/screenshot0.png" width="100%" height="auto"></a>
+![Screenshot](https://github.com/floriandejonckheere/code-red/raw/master/screenshot0.png)
 <a href="https://github.com/floriandejonckheere/code-red/raw/master/screenshot1.png"><img src="https://github.com/floriandejonckheere/code-red/raw/master/screenshot1.png" width="49%" height="auto"></a>
 <a href="https://github.com/floriandejonckheere/code-red/raw/master/screenshot2.png"><img src="https://github.com/floriandejonckheere/code-red/raw/master/screenshot2.png" width="49%" height="auto"></a>
 
