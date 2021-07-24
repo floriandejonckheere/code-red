@@ -84,7 +84,7 @@ class DSL
   end
 
   def execute
-    Rails.logger.debug "CYPHER #{graph.name} #{to_cypher}"
+    Rails.logger.debug { "CYPHER #{graph.name} #{to_cypher}" }
 
     result = graph
       .query(to_cypher)
