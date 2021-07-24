@@ -1,4 +1,4 @@
-FROM ruby:3.0-alpine
+FROM ruby:3.0.2-alpine
 
 MAINTAINER Florian Dejonckheere <florian@floriandejonckheere.be>
 LABEL org.opencontainers.image.source https://github.com/floriandejonckheere/code-red
@@ -31,6 +31,12 @@ ADD Gemfile $APP_HOME/
 ADD Gemfile.lock $APP_HOME/
 
 RUN bundle install
+
+# Install NPM dependencies
+ADD package.json /app/
+ADD yarn.lock /app/
+
+RUN yarn install
 
 # Add application
 ADD . $APP_HOME/
