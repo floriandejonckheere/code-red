@@ -11,7 +11,7 @@
 /tmp/
 /log/
 /logs/**/*.log
-/public/
+/public/packs/
 /storage/
 
 # CI and code analysis tools
@@ -85,3 +85,5 @@ docker-compose.prod.yml
 
 # Terraform
 /terraform/
+
+*.mp4
